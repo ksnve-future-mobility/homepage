@@ -43,7 +43,12 @@ export default async function Home() {
           <section className="visual-panel image-panel" aria-labelledby="hero-title">
             <img src="/images/FutureMobility_Picture.png" alt="" aria-hidden="true" />
             <div className="hero-text">
-              <h1 id="hero-title">Connecting Technology,<br />People and Mobility</h1>
+              <h1 id="hero-title">
+                <span className="hero-title-line hero-title-top">
+                  <span>Connecting</span> <em>Technology,</em>
+                </span>
+                <span className="hero-title-line hero-title-bottom">People and Mobility</span>
+              </h1>
               <p>Engineering the Future Mobility Experience</p>
               <span aria-hidden="true" />
               <small>Future Mobility Division</small>
