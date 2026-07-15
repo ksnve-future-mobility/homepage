@@ -33,8 +33,6 @@ export default async function Home() {
             <a className="menu-card" href={menu.href || "#"} key={menu.title}>
               <span className="menu-number">{menu.number}</span>
               <span className="menu-title"><b>{menu.title}</b><small>{menu.english}</small></span>
-              <span className="menu-arrow" aria-hidden="true">↗</span>
-              <span className="menu-lines" aria-hidden="true"><i /><i /><i /></span>
             </a>
           ))}
         </nav>
