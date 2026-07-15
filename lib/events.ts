@@ -12,7 +12,7 @@ const fallbackAcademicEvents: AcademicEvent[] = [
   {
     slug: "2026-spring-conference",
     year: "2026",
-    title: "2026년 한국소음진동공학회 춘계소음진동학술대회",
+    title: "2026년 한국소음진동공학회 춘계 소음진동 학술대회",
     period: "",
     venue: "",
     session: "",

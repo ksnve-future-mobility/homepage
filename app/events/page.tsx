@@ -1,7 +1,7 @@
 import { AcademicEvent, getAcademicEvents } from "@/lib/events";
 
 export const metadata = {
-  title: "소음진동학술대회 | 미래모빌리티 부문회",
+  title: "소음진동 학술대회 | 미래모빌리티 부문회",
 };
 
 function EventArchive({
@@ -14,7 +14,7 @@ function EventArchive({
   detailLabel?: string;
 }) {
   return (
-    <section className="event-section event-section-simple" id={id} aria-label="소음진동학술대회 목록">
+    <section className="event-section event-section-simple" id={id} aria-label="소음진동 학술대회 목록">
       <div className="event-list">
         {events.map((event) => (
           <article className="event-card" key={`${event.year}-${event.title}`}>
@@ -53,7 +53,7 @@ export default async function EventsPage() {
 
       <section className="board-hero events-hero">
         <p>ANNUAL SPRING AND FALL CONFERENCE</p>
-        <h1>소음진동학술대회</h1>
+        <h1>소음진동 학술대회</h1>
         <span>한국소음진동공학회 학술대회와 미래모빌리티 부문회 기획세션 정보를 안내합니다.</span>
       </section>
 
