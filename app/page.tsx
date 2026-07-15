@@ -3,7 +3,7 @@ import { getNotices } from "@/lib/notices";
 const menus = [
   { title: "부문회 및 임원진 소개", english: "DIVISION & COMMITTEE", number: "01", href: "/about" },
   { title: "소위원회", english: "SUBCOMMITTEES", number: "03" },
-  { title: "공지사항", english: "NOTICE", number: "02", href: "/notices", accent: true },
+  { title: "공지사항", english: "NOTICE", number: "02", href: "/notices" },
   { title: "학술대회", english: "ACADEMIC EVENTS", number: "04", href: "/events" },
   { title: "교류회 및 세미나", english: "NETWORKING & SEMINAR", number: "05" },
   { title: "친목회 및 간담회", english: "MEMBER GATHERING", number: "06" },
@@ -30,7 +30,7 @@ export default async function Home() {
       <section className="main-grid">
         <nav className="menu-grid" aria-label="주요 메뉴">
           {menus.map((menu) => (
-            <a className={`menu-card ${menu.accent ? "active" : ""}`} href={menu.href || "#"} key={menu.title}>
+            <a className="menu-card" href={menu.href || "#"} key={menu.title}>
               <span className="menu-number">{menu.number}</span>
               <span className="menu-title"><b>{menu.title}</b><small>{menu.english}</small></span>
               <span className="menu-arrow" aria-hidden="true">↗</span>
