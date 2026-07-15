@@ -1,6 +1,6 @@
 const menus = [
-  { title: "공지사항", english: "NOTICE", number: "01", accent: true },
-  { title: "임원진", english: "COMMITTEE", number: "02" },
+  { title: "부문회 및 임원진 소개", english: "DIVISION & COMMITTEE", number: "01" },
+  { title: "공지사항", english: "NOTICE", number: "02", accent: true },
   { title: "소위원회", english: "SUBCOMMITTEES", number: "03" },
   { title: "학술대회 및 외부행사", english: "ACADEMIC & EXTERNAL EVENTS", number: "04" },
   { title: "교류회 및 세미나", english: "NETWORKING & SEMINAR", number: "05" },
