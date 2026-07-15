@@ -17,7 +17,7 @@ export default async function Home() {
       <header className="top-header">
         <div className="brand">
           <a className="society-logo-link" href="https://www.ksnve.or.kr" target="_blank" rel="noreferrer" aria-label="한국소음진동공학회 홈페이지 열기">
-            <img src="/images/ksnve_logo.png" alt="한국소음진동공학회" />
+            <img src="/images/ksnve_logo_wide.png" alt="한국소음진동공학회" />
           </a>
           <span className="brand-divider" aria-hidden="true" />
           <b className="division-title">미래모빌리티 부문회</b>
