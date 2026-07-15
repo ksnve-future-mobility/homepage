@@ -20,6 +20,9 @@ const fallbackNotices: Notice[] = [
   { title: "미래모빌리티 기술 교류회 개최 예정", date: "2026.07.03", tag: "행사" },
 ];
 
+const defaultNoticesCsvUrl =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSrpUZWja8XWeFeSOKDvwClTm_8OCVaENKPUnb9fWWajUNfotJCVHo_0gx7R47bNxYwRxOOe88yTpTA/pub?output=csv";
+
 function parseCsvLine(line: string) {
   const values: string[] = [];
   let current = "";
@@ -74,7 +77,7 @@ function parseNoticesCsv(csv: string): Notice[] {
 }
 
 async function getNotices() {
-  const csvUrl = process.env.NOTICES_CSV_URL;
+  const csvUrl = process.env.NOTICES_CSV_URL || defaultNoticesCsvUrl;
 
   if (!csvUrl) {
     return fallbackNotices;
