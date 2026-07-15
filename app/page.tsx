@@ -4,7 +4,7 @@ const menus = [
   { title: "부문회 및 임원진 소개", english: "DIVISION & COMMITTEE", number: "01", href: "/about" },
   { title: "공지사항", english: "NOTICE", number: "02", href: "/notices", accent: true },
   { title: "소위원회", english: "SUBCOMMITTEES", number: "03" },
-  { title: "학술대회 및 외부행사", english: "ACADEMIC & EXTERNAL EVENTS", number: "04" },
+  { title: "학술대회 및 외부행사", english: "ACADEMIC & EXTERNAL EVENTS", number: "04", href: "/events" },
   { title: "교류회 및 세미나", english: "NETWORKING & SEMINAR", number: "05" },
   { title: "친목회 및 간담회", english: "MEMBER GATHERING", number: "06" },
 ];
