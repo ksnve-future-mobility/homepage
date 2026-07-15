@@ -1,104 +1,16 @@
+import { getNotices } from "@/lib/notices";
+
 const menus = [
-  { title: "부문회 및 임원진 소개", english: "DIVISION & COMMITTEE", number: "01" },
-  { title: "공지사항", english: "NOTICE", number: "02", accent: true },
+  { title: "부문회 및 임원진 소개", english: "DIVISION & COMMITTEE", number: "01", href: "#" },
+  { title: "공지사항", english: "NOTICE", number: "02", href: "/notices", accent: true },
   { title: "소위원회", english: "SUBCOMMITTEES", number: "03" },
   { title: "학술대회 및 외부행사", english: "ACADEMIC & EXTERNAL EVENTS", number: "04" },
   { title: "교류회 및 세미나", english: "NETWORKING & SEMINAR", number: "05" },
   { title: "친목회 및 간담회", english: "MEMBER GATHERING", number: "06" },
 ];
 
-type Notice = {
-  title: string;
-  date: string;
-  tag: string;
-  link?: string;
-};
-
-const fallbackNotices: Notice[] = [
-  { title: "미래모빌리티 부문위원회 홈페이지를 준비 중입니다.", date: "2026.07.15", tag: "공지" },
-  { title: "2026년도 부문위원회 활동 계획 안내", date: "2026.07.10", tag: "안내" },
-  { title: "미래모빌리티 기술 교류회 개최 예정", date: "2026.07.03", tag: "행사" },
-];
-
-const defaultNoticesCsvUrl =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSrpUZWja8XWeFeSOKDvwClTm_8OCVaENKPUnb9fWWajUNfotJCVHo_0gx7R47bNxYwRxOOe88yTpTA/pub?output=csv";
-
-function parseCsvLine(line: string) {
-  const values: string[] = [];
-  let current = "";
-  let quoted = false;
-
-  for (let index = 0; index < line.length; index += 1) {
-    const char = line[index];
-    const next = line[index + 1];
-
-    if (char === '"' && quoted && next === '"') {
-      current += '"';
-      index += 1;
-      continue;
-    }
-
-    if (char === '"') {
-      quoted = !quoted;
-      continue;
-    }
-
-    if (char === "," && !quoted) {
-      values.push(current.trim());
-      current = "";
-      continue;
-    }
-
-    current += char;
-  }
-
-  values.push(current.trim());
-  return values;
-}
-
-function parseNoticesCsv(csv: string): Notice[] {
-  const rows = csv
-    .split(/\r?\n/)
-    .map((line) => parseCsvLine(line))
-    .filter((row) => row.some(Boolean));
-
-  const [, ...items] = rows;
-
-  return items
-    .map(([date, tag, title, link, visible]) => ({
-      date,
-      tag,
-      title,
-      link,
-      visible: visible?.toLowerCase(),
-    }))
-    .filter((notice) => notice.title && notice.visible !== "false" && notice.visible !== "no")
-    .slice(0, 5);
-}
-
-async function getNotices() {
-  const csvUrl = process.env.NOTICES_CSV_URL || defaultNoticesCsvUrl;
-
-  if (!csvUrl) {
-    return fallbackNotices;
-  }
-
-  try {
-    const response = await fetch(csvUrl, { next: { revalidate: 300 } });
-
-    if (!response.ok) {
-      return fallbackNotices;
-    }
-
-    const notices = parseNoticesCsv(await response.text());
-    return notices.length > 0 ? notices : fallbackNotices;
-  } catch {
-    return fallbackNotices;
-  }
-}
-
 export default async function Home() {
-  const notices = await getNotices();
+  const notices = await getNotices(5);
 
   return (
     <main className="home-shell">
@@ -118,7 +30,7 @@ export default async function Home() {
       <section className="main-grid">
         <nav className="menu-grid" aria-label="주요 메뉴">
           {menus.map((menu) => (
-            <a className={`menu-card ${menu.accent ? "active" : ""}`} href="#" key={menu.title}>
+            <a className={`menu-card ${menu.accent ? "active" : ""}`} href={menu.href || "#"} key={menu.title}>
               <span className="menu-number">{menu.number}</span>
               <span className="menu-title"><b>{menu.title}</b><small>{menu.english}</small></span>
               <span className="menu-arrow" aria-hidden="true">↗</span>
@@ -144,13 +56,13 @@ export default async function Home() {
           <section className="notice-panel" aria-labelledby="notice-title">
             <div className="notice-heading">
               <div><span>NOTICE</span><h2 id="notice-title">공지사항</h2></div>
-              <a href="#" aria-label="공지사항 전체 보기">전체보기 <b>＋</b></a>
+              <a href="/notices" aria-label="공지사항 전체 보기">전체보기 <b>＋</b></a>
             </div>
             <ul>
               {notices.map((notice) => (
-                <li key={notice.title}>
+                <li key={notice.id}>
                   <span className="notice-tag">{notice.tag}</span>
-                  <a href={notice.link || "#"}>{notice.title}</a>
+                  <a href={notice.link || `/notices/${notice.id}`}>{notice.title}</a>
                   <time>{notice.date}</time>
                 </li>
               ))}
