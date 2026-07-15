@@ -41,8 +41,13 @@ export default async function Home() {
 
         <div className="right-column">
           <section className="visual-panel image-panel" aria-labelledby="hero-title">
-            <img src="/images/FutureMobility_Picture_wihtext.png" alt="Connecting Technology, People and Mobility" />
-            <h1 id="hero-title" className="sr-only">Connecting Technology, People and Mobility</h1>
+            <img src="/images/FutureMobility_Picture.png" alt="" aria-hidden="true" />
+            <div className="hero-text">
+              <h1 id="hero-title">Connecting Technology,<br />People and Mobility</h1>
+              <p>Engineering the Future Mobility Experience</p>
+              <span aria-hidden="true" />
+              <small>Future Mobility Division</small>
+            </div>
           </section>
 
           <section className="notice-panel" aria-labelledby="notice-title">
