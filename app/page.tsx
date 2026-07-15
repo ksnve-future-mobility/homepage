@@ -23,7 +23,7 @@ export default async function Home() {
           <b className="division-title">미래모빌리티 부문회</b>
         </div>
         <div className="header-side">
-          <a className="home-button" href="#" aria-current="page"><span className="home-icon" aria-hidden="true">⌂</span> Home</a>
+          <a className="home-button" href="#" aria-current="page">Home</a>
         </div>
       </header>
 
