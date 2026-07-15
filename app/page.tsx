@@ -40,17 +40,9 @@ export default async function Home() {
         </nav>
 
         <div className="right-column">
-          <section className="visual-panel" aria-labelledby="hero-title">
-            <div className="visual-grid" aria-hidden="true" />
-            <div className="visual-orbit orbit-a" aria-hidden="true" />
-            <div className="visual-orbit orbit-b" aria-hidden="true" />
-            <div className="visual-car" aria-hidden="true"><i /><i /><span /><span /></div>
-            <div className="visual-copy">
-              <p><span /> FUTURE MOBILITY DIVISION</p>
-              <h1 id="hero-title">이동의 미래를<br /><em>더 조용하고</em>,<br />더 편안하게.</h1>
-              <small>Noise · Vibration · Mobility</small>
-            </div>
-            <div className="visual-index"><b>01</b><span>—</span><small>03</small></div>
+          <section className="visual-panel image-panel" aria-labelledby="hero-title">
+            <img src="/images/FutureMobility_Picture_wihtext.png" alt="Connecting Technology, People and Mobility" />
+            <h1 id="hero-title" className="sr-only">Connecting Technology, People and Mobility</h1>
           </section>
 
           <section className="notice-panel" aria-labelledby="notice-title">
