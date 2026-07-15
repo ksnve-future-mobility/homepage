@@ -9,13 +9,8 @@ const academicEvents = [
   },
 ];
 
-const tabs = [
-  { label: "소음진동학술대회", href: "/events", active: true },
-  { label: "국제 학술대회", href: "/international-conferences" },
-];
-
 export const metadata = {
-  title: "학술대회 및 외부행사 | 미래모빌리티 부문회",
+  title: "소음진동학술대회 | 미래모빌리티 부문회",
 };
 
 function EventArchive({
@@ -75,16 +70,10 @@ export default function EventsPage() {
       </header>
 
       <section className="board-hero events-hero">
-        <p>ACADEMIC & EXTERNAL EVENTS</p>
-        <h1>학술대회 및 외부행사</h1>
-        <span>미래모빌리티 소음·진동·음향 분야의 학술대회와 관련 외부행사를 모아 안내합니다.</span>
+        <p>ANNUAL SPRING AND FALL CONFERENCE</p>
+        <h1>소음진동학술대회</h1>
+        <span>한국소음진동공학회 학술대회와 미래모빌리티 부문회 기획세션 정보를 안내합니다.</span>
       </section>
-
-      <nav className="event-tabs" aria-label="행사 구분">
-        {tabs.map((tab) => (
-          <a className={tab.active ? "active" : ""} href={tab.href} key={tab.href}>{tab.label}</a>
-        ))}
-      </nav>
 
       <EventArchive
         id="academic-events"
