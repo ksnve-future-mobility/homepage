@@ -1,4 +1,5 @@
 export type AcademicEvent = {
+  slug: string;
   year: string;
   title: string;
   period: string;
@@ -9,6 +10,7 @@ export type AcademicEvent = {
 
 const fallbackAcademicEvents: AcademicEvent[] = [
   {
+    slug: "2026-spring-conference",
     year: "2026",
     title: "2026년 한국소음진동공학회 춘계소음진동학술대회",
     period: "",
@@ -67,6 +69,16 @@ function isTrue(value: string) {
   return ["true", "yes", "y", "1", "latest", "최신", "예", "O", "o"].includes(value.trim());
 }
 
+export function createEventSlug(year: string, title: string) {
+  const source = `${year}-${title}`
+    .trim()
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
+    .replace(/^-+|-+$/g, "");
+
+  return encodeURIComponent(source || "event");
+}
+
 function parseAcademicEventsCsv(csv: string): AcademicEvent[] {
   const rows = csv
     .split(/\r?\n/)
@@ -87,6 +99,7 @@ function parseAcademicEventsCsv(csv: string): AcademicEvent[] {
       const latestCell = getCell(row, headers, ["latest", "최신"], 5);
 
       return {
+        slug: createEventSlug(year || String(new Date().getFullYear() - index), title),
         year: year || String(new Date().getFullYear() - index),
         title,
         period,
@@ -115,4 +128,9 @@ export async function getAcademicEvents() {
   } catch {
     return fallbackAcademicEvents;
   }
+}
+
+export async function getAcademicEvent(slug: string) {
+  const events = await getAcademicEvents();
+  return events.find((event) => event.slug === slug);
 }

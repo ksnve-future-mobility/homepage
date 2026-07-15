@@ -30,6 +30,7 @@ function EventArchive({
                 <div><dt>{detailLabel}</dt><dd>{event.session || "추후 안내"}</dd></div>
               </dl>
             </div>
+            <a className="event-view-link" href={`/events/${event.slug}`}>페이지 보기</a>
           </article>
         ))}
       </div>
