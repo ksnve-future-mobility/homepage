@@ -20,7 +20,7 @@ const committeeMembers = [
   { role: "이사", name: "박당희", affiliation: "현대자동차" },
   { role: "이사", name: "안지훈", affiliation: "라온엑스솔루션즈" },
   { role: "이사", name: "이동주", affiliation: "QNX" },
-  { role: "이사", name: "이정환", affiliation: "뮬러비비엠코리아" },
+  { role: "이사", name: "이정환", affiliation: "뮐러비비엠코리아" },
   { role: "이사", name: "이정환", affiliation: "하만인터내셔널" },
   { role: "이사", name: "이효진", affiliation: "방재시험연구원" },
   { role: "이사", name: "정정호", affiliation: "방재시험연구원" },
