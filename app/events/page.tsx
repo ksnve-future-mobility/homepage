@@ -1,13 +1,4 @@
-const academicEvents = [
-  {
-    year: "2026",
-    title: "2026년 한국소음진동공학회 춘계소음진동학술대회",
-    period: "",
-    venue: "",
-    session: "",
-    latest: true,
-  },
-];
+import { AcademicEvent, getAcademicEvents } from "@/lib/events";
 
 export const metadata = {
   title: "소음진동학술대회 | 미래모빌리티 부문회",
@@ -15,27 +6,15 @@ export const metadata = {
 
 function EventArchive({
   id,
-  eyebrow,
-  title,
-  description,
   events,
   detailLabel = "기획세션",
 }: {
   id: string;
-  eyebrow: string;
-  title: string;
-  description: string;
-  events: typeof academicEvents;
+  events: AcademicEvent[];
   detailLabel?: string;
 }) {
   return (
-    <section className="event-section" id={id} aria-labelledby={`${id}-title`}>
-      <div className="event-section-head">
-        <span>{eyebrow}</span>
-        <h2 id={`${id}-title`}>{title}</h2>
-        <p>{description}</p>
-      </div>
-
+    <section className="event-section event-section-simple" id={id} aria-label="소음진동학술대회 목록">
       <div className="event-list">
         {events.map((event) => (
           <article className="event-card" key={`${event.year}-${event.title}`}>
@@ -58,7 +37,9 @@ function EventArchive({
   );
 }
 
-export default function EventsPage() {
+export default async function EventsPage() {
+  const academicEvents = await getAcademicEvents();
+
   return (
     <main className="sub-shell">
       <header className="sub-header">
@@ -77,9 +58,6 @@ export default function EventsPage() {
 
       <EventArchive
         id="academic-events"
-        eyebrow="CONFERENCE"
-        title="소음진동학술대회"
-        description="한국소음진동공학회 학술대회와 미래모빌리티 부문회 기획세션 정보를 확인할 수 있습니다."
         events={academicEvents}
       />
     </main>
