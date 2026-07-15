@@ -1,33 +1,114 @@
 const menus = [
   { title: "공지사항", english: "NOTICE", number: "01", accent: true },
-  { title: "소위원회", english: "SUBCOMMITTEES", number: "02" },
-  { title: "임원진", english: "COMMITTEE", number: "03" },
-  { title: "교류회 및 세미나", english: "NETWORKING & SEMINAR", number: "04" },
-  { title: "외부행사", english: "EXTERNAL EVENTS", number: "05" },
+  { title: "임원진", english: "COMMITTEE", number: "02" },
+  { title: "소위원회", english: "SUBCOMMITTEES", number: "03" },
+  { title: "학술대회 및 외부행사", english: "ACADEMIC & EXTERNAL EVENTS", number: "04" },
+  { title: "교류회 및 세미나", english: "NETWORKING & SEMINAR", number: "05" },
   { title: "친목회 및 간담회", english: "MEMBER GATHERING", number: "06" },
 ];
 
-const notices = [
+type Notice = {
+  title: string;
+  date: string;
+  tag: string;
+  link?: string;
+};
+
+const fallbackNotices: Notice[] = [
   { title: "미래모빌리티 부문위원회 홈페이지를 준비 중입니다.", date: "2026.07.15", tag: "공지" },
   { title: "2026년도 부문위원회 활동 계획 안내", date: "2026.07.10", tag: "안내" },
   { title: "미래모빌리티 기술 교류회 개최 예정", date: "2026.07.03", tag: "행사" },
 ];
 
-export default function Home() {
+function parseCsvLine(line: string) {
+  const values: string[] = [];
+  let current = "";
+  let quoted = false;
+
+  for (let index = 0; index < line.length; index += 1) {
+    const char = line[index];
+    const next = line[index + 1];
+
+    if (char === '"' && quoted && next === '"') {
+      current += '"';
+      index += 1;
+      continue;
+    }
+
+    if (char === '"') {
+      quoted = !quoted;
+      continue;
+    }
+
+    if (char === "," && !quoted) {
+      values.push(current.trim());
+      current = "";
+      continue;
+    }
+
+    current += char;
+  }
+
+  values.push(current.trim());
+  return values;
+}
+
+function parseNoticesCsv(csv: string): Notice[] {
+  const rows = csv
+    .split(/\r?\n/)
+    .map((line) => parseCsvLine(line))
+    .filter((row) => row.some(Boolean));
+
+  const [, ...items] = rows;
+
+  return items
+    .map(([date, tag, title, link, visible]) => ({
+      date,
+      tag,
+      title,
+      link,
+      visible: visible?.toLowerCase(),
+    }))
+    .filter((notice) => notice.title && notice.visible !== "false" && notice.visible !== "no")
+    .slice(0, 5);
+}
+
+async function getNotices() {
+  const csvUrl = process.env.NOTICES_CSV_URL;
+
+  if (!csvUrl) {
+    return fallbackNotices;
+  }
+
+  try {
+    const response = await fetch(csvUrl, { next: { revalidate: 300 } });
+
+    if (!response.ok) {
+      return fallbackNotices;
+    }
+
+    const notices = parseNoticesCsv(await response.text());
+    return notices.length > 0 ? notices : fallbackNotices;
+  } catch {
+    return fallbackNotices;
+  }
+}
+
+export default async function Home() {
+  const notices = await getNotices();
+
   return (
     <main className="home-shell">
       <header className="top-header">
-        <a className="brand" href="#" aria-label="미래모빌리티 부문위원회 홈">
-          <span className="brand-symbol" aria-hidden="true"><i /><i /><i /></span>
-          <span className="brand-copy">
-            <b>미래모빌리티 부문위원회</b>
-            <small>한국소음진동공학회</small>
-          </span>
-        </a>
+        <div className="brand">
+          <a className="society-logo-link" href="https://www.ksnve.or.kr" target="_blank" rel="noreferrer" aria-label="한국소음진동공학회 홈페이지 열기">
+            <img src="/images/ksnve_logo.png" alt="한국소음진동공학회" />
+          </a>
+          <span className="brand-divider" aria-hidden="true" />
+          <b className="division-title">미래모빌리티 부문회</b>
+        </div>
         <div className="header-side">
-          <p>KOREAN SOCIETY FOR NOISE AND VIBRATION ENGINEERING</p>
           <a className="home-button" href="#" aria-current="page"><span className="home-icon" aria-hidden="true">⌂</span> Home</a>
-          <a href="https://www.ksnve.or.kr" target="_blank" rel="noreferrer">학회 홈페이지 <span>↗</span></a>
         </div>
       </header>
 
@@ -66,7 +147,7 @@ export default function Home() {
               {notices.map((notice) => (
                 <li key={notice.title}>
                   <span className="notice-tag">{notice.tag}</span>
-                  <a href="#">{notice.title}</a>
+                  <a href={notice.link || "#"}>{notice.title}</a>
                   <time>{notice.date}</time>
                 </li>
               ))}
