@@ -1,11 +1,17 @@
 const internationalConferences = [
   {
     year: "2026",
-    title: "국제 학술대회명",
-    period: "",
-    venue: "",
-    session: "",
+    title: "The 32nd International Congress on Sound and Vibration (ICSV32)",
+    period: "2026.07.05 - 07.10",
+    venue: "Istanbul, Türkiye",
+    session: "Future Mobility Acoustics 세션 기획 및 운영",
     latest: true,
+    papers: [
+      {
+        authors: "Seonghyeon Kim, Jaesik Yang, Eunju Jeong, Cheong-Un Kim, Chang-Hwan Im, and M. Ercan Altinsoy",
+        title: "EEG feasibility for in-vehicle acoustic comfort assessment: A real driving study",
+      },
+    ],
   },
 ];
 
@@ -62,6 +68,23 @@ export default function InternationalConferencesPage() {
                   <div><dt>장소</dt><dd>{event.venue || "추후 안내"}</dd></div>
                   <div><dt>참여현황</dt><dd>{event.session || "추후 안내"}</dd></div>
                 </dl>
+                {event.papers.length > 0 ? (
+                  <section className="paper-list" aria-label={`${event.title} 발표논문 리스트`}>
+                    <h4>발표논문 리스트</h4>
+                    <div className="paper-table">
+                      <div className="paper-row paper-head">
+                        <span>저자</span>
+                        <span>제목</span>
+                      </div>
+                      {event.papers.map((paper) => (
+                        <div className="paper-row" key={paper.title}>
+                          <span>{paper.authors}</span>
+                          <span>{paper.title}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                ) : null}
               </div>
             </article>
           ))}
