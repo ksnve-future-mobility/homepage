@@ -17,6 +17,23 @@ export default function HomeHeroCarousel({ slides }: HomeHeroCarouselProps) {
   const [paused, setPaused] = useState(false);
   const totalSlides = slides.length;
   const currentSlide = slides[currentIndex];
+  const canNavigate = totalSlides > 1;
+
+  const goToPrevious = () => {
+    if (!canNavigate) {
+      return;
+    }
+
+    setCurrentIndex((index) => (index - 1 + totalSlides) % totalSlides);
+  };
+
+  const goToNext = () => {
+    if (!canNavigate) {
+      return;
+    }
+
+    setCurrentIndex((index) => (index + 1) % totalSlides);
+  };
 
   useEffect(() => {
     if (paused || totalSlides < 2) {
@@ -60,6 +77,14 @@ export default function HomeHeroCarousel({ slides }: HomeHeroCarouselProps) {
       <div className="hero-carousel-status" aria-label={`슬라이드 ${currentIndex + 1} / ${totalSlides}`}>
         <button
           type="button"
+          onClick={goToPrevious}
+          aria-label="이전 사진 보기"
+          disabled={!canNavigate}
+        >
+          ‹
+        </button>
+        <button
+          type="button"
           onClick={() => setPaused((value) => !value)}
           aria-label={paused ? "슬라이드 재생" : "슬라이드 일시정지"}
         >
@@ -68,6 +93,14 @@ export default function HomeHeroCarousel({ slides }: HomeHeroCarouselProps) {
         <span>
           {currentIndex + 1} / {totalSlides}
         </span>
+        <button
+          type="button"
+          onClick={goToNext}
+          aria-label="다음 사진 보기"
+          disabled={!canNavigate}
+        >
+          ›
+        </button>
       </div>
     </section>
   );
