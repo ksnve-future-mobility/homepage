@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 type HeroSlide = {
   src: string;
   alt?: string;
+  showText?: boolean;
 };
 
 type HomeHeroCarouselProps = {
@@ -15,6 +16,7 @@ export default function HomeHeroCarousel({ slides }: HomeHeroCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const totalSlides = slides.length;
+  const currentSlide = slides[currentIndex];
 
   useEffect(() => {
     if (paused || totalSlides < 2) {
@@ -40,17 +42,21 @@ export default function HomeHeroCarousel({ slides }: HomeHeroCarouselProps) {
           />
         ))}
       </div>
-      <div className="hero-text">
-        <h1 id="hero-title">
-          <span className="hero-title-line hero-title-top">
-            <span>Connecting</span> <em>Technology,</em>
-          </span>
-          <span className="hero-title-line hero-title-bottom">People and Mobility</span>
-        </h1>
-        <p>Engineering the Future Mobility Experience</p>
-        <span aria-hidden="true" />
-        <small>Future Mobility Division</small>
-      </div>
+      {currentSlide?.showText ? (
+        <div className="hero-text">
+          <h1 id="hero-title">
+            <span className="hero-title-line hero-title-top">
+              <span>Connecting</span> <em>Technology,</em>
+            </span>
+            <span className="hero-title-line hero-title-bottom">People and Mobility</span>
+          </h1>
+          <p>Engineering the Future Mobility Experience</p>
+          <span aria-hidden="true" />
+          <small>Future Mobility Division</small>
+        </div>
+      ) : (
+        <h1 id="hero-title" className="sr-only">미래모빌리티 부문회 사진 슬라이드</h1>
+      )}
       <div className="hero-carousel-status" aria-label={`슬라이드 ${currentIndex + 1} / ${totalSlides}`}>
         <button
           type="button"

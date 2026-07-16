@@ -11,8 +11,8 @@ const menus = [
 ];
 
 const heroSlides = [
-  { src: "/images/FutureMobility_Picture.png", alt: "미래 모빌리티 이미지" },
-  { src: "/images/slide-2.jpg", alt: "세미나 단체사진" },
+  { src: "/images/FutureMobility_Picture.png", alt: "미래 모빌리티 이미지", showText: true },
+  { src: "/images/slide-2.jpeg", alt: "세미나 단체사진" },
 ];
 
 export default async function Home() {
