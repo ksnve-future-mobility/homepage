@@ -6,7 +6,7 @@ const menus = [
   { title: "공지사항", english: "NOTICE", number: "02", href: "/notices" },
   { title: "학술대회", english: "ACADEMIC EVENTS", number: "04", href: "/events" },
   { title: "학술교류회 및 세미나", english: "NETWORKING & SEMINAR", number: "05" },
-  { title: "워크숍 및 간담회", english: "MEMBER GATHERING", number: "06" },
+  { title: "미래모빌리티 토크", english: "FUTURE MOBILITY TALK", number: "06" },
 ];
 
 export default async function Home() {
