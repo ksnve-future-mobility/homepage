@@ -27,6 +27,10 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
     notFound();
   }
 
+  const isInternational = event.category === "international";
+  const detailLabel = isInternational ? "참여현황" : "기획세션";
+  const backHref = isInternational ? "/international-conferences" : "/events";
+
   return (
     <main className="sub-shell">
       <header className="sub-header">
@@ -38,9 +42,13 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
       </header>
 
       <section className="board-hero events-hero">
-        <p>ANNUAL SPRING AND FALL CONFERENCE</p>
+        <p>{isInternational ? "INTERNATIONAL CONFERENCE" : "ANNUAL SPRING AND FALL CONFERENCE"}</p>
         <h1>{event.title}</h1>
-        <span>미래모빌리티 부문회 기획세션 및 학술대회 정보를 확인할 수 있습니다.</span>
+        <span>
+          {isInternational
+            ? "미래모빌리티 부문회 국제학술대회 정보를 확인할 수 있습니다."
+            : "미래모빌리티 부문회 기획세션 및 학술대회 정보를 확인할 수 있습니다."}
+        </span>
       </section>
 
       <section className="event-detail-section" aria-label="학술대회 상세 정보">
@@ -53,13 +61,13 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
           <dl>
             <div><dt>기간</dt><dd>{event.period || "추후 안내"}</dd></div>
             <div><dt>장소</dt><dd>{event.venue || "추후 안내"}</dd></div>
-            <div><dt>기획세션</dt><dd>{event.session || "추후 안내"}</dd></div>
+            <div><dt>{detailLabel}</dt><dd>{event.session || "추후 안내"}</dd></div>
           </dl>
           <div className="event-detail-note">
             <h3>페이지 정보</h3>
             <p>세부 프로그램, 발표자료, 사진 및 관련 링크는 확정 후 이 페이지에 추가할 수 있습니다.</p>
           </div>
-          <a className="event-back-link" href="/events">목록으로</a>
+          <a className="event-back-link" href={backHref}>목록으로</a>
         </div>
       </section>
     </main>

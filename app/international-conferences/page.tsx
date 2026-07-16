@@ -1,20 +1,20 @@
-import { AcademicEvent, getDomesticAcademicEvents } from "@/lib/events";
+import { AcademicEvent, getInternationalAcademicEvents } from "@/lib/events";
 
 export const metadata = {
-  title: "소음진동 학술대회 | 미래모빌리티 부문회",
+  title: "국제학술대회 | 미래모빌리티 부문회",
 };
 
 function EventArchive({
   id,
   events,
-  detailLabel = "기획세션",
+  detailLabel = "참여현황",
 }: {
   id: string;
   events: AcademicEvent[];
   detailLabel?: string;
 }) {
   return (
-    <section className="event-section event-section-simple" id={id} aria-label="소음진동 학술대회 목록">
+    <section className="event-section event-section-simple" id={id} aria-label="국제학술대회 목록">
       <div className="event-list">
         {events.map((event) => (
           <article className="event-card" key={`${event.year}-${event.title}`}>
@@ -38,8 +38,8 @@ function EventArchive({
   );
 }
 
-export default async function EventsPage() {
-  const academicEvents = await getDomesticAcademicEvents();
+export default async function InternationalConferencesPage() {
+  const internationalEvents = await getInternationalAcademicEvents();
 
   return (
     <main className="sub-shell">
@@ -52,19 +52,19 @@ export default async function EventsPage() {
       </header>
 
       <section className="board-hero events-hero">
-        <p>ANNUAL SPRING AND FALL CONFERENCE</p>
-        <h1>소음진동 학술대회</h1>
-        <span>한국소음진동공학회 학술대회 기획세션과 국제학술대회 참여 현황입니다.</span>
+        <p>INTERNATIONAL CONFERENCE</p>
+        <h1>국제학술대회</h1>
+        <span>미래모빌리티 소음·진동·음향 분야와 연계된 국제학술대회 정보를 안내합니다.</span>
       </section>
 
       <nav className="event-tabs" aria-label="학술대회 구분">
-        <a className="active" href="/events">소음진동 학술대회</a>
-        <a href="/international-conferences">국제 학술대회</a>
+        <a href="/events">소음진동 학술대회</a>
+        <a className="active" href="/international-conferences">국제학술대회</a>
       </nav>
 
       <EventArchive
-        id="academic-events"
-        events={academicEvents}
+        id="international-events"
+        events={internationalEvents}
       />
     </main>
   );

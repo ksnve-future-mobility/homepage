@@ -1,5 +1,6 @@
 export type AcademicEvent = {
   slug: string;
+  category: "domestic" | "international";
   year: string;
   title: string;
   period: string;
@@ -11,6 +12,7 @@ export type AcademicEvent = {
 const fallbackAcademicEvents: AcademicEvent[] = [
   {
     slug: "2026-spring-conference",
+    category: "domestic",
     year: "2026",
     title: "2026년 한국소음진동공학회 춘계 소음진동 학술대회",
     period: "",
@@ -69,6 +71,16 @@ function isTrue(value: string) {
   return ["true", "yes", "y", "1", "latest", "최신", "예", "O", "o"].includes(value.trim());
 }
 
+function normalizeCategory(value: string): AcademicEvent["category"] {
+  const normalized = value.trim().toLowerCase().replace(/\s+/g, "");
+
+  if (["국제", "국외", "international", "external", "abroad", "overseas"].includes(normalized)) {
+    return "international";
+  }
+
+  return "domestic";
+}
+
 export function createEventSlug(year: string, title: string) {
   const source = `${year}-${title}`
     .trim()
@@ -87,19 +99,27 @@ function parseAcademicEventsCsv(csv: string): AcademicEvent[] {
 
   const [rawHeaders = [], ...items] = rows;
   const headers = rawHeaders.map(normalizeHeader);
+  const hasCategoryColumn = headers.some((header) =>
+    ["category", "type", "division", "구분", "국내국외", "국내국외구분"].includes(header),
+  );
+  const offset = hasCategoryColumn ? 1 : 0;
 
   return items
     .map((row, index) => {
-      const visible = getCell(row, headers, ["visible", "show", "display", "노출", "공개"], 6).toLowerCase();
-      const year = getCell(row, headers, ["year", "연도", "년도"], 0);
-      const title = getCell(row, headers, ["title", "event", "name", "행사명", "제목", "학술대회명"], 1);
-      const period = getCell(row, headers, ["period", "date", "기간", "일정"], 2);
-      const venue = getCell(row, headers, ["venue", "place", "location", "장소"], 3);
-      const session = getCell(row, headers, ["session", "program", "기획세션", "세션"], 4);
-      const latestCell = getCell(row, headers, ["latest", "최신"], 5);
+      const category = normalizeCategory(
+        getCell(row, headers, ["category", "type", "division", "구분", "국내국외", "국내국외구분"], 0),
+      );
+      const visible = getCell(row, headers, ["visible", "show", "display", "노출", "공개"], 6 + offset).toLowerCase();
+      const year = getCell(row, headers, ["year", "연도", "년도"], 0 + offset);
+      const title = getCell(row, headers, ["title", "event", "name", "행사명", "제목", "학술대회명"], 1 + offset);
+      const period = getCell(row, headers, ["period", "date", "기간", "일정"], 2 + offset);
+      const venue = getCell(row, headers, ["venue", "place", "location", "장소"], 3 + offset);
+      const session = getCell(row, headers, ["session", "program", "기획세션", "세션", "참여현황"], 4 + offset);
+      const latestCell = getCell(row, headers, ["latest", "최신"], 5 + offset);
 
       return {
         slug: createEventSlug(year || String(new Date().getFullYear() - index), title),
+        category,
         year: year || String(new Date().getFullYear() - index),
         title,
         period,
@@ -128,6 +148,16 @@ export async function getAcademicEvents() {
   } catch {
     return fallbackAcademicEvents;
   }
+}
+
+export async function getDomesticAcademicEvents() {
+  const events = await getAcademicEvents();
+  return events.filter((event) => event.category === "domestic");
+}
+
+export async function getInternationalAcademicEvents() {
+  const events = await getAcademicEvents();
+  return events.filter((event) => event.category === "international");
 }
 
 export async function getAcademicEvent(slug: string) {
