@@ -7,6 +7,10 @@ export type AcademicEvent = {
   venue: string;
   session: string;
   latest: boolean;
+  detailText: string;
+  linkText: string;
+  linkUrl: string;
+  imageUrl: string;
 };
 
 const fallbackAcademicEvents: AcademicEvent[] = [
@@ -19,6 +23,10 @@ const fallbackAcademicEvents: AcademicEvent[] = [
     venue: "",
     session: "",
     latest: true,
+    detailText: "",
+    linkText: "",
+    linkUrl: "",
+    imageUrl: "",
   },
 ];
 
@@ -124,6 +132,10 @@ function parseAcademicEventsCsv(csv: string): AcademicEvent[] {
       const venue = getCell(row, headers, ["venue", "place", "location", "장소"], 3 + offset);
       const session = getCell(row, headers, ["session", "program", "기획세션", "세션", "참여현황"], 4 + offset);
       const latestCell = getCell(row, headers, ["latest", "최신"], 5 + offset);
+      const detailText = getCell(row, headers, ["detailtext", "detail", "content", "body", "description", "상세내용", "본문", "내용", "설명"], 7 + offset);
+      const linkText = getCell(row, headers, ["linktext", "linklabel", "buttontext", "링크텍스트", "버튼명", "링크명"], 8 + offset);
+      const linkUrl = getCell(row, headers, ["linkurl", "url", "link", "href", "링크", "주소", "링크주소"], 9 + offset);
+      const imageUrl = getCell(row, headers, ["imageurl", "image", "photo", "picture", "이미지", "사진", "이미지주소", "사진주소"], 10 + offset);
 
       return {
         slug: createEventSlug(year || String(new Date().getFullYear() - index), title),
@@ -134,6 +146,10 @@ function parseAcademicEventsCsv(csv: string): AcademicEvent[] {
         venue,
         session,
         latest: isTrue(latestCell) || index === 0,
+        detailText,
+        linkText,
+        linkUrl,
+        imageUrl,
         visible,
       };
     })

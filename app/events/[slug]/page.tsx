@@ -30,6 +30,10 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
   const isInternational = event.category === "international";
   const detailLabel = isInternational ? "참여현황" : "기획세션";
   const backHref = isInternational ? "/international-conferences" : "/events";
+  const detailParagraphs = event.detailText
+    .split(/\n+/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean);
 
   return (
     <main className="sub-shell">
@@ -65,7 +69,23 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
           </dl>
           <div className="event-detail-note">
             <h3>페이지 정보</h3>
-            <p>세부 프로그램, 발표자료, 사진 및 관련 링크는 확정 후 이 페이지에 추가할 수 있습니다.</p>
+            {detailParagraphs.length > 0 ? (
+              <div className="event-detail-body">
+                {detailParagraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+            ) : (
+              <p>세부 프로그램, 발표자료, 사진 및 관련 링크는 확정 후 이 페이지에 추가할 수 있습니다.</p>
+            )}
+            {event.imageUrl ? (
+              <img className="event-detail-image" src={event.imageUrl} alt={`${event.title} 관련 이미지`} />
+            ) : null}
+            {event.linkUrl ? (
+              <a className="event-detail-link" href={event.linkUrl} target="_blank" rel="noreferrer">
+                {event.linkText || "관련 링크 보기"}
+              </a>
+            ) : null}
           </div>
           <a className="event-back-link" href={backHref}>목록으로</a>
         </div>
