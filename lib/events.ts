@@ -88,7 +88,15 @@ export function createEventSlug(year: string, title: string) {
     .replace(/[^\p{L}\p{N}]+/gu, "-")
     .replace(/^-+|-+$/g, "");
 
-  return encodeURIComponent(source || "event");
+  return source || "event";
+}
+
+function normalizeSlug(value: string) {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
 }
 
 function parseAcademicEventsCsv(csv: string): AcademicEvent[] {
@@ -162,5 +170,7 @@ export async function getInternationalAcademicEvents() {
 
 export async function getAcademicEvent(slug: string) {
   const events = await getAcademicEvents();
-  return events.find((event) => event.slug === slug);
+  const normalizedSlug = normalizeSlug(slug);
+
+  return events.find((event) => event.slug === normalizedSlug || encodeURIComponent(event.slug) === slug);
 }
