@@ -13,7 +13,11 @@ const menus = [
 const heroSlides = [
   { src: "/images/FutureMobility_Picture.png", alt: "미래 모빌리티 이미지", showText: true },
   { src: "/images/slide-2.jpeg", alt: "세미나 단체사진" },
-  { src: "/images/slide-3.jpg", alt: "세미나 단체사진" },
+  {
+    src: "/images/slide-3.jpg",
+    alt: "2025 추계 소음진동학술대회 자동차-가전 교류 특별세션",
+    textLines: ["2025 추계 소음진동학술대회", "자동차-가전 교류 특별세션"],
+  },
 ];
 
 export default async function Home() {

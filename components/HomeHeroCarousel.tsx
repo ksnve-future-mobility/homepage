@@ -6,6 +6,7 @@ type HeroSlide = {
   src: string;
   alt?: string;
   showText?: boolean;
+  textLines?: string[];
 };
 
 type HomeHeroCarouselProps = {
@@ -70,6 +71,14 @@ export default function HomeHeroCarousel({ slides }: HomeHeroCarouselProps) {
           <p>Engineering the Future Mobility Experience</p>
           <span aria-hidden="true" />
           <small>Future Mobility Division</small>
+        </div>
+      ) : currentSlide?.textLines?.length ? (
+        <div className="hero-text hero-text-event">
+          <h1 id="hero-title">
+            {currentSlide.textLines.map((line) => (
+              <span className="hero-title-line" key={line}>{line}</span>
+            ))}
+          </h1>
         </div>
       ) : (
         <h1 id="hero-title" className="sr-only">미래모빌리티 부문회 사진 슬라이드</h1>
