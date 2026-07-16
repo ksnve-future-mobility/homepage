@@ -1,12 +1,18 @@
 import { getNotices } from "@/lib/notices";
+import HomeHeroCarousel from "@/components/HomeHeroCarousel";
 
 const menus = [
   { title: "부문회 및 임원진 소개", english: "DIVISION & COMMITTEE", number: "01", href: "/about" },
-  { title: "연구회", english: "SUBCOMMITTEES", number: "03" },
-  { title: "공지사항", english: "NOTICE", number: "02", href: "/notices" },
-  { title: "학술대회", english: "ACADEMIC EVENTS", number: "04", href: "/events" },
-  { title: "학술교류회 및 세미나", english: "NETWORKING & SEMINAR", number: "05" },
+  { title: "연구회", english: "SUBCOMMITTEES", number: "02" },
+  { title: "학술대회", english: "ACADEMIC EVENTS", number: "03", href: "/events" },
+  { title: "학술교류회 및 세미나", english: "NETWORKING & SEMINAR", number: "04" },
+  { title: "워크숍 및 간담회", english: "WORKSHOP & MEETING", number: "05" },
   { title: "미래모빌리티 토크", english: "FUTURE MOBILITY TALK", number: "06" },
+];
+
+const heroSlides = [
+  { src: "/images/FutureMobility_Picture.png", alt: "미래 모빌리티 이미지" },
+  { src: "/images/slide-2.jpg", alt: "세미나 단체사진" },
 ];
 
 export default async function Home() {
@@ -38,20 +44,7 @@ export default async function Home() {
         </nav>
 
         <div className="right-column">
-          <section className="visual-panel image-panel" aria-labelledby="hero-title">
-            <img src="/images/FutureMobility_Picture.png" alt="" aria-hidden="true" />
-            <div className="hero-text">
-              <h1 id="hero-title">
-                <span className="hero-title-line hero-title-top">
-                  <span>Connecting</span> <em>Technology,</em>
-                </span>
-                <span className="hero-title-line hero-title-bottom">People and Mobility</span>
-              </h1>
-              <p>Engineering the Future Mobility Experience</p>
-              <span aria-hidden="true" />
-              <small>Future Mobility Division</small>
-            </div>
-          </section>
+          <HomeHeroCarousel slides={heroSlides} />
 
           <section className="notice-panel" aria-labelledby="notice-title">
             <div className="notice-heading">
