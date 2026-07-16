@@ -16,7 +16,7 @@ const heroSlides = [
   {
     src: "/images/slide-3.jpg",
     alt: "2025 추계 소음진동학술대회 자동차-가전 교류 특별세션",
-    textLines: ["2025 추계 소음진동학술대회", "자동차-가전 교류 특별세션"],
+    textLines: ["2025 추계 소음진동학술대회 자동차-가전 교류 특별세션"],
   },
 ];
 
@@ -32,9 +32,6 @@ export default async function Home() {
           </a>
           <span className="brand-divider" aria-hidden="true" />
           <b className="division-title">미래모빌리티 부문회</b>
-        </div>
-        <div className="header-side">
-          <a className="home-button" href="#" aria-current="page">Home</a>
         </div>
       </header>
 
