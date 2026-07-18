@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getAcademicEvent, getAcademicEventDetail, getAcademicEvents } from "@/lib/events";
+import { getAcademicEvent, getAcademicEventBadge, getAcademicEventDetail, getAcademicEvents } from "@/lib/events";
 import HomeHeroCarousel from "@/components/HomeHeroCarousel";
 
 type EventDetailPageProps = {
@@ -58,7 +58,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
       <section className="event-detail-section" aria-label="학술대회 상세 정보">
         <aside className="event-detail-year">
           <strong>{event.year}</strong>
-          <span>{event.latest ? "Latest" : "Archive"}</span>
+          <span>{getAcademicEventBadge(event)}</span>
         </aside>
         <div className="event-detail-card">
           <h2>행사 개요</h2>

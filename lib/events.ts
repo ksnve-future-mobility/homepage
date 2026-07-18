@@ -164,7 +164,7 @@ function normalizeCategory(value: string): AcademicEvent["category"] {
   return "domestic";
 }
 
-function getEventDateTime(event: AcademicEvent) {
+function getEventTimestamps(event: AcademicEvent) {
   const year = Number(event.year.replace(/\D/g, ""));
   const fallbackYear = Number.isFinite(year) && year > 0 ? year : new Date().getFullYear();
   const timestamps: number[] = [];
@@ -179,7 +179,26 @@ function getEventDateTime(event: AcademicEvent) {
     timestamps.push(Date.UTC(fallbackYear, Number(month) - 1, Number(day)));
   }
 
-  return timestamps.length > 0 ? Math.max(...timestamps) : Date.UTC(fallbackYear, 0, 1);
+  return timestamps.length > 0 ? timestamps : [Date.UTC(fallbackYear, 0, 1)];
+}
+
+function getEventDateTime(event: AcademicEvent) {
+  return Math.max(...getEventTimestamps(event));
+}
+
+function getEventStartDateTime(event: AcademicEvent) {
+  return Math.min(...getEventTimestamps(event));
+}
+
+export function getAcademicEventBadge(event: AcademicEvent) {
+  const today = new Date();
+  const todayUtc = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
+
+  if (getEventStartDateTime(event) > todayUtc) {
+    return "UPCOMING";
+  }
+
+  return "Archive";
 }
 
 function sortAcademicEvents(events: AcademicEvent[]) {

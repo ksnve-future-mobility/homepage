@@ -1,4 +1,4 @@
-import { AcademicEvent, getAcademicEvents } from "@/lib/events";
+import { AcademicEvent, getAcademicEventBadge, getAcademicEvents } from "@/lib/events";
 
 export const metadata = {
   title: "소음진동 학술대회 | 미래모빌리티 부문회",
@@ -18,7 +18,7 @@ function EventArchive({
           <article className="event-card" key={`${event.year}-${event.title}`}>
             <div className="event-year">
               <strong>{event.year}</strong>
-              <span>{event.latest ? "Latest" : "Archive"}</span>
+              <span>{getAcademicEventBadge(event)}</span>
             </div>
             <div className="event-info">
               <h3>{event.title}</h3>
