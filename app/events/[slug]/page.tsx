@@ -28,8 +28,6 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
   }
 
   const isInternational = event.category === "international";
-  const detailLabel = isInternational ? "참여현황" : "기획세션";
-  const backHref = isInternational ? "/international-conferences" : "/events";
   const detailParagraphs = event.detailText
     .split(/\n+/)
     .map((paragraph) => paragraph.trim())
@@ -65,7 +63,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
           <dl>
             <div><dt>기간</dt><dd>{event.period || "추후 안내"}</dd></div>
             <div><dt>장소</dt><dd>{event.venue || "추후 안내"}</dd></div>
-            <div><dt>{detailLabel}</dt><dd>{event.session || "추후 안내"}</dd></div>
+            <div><dt>참여현황</dt><dd>{event.session || "추후 안내"}</dd></div>
           </dl>
           <div className="event-detail-note">
             <h3>페이지 정보</h3>
@@ -87,7 +85,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
               </a>
             ) : null}
           </div>
-          <a className="event-back-link" href={backHref}>목록으로</a>
+          <a className="event-back-link" href="/events">목록으로</a>
         </div>
       </section>
     </main>

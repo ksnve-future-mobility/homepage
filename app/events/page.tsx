@@ -1,4 +1,4 @@
-import { AcademicEvent, getDomesticAcademicEvents } from "@/lib/events";
+import { AcademicEvent, getAcademicEvents } from "@/lib/events";
 
 export const metadata = {
   title: "소음진동 학술대회 | 미래모빌리티 부문회",
@@ -7,14 +7,12 @@ export const metadata = {
 function EventArchive({
   id,
   events,
-  detailLabel = "기획세션",
 }: {
   id: string;
   events: AcademicEvent[];
-  detailLabel?: string;
 }) {
   return (
-    <section className="event-section event-section-simple" id={id} aria-label="소음진동 학술대회 목록">
+    <section className="event-section event-section-simple" id={id} aria-label="학술대회 목록">
       <div className="event-list">
         {events.map((event) => (
           <article className="event-card" key={`${event.year}-${event.title}`}>
@@ -27,7 +25,7 @@ function EventArchive({
               <dl>
                 <div><dt>기간</dt><dd>{event.period || "추후 안내"}</dd></div>
                 <div><dt>장소</dt><dd>{event.venue || "추후 안내"}</dd></div>
-                <div><dt>{detailLabel}</dt><dd>{event.session || "추후 안내"}</dd></div>
+                <div><dt>참여현황</dt><dd>{event.session || "추후 안내"}</dd></div>
               </dl>
             </div>
             <a className="event-view-link" href={`/events/${event.slug}`}>페이지 보기</a>
@@ -39,7 +37,7 @@ function EventArchive({
 }
 
 export default async function EventsPage() {
-  const academicEvents = await getDomesticAcademicEvents();
+  const academicEvents = await getAcademicEvents();
 
   return (
     <main className="sub-shell">
@@ -52,15 +50,10 @@ export default async function EventsPage() {
       </header>
 
       <section className="board-hero events-hero">
-        <p>ANNUAL SPRING AND FALL CONFERENCE</p>
-        <h1>소음진동 학술대회</h1>
-        <span>한국소음진동공학회 학술대회 참여 현황입니다.</span>
+        <p>ANNUAL KSNVE CONFERENCE AND INTERNATIONAL CONFERENCE</p>
+        <h1> 학술대회</h1>
+        <span>한국소음진동공학회 학술대회와 국제 학술대회 참여 현황입니다.</span>
       </section>
-
-      <nav className="event-tabs" aria-label="학술대회 구분">
-        <a className="active" href="/events">소음진동 학술대회</a>
-        <a href="/international-conferences">국제 학술대회</a>
-      </nav>
 
       <EventArchive
         id="academic-events"

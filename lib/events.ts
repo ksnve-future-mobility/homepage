@@ -103,6 +103,40 @@ function normalizeCategory(value: string): AcademicEvent["category"] {
   return "domestic";
 }
 
+function getEventDateTime(event: AcademicEvent) {
+  const year = Number(event.year.replace(/\D/g, ""));
+  const fallbackYear = Number.isFinite(year) && year > 0 ? year : new Date().getFullYear();
+  const timestamps: number[] = [];
+
+  for (const match of event.period.matchAll(/(\d{4})[.\-/년\s]+(\d{1,2})[.\-/월\s]+(\d{1,2})/g)) {
+    const [, dateYear, month, day] = match;
+    timestamps.push(Date.UTC(Number(dateYear), Number(month) - 1, Number(day)));
+  }
+
+  for (const match of event.period.matchAll(/(?:^|[\s~-])(\d{1,2})[.\-/월\s]+(\d{1,2})/g)) {
+    const [, month, day] = match;
+    timestamps.push(Date.UTC(fallbackYear, Number(month) - 1, Number(day)));
+  }
+
+  return timestamps.length > 0 ? Math.max(...timestamps) : Date.UTC(fallbackYear, 0, 1);
+}
+
+function sortAcademicEvents(events: AcademicEvent[]) {
+  return [...events].sort((a, b) => {
+    if (a.latest !== b.latest) {
+      return a.latest ? -1 : 1;
+    }
+
+    const dateDifference = getEventDateTime(b) - getEventDateTime(a);
+
+    if (dateDifference !== 0) {
+      return dateDifference;
+    }
+
+    return a.title.localeCompare(b.title, "ko");
+  });
+}
+
 export function createEventSlug(year: string, title: string) {
   const source = `${year}-${title}`
     .trim()
@@ -178,13 +212,13 @@ export async function getAcademicEvents() {
     const response = await fetch(csvUrl, { next: { revalidate: 300 } });
 
     if (!response.ok) {
-      return fallbackAcademicEvents;
+      return sortAcademicEvents(fallbackAcademicEvents);
     }
 
     const events = parseAcademicEventsCsv(await response.text());
-    return events.length > 0 ? events : fallbackAcademicEvents;
+    return sortAcademicEvents(events.length > 0 ? events : fallbackAcademicEvents);
   } catch {
-    return fallbackAcademicEvents;
+    return sortAcademicEvents(fallbackAcademicEvents);
   }
 }
 
