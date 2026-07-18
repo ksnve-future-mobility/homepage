@@ -6,7 +6,7 @@ const menus = [
   { title: "연구회", english: "STUDY GROUP", number: "02", href: "/study-groups" },
   { title: "학술대회", english: "ACADEMIC EVENTS", number: "03", href: "/events" },
   { title: "학술교류회 및 세미나", english: "NETWORKING & SEMINAR", number: "04" },
-  { title: "워크숍 및 친선교류/간담회", english: "WORKSHOP & MEETING", number: "05" },
+  { title: "워크숍 및 친선교류/간담회", english: "WORKSHOP & MEETING", number: "05", href: "/workshops" },
   { title: "미래모빌리티 토크", english: "FUTURE MOBILITY TALK", number: "06" },
 ];
 

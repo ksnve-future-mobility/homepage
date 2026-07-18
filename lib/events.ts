@@ -58,6 +58,29 @@ export type AcademicEventDetail = {
   images: EventImage[];
 };
 
+export type WorkshopActivity = {
+  slug: string;
+  category: string;
+  year: string;
+  title: string;
+  date: string;
+  venue: string;
+  description: string;
+  order: number;
+};
+
+export type WorkshopImage = {
+  workshopSlug: string;
+  order: number;
+  imageUrl: string;
+  caption: string;
+  alt: string;
+};
+
+export type WorkshopActivityWithImages = WorkshopActivity & {
+  images: WorkshopImage[];
+};
+
 const fallbackAcademicEvents: AcademicEvent[] = [
   {
     slug: "2026-추계-소음진동-학술대회",
@@ -101,6 +124,43 @@ const defaultEventProgramsCsvUrl =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4QtJ1hDncUji8a8pr0sUfLmPYZGjeqDGGPutOM7WTfPkuiQlKg_ta6NGVzzBuRRG3Fl-ccrY3AayR/pub?gid=1990383026&single=true&output=csv";
 const defaultEventProgramItemsCsvUrl =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4QtJ1hDncUji8a8pr0sUfLmPYZGjeqDGGPutOM7WTfPkuiQlKg_ta6NGVzzBuRRG3Fl-ccrY3AayR/pub?gid=683714820&single=true&output=csv";
+const defaultWorkshopsCsvUrl =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4QtJ1hDncUji8a8pr0sUfLmPYZGjeqDGGPutOM7WTfPkuiQlKg_ta6NGVzzBuRRG3Fl-ccrY3AayR/pub?gid=1986782383&single=true&output=csv";
+const defaultWorkshopImagesCsvUrl =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4QtJ1hDncUji8a8pr0sUfLmPYZGjeqDGGPutOM7WTfPkuiQlKg_ta6NGVzzBuRRG3Fl-ccrY3AayR/pub?gid=289600232&single=true&output=csv";
+
+const fallbackWorkshopActivities: WorkshopActivity[] = [
+  {
+    slug: "workshop-2026",
+    category: "워크숍",
+    year: "2026",
+    title: "미래모빌리티 부문회 워크숍",
+    date: "2026.00.00",
+    venue: "미정",
+    description: "부문회 회원 간 기술 교류 및 네트워킹",
+    order: 1,
+  },
+  {
+    slug: "friendship-2026",
+    category: "친선교류회",
+    year: "2026",
+    title: "미래모빌리티 부문회 친선교류회",
+    date: "2026.00.00",
+    venue: "미정",
+    description: "회원 간 친목과 교류를 위한 행사",
+    order: 2,
+  },
+  {
+    slug: "meeting-2026",
+    category: "간담회",
+    year: "2026",
+    title: "미래모빌리티 부문회 간담회",
+    date: "2026.00.00",
+    venue: "미정",
+    description: "운영 방향과 협력 주제를 논의하는 간담회",
+    order: 3,
+  },
+];
 
 function parseCsvLine(line: string) {
   const values: string[] = [];
@@ -361,6 +421,54 @@ function parseEventImagesCsv(csv: string): EventImage[] {
     .sort((a, b) => a.order - b.order);
 }
 
+function parseWorkshopActivitiesCsv(csv: string): WorkshopActivity[] {
+  const { headers, items } = getCsvRows(csv);
+
+  return items
+    .map((row, index) => {
+      const visible = getCell(row, headers, ["visible", "show", "display", "노출", "공개"], 7).toLowerCase();
+      const year = getCell(row, headers, ["year", "연도", "년도"], 2);
+      const title = getCell(row, headers, ["title", "name", "행사명", "제목"], 3);
+      const slug = getCell(row, headers, ["slug", "id", "workshopslug"], 0) || createEventSlug(year || String(new Date().getFullYear()), title);
+
+      return {
+        slug,
+        category: getCell(row, headers, ["category", "type", "구분", "카테고리"], 1) || "워크숍",
+        year: year || String(new Date().getFullYear()),
+        title,
+        date: getCell(row, headers, ["date", "period", "일자", "날짜", "기간"], 4),
+        venue: getCell(row, headers, ["venue", "place", "location", "장소"], 5),
+        description: getCell(row, headers, ["description", "content", "body", "내용", "설명"], 6),
+        order: getNumberCell(row, headers, ["order", "sort", "순서"], 9) || index + 1,
+        visible,
+      };
+    })
+    .filter((activity) => activity.title && activity.visible !== "false" && activity.visible !== "no" && activity.visible !== "비공개")
+    .map(({ visible: _visible, ...activity }) => activity)
+    .sort((a, b) => a.order - b.order);
+}
+
+function parseWorkshopImagesCsv(csv: string): WorkshopImage[] {
+  const { headers, items } = getCsvRows(csv);
+
+  return items
+    .map((row) => {
+      const visible = getCell(row, headers, ["visible", "show", "display", "노출", "공개"], 5).toLowerCase();
+
+      return {
+        workshopSlug: getCell(row, headers, ["workshopslug", "slug", "id"], 0),
+        order: getNumberCell(row, headers, ["order", "sort", "순서"], 1),
+        imageUrl: getCell(row, headers, ["imageurl", "image", "photo", "picture", "이미지", "사진", "이미지주소", "사진주소"], 2),
+        caption: getCell(row, headers, ["caption", "description", "설명", "캡션"], 3),
+        alt: getCell(row, headers, ["alt", "alternativetext", "대체텍스트"], 4),
+        visible,
+      };
+    })
+    .filter((image) => image.workshopSlug && image.imageUrl && image.visible !== "false" && image.visible !== "no" && image.visible !== "비공개")
+    .map(({ visible: _visible, ...image }) => image)
+    .sort((a, b) => a.order - b.order);
+}
+
 async function fetchCsv<T>(url: string, parser: (csv: string) => T): Promise<T | null> {
   try {
     const response = await fetch(url, { next: { revalidate: 300 } });
@@ -410,6 +518,27 @@ export async function getEventProgramItems() {
 export async function getEventImages() {
   const csvUrl = process.env.EVENT_IMAGES_CSV_URL || defaultEventImagesCsvUrl;
   return (await fetchCsv(csvUrl, parseEventImagesCsv)) || [];
+}
+
+export async function getWorkshopActivities() {
+  const csvUrl = process.env.WORKSHOPS_CSV_URL || defaultWorkshopsCsvUrl;
+
+  return (await fetchCsv(csvUrl, parseWorkshopActivitiesCsv)) || fallbackWorkshopActivities;
+}
+
+export async function getWorkshopImages() {
+  const csvUrl = process.env.WORKSHOP_IMAGES_CSV_URL || defaultWorkshopImagesCsvUrl;
+
+  return (await fetchCsv(csvUrl, parseWorkshopImagesCsv)) || [];
+}
+
+export async function getWorkshopActivitiesWithImages(): Promise<WorkshopActivityWithImages[]> {
+  const [activities, images] = await Promise.all([getWorkshopActivities(), getWorkshopImages()]);
+
+  return activities.map((activity) => ({
+    ...activity,
+    images: images.filter((image) => image.workshopSlug === activity.slug),
+  }));
 }
 
 export async function getDomesticAcademicEvents() {
