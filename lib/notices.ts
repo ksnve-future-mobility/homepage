@@ -34,14 +34,15 @@ const fallbackNotices: Notice[] = [
 const defaultNoticesCsvUrl =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSrpUZWja8XWeFeSOKDvwClTm_8OCVaENKPUnb9fWWajUNfotJCVHo_0gx7R47bNxYwRxOOe88yTpTA/pub?output=csv";
 
-function parseCsvLine(line: string) {
-  const values: string[] = [];
+function parseCsv(csv: string) {
+  const rows: string[][] = [];
+  let row: string[] = [];
   let current = "";
   let quoted = false;
 
-  for (let index = 0; index < line.length; index += 1) {
-    const char = line[index];
-    const next = line[index + 1];
+  for (let index = 0; index < csv.length; index += 1) {
+    const char = csv[index];
+    const next = csv[index + 1];
 
     if (char === '"' && quoted && next === '"') {
       current += '"';
@@ -55,7 +56,21 @@ function parseCsvLine(line: string) {
     }
 
     if (char === "," && !quoted) {
-      values.push(current.trim());
+      row.push(current.trim());
+      current = "";
+      continue;
+    }
+
+    if ((char === "\n" || char === "\r") && !quoted) {
+      if (char === "\r" && next === "\n") {
+        index += 1;
+      }
+
+      row.push(current.trim());
+      if (row.some(Boolean)) {
+        rows.push(row);
+      }
+      row = [];
       current = "";
       continue;
     }
@@ -63,8 +78,12 @@ function parseCsvLine(line: string) {
     current += char;
   }
 
-  values.push(current.trim());
-  return values;
+  row.push(current.trim());
+  if (row.some(Boolean)) {
+    rows.push(row);
+  }
+
+  return rows;
 }
 
 function normalizeHeader(value: string) {
@@ -77,10 +96,7 @@ function getCell(row: string[], headers: string[], names: string[], fallbackInde
 }
 
 function parseNoticesCsv(csv: string): Notice[] {
-  const rows = csv
-    .split(/\r?\n/)
-    .map((line) => parseCsvLine(line))
-    .filter((row) => row.some(Boolean));
+  const rows = parseCsv(csv);
 
   const [rawHeaders = [], ...items] = rows;
   const headers = rawHeaders.map(normalizeHeader);

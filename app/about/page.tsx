@@ -25,8 +25,8 @@ const committeeMembers = [
   { role: "이사", name: "이효진", affiliation: "방재시험연구원" },
   { role: "이사", name: "정정호", affiliation: "방재시험연구원" },
   { role: "이사", name: "조정현", affiliation: "현대자동차" },
-  { role: "(대외협력)이사", name: "M. Ercan Altinsoy", affiliation: "드레스덴공과대학교" },
-  { role: "(대외협력)이사", name: "Katsuya Yamauchi", affiliation: "큐슈대학교" },
+  { role: "(대외협력)이사", name: "M. Ercan Altinsoy", affiliation: "(독일)Technische Universität Dresden" },
+  { role: "(대외협력)이사", name: "Katsuya Yamauchi", affiliation: "(일본)Kyushu University" },
 ];
 
 export const metadata = {
