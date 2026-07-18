@@ -23,9 +23,8 @@ export default async function NoticesPage() {
         <span>미래모빌리티 부문회의 주요 안내와 활동 소식을 전합니다.</span>
       </section>
 
-      <section className="board-section" aria-labelledby="notice-list-title">
-        <div className="board-toolbar">
-          <h2 id="notice-list-title">공지사항</h2>
+      <section className="board-section" aria-label="공지사항 목록">
+        <div className="board-toolbar board-toolbar-count-only">
           <p>총 <b>{notices.length}</b>건</p>
         </div>
 
