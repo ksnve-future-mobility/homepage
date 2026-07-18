@@ -195,7 +195,7 @@ export function getAcademicEventBadge(event: AcademicEvent) {
   const todayUtc = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
 
   if (getEventStartDateTime(event) > todayUtc) {
-    return "UPCOMING";
+    return "Upcoming";
   }
 
   return "Archive";

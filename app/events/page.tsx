@@ -14,23 +14,27 @@ function EventArchive({
   return (
     <section className="event-section event-section-simple" id={id} aria-label="학술대회 목록">
       <div className="event-list">
-        {events.map((event) => (
-          <article className="event-card" key={`${event.year}-${event.title}`}>
-            <div className="event-year">
-              <strong>{event.year}</strong>
-              <span>{getAcademicEventBadge(event)}</span>
-            </div>
-            <div className="event-info">
-              <h3>{event.title}</h3>
-              <dl>
-                <div><dt>기간</dt><dd>{event.period || "추후 안내"}</dd></div>
-                <div><dt>장소</dt><dd>{event.venue || "추후 안내"}</dd></div>
-                <div><dt>참여현황</dt><dd>{event.session || "추후 안내"}</dd></div>
-              </dl>
-            </div>
-            <a className="event-view-link" href={`/events/${event.slug}`}>페이지 보기</a>
-          </article>
-        ))}
+        {events.map((event) => {
+          const badge = getAcademicEventBadge(event);
+
+          return (
+            <article className="event-card" key={`${event.year}-${event.title}`}>
+              <div className="event-year">
+                <strong>{event.year}</strong>
+                <span className={`event-badge event-badge-${badge.toLowerCase()}`}>{badge}</span>
+              </div>
+              <div className="event-info">
+                <h3>{event.title}</h3>
+                <dl>
+                  <div><dt>기간</dt><dd>{event.period || "추후 안내"}</dd></div>
+                  <div><dt>장소</dt><dd>{event.venue || "추후 안내"}</dd></div>
+                  <div><dt>참여현황</dt><dd>{event.session || "추후 안내"}</dd></div>
+                </dl>
+              </div>
+              <a className="event-view-link" href={`/events/${event.slug}`}>페이지 보기</a>
+            </article>
+          );
+        })}
       </div>
     </section>
   );
