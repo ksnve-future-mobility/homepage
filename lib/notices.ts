@@ -122,6 +122,15 @@ function parseNoticesCsv(csv: string): Notice[] {
     .map(({ visible: _visible, ...notice }) => notice);
 }
 
+function getDateValue(date: string) {
+  const [year, month, day] = date.split(".").map(Number);
+  return new Date(year, (month || 1) - 1, day || 1).getTime();
+}
+
+function sortByNewest(notices: Notice[]) {
+  return [...notices].sort((a, b) => getDateValue(b.date) - getDateValue(a.date));
+}
+
 export async function getNotices(limit?: number) {
   const csvUrl = process.env.NOTICES_CSV_URL || defaultNoticesCsvUrl;
 
@@ -129,14 +138,16 @@ export async function getNotices(limit?: number) {
     const response = await fetch(csvUrl, { next: { revalidate: 300 } });
 
     if (!response.ok) {
-      return limit ? fallbackNotices.slice(0, limit) : fallbackNotices;
+      const sortedFallbackNotices = sortByNewest(fallbackNotices);
+      return limit ? sortedFallbackNotices.slice(0, limit) : sortedFallbackNotices;
     }
 
     const notices = parseNoticesCsv(await response.text());
-    const resolvedNotices = notices.length > 0 ? notices : fallbackNotices;
+    const resolvedNotices = sortByNewest(notices.length > 0 ? notices : fallbackNotices);
     return limit ? resolvedNotices.slice(0, limit) : resolvedNotices;
   } catch {
-    return limit ? fallbackNotices.slice(0, limit) : fallbackNotices;
+    const sortedFallbackNotices = sortByNewest(fallbackNotices);
+    return limit ? sortedFallbackNotices.slice(0, limit) : sortedFallbackNotices;
   }
 }
 
