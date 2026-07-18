@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getAcademicEvent, getAcademicEventDetail, getAcademicEvents } from "@/lib/events";
+import HomeHeroCarousel from "@/components/HomeHeroCarousel";
 
 type EventDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -88,6 +89,17 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
             {event.imageUrl ? (
               <img className="event-detail-image" src={event.imageUrl} alt={`${event.title} 관련 이미지`} />
             ) : null}
+            {images.length > 0 ? (
+              <section className="event-gallery-section" aria-label="행사 사진">
+                <h3>사진</h3>
+                <HomeHeroCarousel
+                  slides={images.map((image) => ({
+                    src: image.imageUrl,
+                    alt: image.caption || `${event.title} 사진`,
+                  }))}
+                />
+              </section>
+            ) : null}
             {programs.length > 0 ? (
               <section className="event-program-section" aria-label="세부 프로그램">
                 <h3>세부 프로그램</h3>
@@ -118,19 +130,6 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
                         </ul>
                       ) : null}
                     </article>
-                  ))}
-                </div>
-              </section>
-            ) : null}
-            {images.length > 0 ? (
-              <section className="event-gallery-section" aria-label="행사 사진">
-                <h3>사진</h3>
-                <div className="event-gallery-grid">
-                  {images.map((image) => (
-                    <figure className={image.role === "cover" ? "event-gallery-cover" : undefined} key={`${image.imageUrl}-${image.order}`}>
-                      <img src={image.imageUrl} alt={image.caption || `${event.title} 사진`} />
-                      {image.caption ? <figcaption>{image.caption}</figcaption> : null}
-                    </figure>
                   ))}
                 </div>
               </section>
