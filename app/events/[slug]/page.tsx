@@ -40,8 +40,8 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
     <main className="sub-shell">
       <header className="sub-header">
         <a className="sub-logo" href="/" aria-label="홈으로 이동">
-          <img src="/images/ksnve_logo_wide.png" alt="한국소음진동공학회" />
-          <span>미래모빌리티 부문회</span>
+          <img className="sub-society-logo" src="/images/ksnve_logo_wide.png" alt="한국소음진동공학회" />
+          <img className="sub-division-logo" src="/images/division-logo.png" alt="미래모빌리티 부문회" />
         </a>
         <a className="home-button" href="/">Home</a>
       </header>

@@ -28,7 +28,7 @@ export default async function Home() {
             <img src="/images/ksnve_logo_wide.png" alt="한국소음진동공학회" />
           </a>
           <span className="brand-divider" aria-hidden="true" />
-          <b className="division-title">미래모빌리티 부문회</b>
+          <img className="division-title" src="/images/division-logo.png" alt="미래모빌리티 부문회" />
         </div>
       </header>
 
