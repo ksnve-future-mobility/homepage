@@ -1,10 +1,10 @@
 const studyGroups = [
   {
     title: "멀미 연구회",
-    topic: "미래 모빌리티의 멀미 완화 기술을 연구하는 연구회입니다.",
+    topic: "전기차, 자율주행차 탑승객의 멀미 완화 기술을 연구하는 그룹입니다.",
     secretary: "김성현",
     affiliation: "현대자동차",
-    members: "모집 중",
+    members: "",
   },
 ];
 
