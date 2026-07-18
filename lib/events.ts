@@ -7,10 +7,55 @@ export type AcademicEvent = {
   venue: string;
   session: string;
   latest: boolean;
+  detailSource: string;
   detailText: string;
   linkText: string;
   linkUrl: string;
   imageUrl: string;
+};
+
+export type EventDetailBlock = {
+  detailSource: string;
+  type: string;
+  title: string;
+  content: string;
+  order: number;
+};
+
+export type EventProgram = {
+  detailSource: string;
+  sessionNo: number;
+  sessionTitle: string;
+  date: string;
+  time: string;
+  room: string;
+  chair: string;
+  order: number;
+};
+
+export type EventProgramItem = {
+  detailSource: string;
+  sessionNo: number;
+  time: string;
+  label: string;
+  title: string;
+  speakers: string;
+  order: number;
+};
+
+export type EventImage = {
+  detailSource: string;
+  imageUrl: string;
+  caption: string;
+  role: string;
+  order: number;
+};
+
+export type AcademicEventDetail = {
+  event: AcademicEvent;
+  details: EventDetailBlock[];
+  programs: Array<EventProgram & { items: EventProgramItem[] }>;
+  images: EventImage[];
 };
 
 const fallbackAcademicEvents: AcademicEvent[] = [
@@ -23,6 +68,7 @@ const fallbackAcademicEvents: AcademicEvent[] = [
     venue: "여수 엑스포컨벤션",
     session: "미래 모빌리티",
     latest: true,
+    detailSource: "fall-2026",
     detailText: "",
     linkText: "",
     linkUrl: "",
@@ -37,6 +83,7 @@ const fallbackAcademicEvents: AcademicEvent[] = [
     venue: "삼척 쏠비치",
     session: "미래 모빌리티",
     latest: false,
+    detailSource: "spring-2026",
     detailText: "",
     linkText: "",
     linkUrl: "",
@@ -46,6 +93,14 @@ const fallbackAcademicEvents: AcademicEvent[] = [
 
 const defaultAcademicEventsCsvUrl =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4QtJ1hDncUji8a8pr0sUfLmPYZGjeqDGGPutOM7WTfPkuiQlKg_ta6NGVzzBuRRG3Fl-ccrY3AayR/pub?output=csv";
+const defaultEventDetailsCsvUrl =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4QtJ1hDncUji8a8pr0sUfLmPYZGjeqDGGPutOM7WTfPkuiQlKg_ta6NGVzzBuRRG3Fl-ccrY3AayR/pub?gid=158691937&single=true&output=csv";
+const defaultEventImagesCsvUrl =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4QtJ1hDncUji8a8pr0sUfLmPYZGjeqDGGPutOM7WTfPkuiQlKg_ta6NGVzzBuRRG3Fl-ccrY3AayR/pub?gid=900042325&single=true&output=csv";
+const defaultEventProgramsCsvUrl =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4QtJ1hDncUji8a8pr0sUfLmPYZGjeqDGGPutOM7WTfPkuiQlKg_ta6NGVzzBuRRG3Fl-ccrY3AayR/pub?gid=1990383026&single=true&output=csv";
+const defaultEventProgramItemsCsvUrl =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4QtJ1hDncUji8a8pr0sUfLmPYZGjeqDGGPutOM7WTfPkuiQlKg_ta6NGVzzBuRRG3Fl-ccrY3AayR/pub?gid=683714820&single=true&output=csv";
 
 function parseCsvLine(line: string) {
   const values: string[] = [];
@@ -87,6 +142,12 @@ function normalizeHeader(value: string) {
 function getCell(row: string[], headers: string[], names: string[], fallbackIndex: number) {
   const index = headers.findIndex((header) => names.includes(header));
   return row[index >= 0 ? index : fallbackIndex]?.trim() || "";
+}
+
+function getNumberCell(row: string[], headers: string[], names: string[], fallbackIndex: number) {
+  const value = getCell(row, headers, names, fallbackIndex);
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : 0;
 }
 
 function isTrue(value: string) {
@@ -180,6 +241,7 @@ function parseAcademicEventsCsv(csv: string): AcademicEvent[] {
       const venue = getCell(row, headers, ["venue", "place", "location", "장소"], 3 + offset);
       const session = getCell(row, headers, ["session", "program", "기획세션", "세션", "참여현황"], 4 + offset);
       const latestCell = getCell(row, headers, ["latest", "최신"], 5 + offset);
+      const detailSource = getCell(row, headers, ["detailsource", "detailid", "source", "상세소스", "상세id"], 7 + offset);
       const detailText = getCell(row, headers, ["detailtext", "detail", "content", "body", "description", "상세내용", "본문", "내용", "설명"], 7 + offset);
       const linkText = getCell(row, headers, ["linktext", "linklabel", "buttontext", "링크텍스트", "버튼명", "링크명"], 8 + offset);
       const linkUrl = getCell(row, headers, ["linkurl", "url", "link", "href", "링크", "주소", "링크주소"], 9 + offset);
@@ -194,6 +256,7 @@ function parseAcademicEventsCsv(csv: string): AcademicEvent[] {
         venue,
         session,
         latest: isTrue(latestCell) || index === 0,
+        detailSource,
         detailText,
         linkText,
         linkUrl,
@@ -203,6 +266,94 @@ function parseAcademicEventsCsv(csv: string): AcademicEvent[] {
     })
     .filter((event) => event.title && event.visible !== "false" && event.visible !== "no" && event.visible !== "비공개")
     .map(({ visible: _visible, ...event }) => event);
+}
+
+function getCsvRows(csv: string) {
+  const rows = csv
+    .split(/\r?\n/)
+    .map((line) => parseCsvLine(line))
+    .filter((row) => row.some(Boolean));
+  const [rawHeaders = [], ...items] = rows;
+  return { headers: rawHeaders.map(normalizeHeader), items };
+}
+
+function parseEventDetailsCsv(csv: string): EventDetailBlock[] {
+  const { headers, items } = getCsvRows(csv);
+
+  return items
+    .map((row) => ({
+      detailSource: getCell(row, headers, ["detailsource", "detailid", "source", "상세소스", "상세id"], 0),
+      type: getCell(row, headers, ["type", "종류", "유형"], 1),
+      title: getCell(row, headers, ["title", "제목"], 2),
+      content: getCell(row, headers, ["content", "body", "본문", "내용"], 3),
+      order: getNumberCell(row, headers, ["order", "sort", "순서"], 4),
+    }))
+    .filter((detail) => detail.detailSource && detail.content)
+    .sort((a, b) => a.order - b.order);
+}
+
+function parseEventProgramsCsv(csv: string): EventProgram[] {
+  const { headers, items } = getCsvRows(csv);
+
+  return items
+    .map((row) => ({
+      detailSource: getCell(row, headers, ["detailsource", "detailid", "source", "상세소스", "상세id"], 0),
+      sessionNo: getNumberCell(row, headers, ["sessionno", "sessionnumber", "세션번호"], 1),
+      sessionTitle: getCell(row, headers, ["sessiontitle", "session", "세션명", "세션제목"], 2),
+      date: getCell(row, headers, ["date", "날짜", "일자"], 3),
+      time: getCell(row, headers, ["time", "시간"], 4),
+      room: getCell(row, headers, ["room", "venue", "place", "장소", "룸"], 5),
+      chair: getCell(row, headers, ["chair", "moderator", "좌장"], 6),
+      order: getNumberCell(row, headers, ["order", "sort", "순서"], 7),
+    }))
+    .filter((program) => program.detailSource && program.sessionNo > 0)
+    .sort((a, b) => a.order - b.order);
+}
+
+function parseEventProgramItemsCsv(csv: string): EventProgramItem[] {
+  const { headers, items } = getCsvRows(csv);
+
+  return items
+    .map((row) => ({
+      detailSource: getCell(row, headers, ["detailsource", "detailid", "source", "상세소스", "상세id"], 0),
+      sessionNo: getNumberCell(row, headers, ["sessionno", "sessionnumber", "세션번호"], 1),
+      time: getCell(row, headers, ["time", "시간"], 2),
+      label: getCell(row, headers, ["label", "tag", "구분", "라벨"], 3),
+      title: getCell(row, headers, ["title", "subject", "제목", "발표제목"], 4),
+      speakers: getCell(row, headers, ["speakers", "authors", "presenter", "발표자", "저자"], 5),
+      order: getNumberCell(row, headers, ["order", "sort", "순서"], 6),
+    }))
+    .filter((item) => item.detailSource && item.sessionNo > 0 && item.title)
+    .sort((a, b) => a.order - b.order);
+}
+
+function parseEventImagesCsv(csv: string): EventImage[] {
+  const { headers, items } = getCsvRows(csv);
+
+  return items
+    .map((row) => ({
+      detailSource: getCell(row, headers, ["detailsource", "detailid", "source", "상세소스", "상세id"], 0),
+      imageUrl: getCell(row, headers, ["imageurl", "image", "photo", "picture", "이미지", "사진", "이미지주소", "사진주소"], 1),
+      caption: getCell(row, headers, ["caption", "description", "설명", "캡션"], 2),
+      role: getCell(row, headers, ["role", "type", "구분", "역할"], 3),
+      order: getNumberCell(row, headers, ["order", "sort", "순서"], 4),
+    }))
+    .filter((image) => image.detailSource && image.imageUrl)
+    .sort((a, b) => a.order - b.order);
+}
+
+async function fetchCsv<T>(url: string, parser: (csv: string) => T): Promise<T | null> {
+  try {
+    const response = await fetch(url, { next: { revalidate: 300 } });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return parser(await response.text());
+  } catch {
+    return null;
+  }
 }
 
 export async function getAcademicEvents() {
@@ -222,6 +373,26 @@ export async function getAcademicEvents() {
   }
 }
 
+export async function getEventDetails() {
+  const csvUrl = process.env.EVENT_DETAILS_CSV_URL || defaultEventDetailsCsvUrl;
+  return (await fetchCsv(csvUrl, parseEventDetailsCsv)) || [];
+}
+
+export async function getEventPrograms() {
+  const csvUrl = process.env.EVENT_PROGRAMS_CSV_URL || defaultEventProgramsCsvUrl;
+  return (await fetchCsv(csvUrl, parseEventProgramsCsv)) || [];
+}
+
+export async function getEventProgramItems() {
+  const csvUrl = process.env.EVENT_PROGRAM_ITEMS_CSV_URL || defaultEventProgramItemsCsvUrl;
+  return (await fetchCsv(csvUrl, parseEventProgramItemsCsv)) || [];
+}
+
+export async function getEventImages() {
+  const csvUrl = process.env.EVENT_IMAGES_CSV_URL || defaultEventImagesCsvUrl;
+  return (await fetchCsv(csvUrl, parseEventImagesCsv)) || [];
+}
+
 export async function getDomesticAcademicEvents() {
   const events = await getAcademicEvents();
   return events.filter((event) => event.category === "domestic");
@@ -237,4 +408,34 @@ export async function getAcademicEvent(slug: string) {
   const normalizedSlug = normalizeSlug(slug);
 
   return events.find((event) => event.slug === normalizedSlug || encodeURIComponent(event.slug) === slug);
+}
+
+export async function getAcademicEventDetail(slug: string): Promise<AcademicEventDetail | null> {
+  const event = await getAcademicEvent(slug);
+
+  if (!event) {
+    return null;
+  }
+
+  const detailSource = event.detailSource || event.slug;
+  const [details, programs, programItems, images] = await Promise.all([
+    getEventDetails(),
+    getEventPrograms(),
+    getEventProgramItems(),
+    getEventImages(),
+  ]);
+
+  const eventItems = programItems.filter((item) => item.detailSource === detailSource);
+
+  return {
+    event,
+    details: details.filter((detail) => detail.detailSource === detailSource),
+    programs: programs
+      .filter((program) => program.detailSource === detailSource)
+      .map((program) => ({
+        ...program,
+        items: eventItems.filter((item) => item.sessionNo === program.sessionNo),
+      })),
+    images: images.filter((image) => image.detailSource === detailSource),
+  };
 }

@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getAcademicEvent, getAcademicEvents } from "@/lib/events";
+import { getAcademicEvent, getAcademicEventDetail, getAcademicEvents } from "@/lib/events";
 
 type EventDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -21,12 +21,13 @@ export async function generateMetadata({ params }: EventDetailPageProps) {
 
 export default async function EventDetailPage({ params }: EventDetailPageProps) {
   const { slug } = await params;
-  const event = await getAcademicEvent(slug);
+  const eventDetail = await getAcademicEventDetail(slug);
 
-  if (!event) {
+  if (!eventDetail) {
     notFound();
   }
 
+  const { event, details, programs, images } = eventDetail;
   const isInternational = event.category === "international";
   const detailParagraphs = event.detailText
     .split(/\n+/)
@@ -67,7 +68,16 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
           </dl>
           <div className="event-detail-note">
             <h3>페이지 정보</h3>
-            {detailParagraphs.length > 0 ? (
+            {details.length > 0 ? (
+              <div className="event-detail-body">
+                {details.map((detail) => (
+                  <section className={`event-detail-copy event-detail-copy-${detail.type || "paragraph"}`} key={`${detail.type}-${detail.order}-${detail.title}`}>
+                    {detail.title ? <h4>{detail.title}</h4> : null}
+                    <p>{detail.content}</p>
+                  </section>
+                ))}
+              </div>
+            ) : detailParagraphs.length > 0 ? (
               <div className="event-detail-body">
                 {detailParagraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
@@ -78,6 +88,53 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
             )}
             {event.imageUrl ? (
               <img className="event-detail-image" src={event.imageUrl} alt={`${event.title} 관련 이미지`} />
+            ) : null}
+            {programs.length > 0 ? (
+              <section className="event-program-section" aria-label="세부 프로그램">
+                <h3>세부 프로그램</h3>
+                <div className="event-program-list">
+                  {programs.map((program) => (
+                    <article className="event-program-card" key={`${program.sessionNo}-${program.sessionTitle}`}>
+                      <header>
+                        <div>
+                          <b>{program.sessionTitle}</b>
+                          <span>{[program.date, program.time, program.room].filter(Boolean).join(" · ")}</span>
+                        </div>
+                        {program.chair ? <p>좌장: {program.chair}</p> : null}
+                      </header>
+                      {program.items.length > 0 ? (
+                        <ul>
+                          {program.items.map((item) => (
+                            <li key={`${program.sessionNo}-${item.order}-${item.title}`}>
+                              <time>{item.time}</time>
+                              <div>
+                                <strong>
+                                  {item.label ? <em>{item.label}</em> : null}
+                                  {item.title}
+                                </strong>
+                                {item.speakers ? <span>{item.speakers}</span> : null}
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
+                    </article>
+                  ))}
+                </div>
+              </section>
+            ) : null}
+            {images.length > 0 ? (
+              <section className="event-gallery-section" aria-label="행사 사진">
+                <h3>사진</h3>
+                <div className="event-gallery-grid">
+                  {images.map((image) => (
+                    <figure className={image.role === "cover" ? "event-gallery-cover" : undefined} key={`${image.imageUrl}-${image.order}`}>
+                      <img src={image.imageUrl} alt={image.caption || `${event.title} 사진`} />
+                      {image.caption ? <figcaption>{image.caption}</figcaption> : null}
+                    </figure>
+                  ))}
+                </div>
+              </section>
             ) : null}
             {event.linkUrl ? (
               <a className="event-detail-link" href={event.linkUrl} target="_blank" rel="noreferrer">
