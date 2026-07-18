@@ -20,8 +20,8 @@ function WorkshopActivityCard({ activity }: { activity: WorkshopActivityWithImag
         </div>
         <h3>{activity.title}</h3>
         <dl>
-          <div><dt>날짜</dt><dd>{activity.date || "추후 안내"}</dd></div>
-          <div><dt>장소</dt><dd>{activity.venue || "추후 안내"}</dd></div>
+          {activity.date ? <div><dt>날짜</dt><dd>{activity.date}</dd></div> : null}
+          {activity.venue ? <div><dt>장소</dt><dd>{activity.venue}</dd></div> : null}
           {activity.description ? <div><dt>내용</dt><dd>{activity.description}</dd></div> : null}
         </dl>
       </div>
