@@ -50,8 +50,8 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
         <h1>{event.title}</h1>
         <span>
           {isInternational
-            ? "미래모빌리티 부문회 국제학술대회 정보를 확인할 수 있습니다."
-            : "미래모빌리티 부문회 기획세션 및 학술대회 정보를 확인할 수 있습니다."}
+            ? "미래모빌리티 부문회가 참여한 국제학술대회 정보입니다"
+            : "미래모빌리티 부문회 기획세션 및 학술대회 정보입니다"}
         </span>
       </section>
 
