@@ -67,7 +67,6 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
             <div><dt>참여현황</dt><dd>{event.session || "추후 안내"}</dd></div>
           </dl>
           <div className="event-detail-note">
-            <h3>페이지 정보</h3>
             {details.length > 0 ? (
               <div className="event-detail-body">
                 {details.map((detail) => (
@@ -84,7 +83,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
                 ))}
               </div>
             ) : (
-              <p>세부 프로그램, 발표자료, 사진 및 관련 링크는 확정 후 이 페이지에 추가할 수 있습니다.</p>
+              <p>세부 프로그램 준비 중입니다.</p>
             )}
             {event.imageUrl ? (
               <img className="event-detail-image" src={event.imageUrl} alt={`${event.title} 관련 이미지`} />
