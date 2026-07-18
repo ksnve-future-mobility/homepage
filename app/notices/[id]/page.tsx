@@ -57,6 +57,9 @@ export default async function NoticeDetailPage({ params }: NoticeDetailPageProps
           {body.split(/\n+/).map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
+          {notice.imageUrl ? (
+            <img className="notice-image" src={notice.imageUrl} alt={`${notice.title} 관련 이미지`} />
+          ) : null}
         </div>
 
         <footer>

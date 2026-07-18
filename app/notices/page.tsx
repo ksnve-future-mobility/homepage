@@ -37,7 +37,7 @@ export default async function NoticesPage() {
             <span>등록일</span>
           </div>
           {notices.map((notice, index) => (
-            <a className="board-row" href={notice.link || `/notices/${notice.id}`} key={notice.id}>
+            <a className="board-row" href={`/notices/${notice.id}`} key={notice.id}>
               <span className="board-number">{notices.length - index}</span>
               <strong>{notice.title}</strong>
               <span className="board-tag">{notice.tag || "공지"}</span>

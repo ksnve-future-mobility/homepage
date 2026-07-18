@@ -3,8 +3,8 @@ export type Notice = {
   title: string;
   date: string;
   tag: string;
-  link?: string;
   content?: string;
+  imageUrl?: string;
 };
 
 const fallbackNotices: Notice[] = [
@@ -103,15 +103,20 @@ function parseNoticesCsv(csv: string): Notice[] {
 
   return items
     .map((row, index) => {
-      const visible = getCell(row, headers, ["visible", "show", "display", "노출"], 4).toLowerCase();
+      const visible = getCell(row, headers, ["visible", "show", "display", "노출"], 3).toLowerCase();
       const date = getCell(row, headers, ["date", "날짜"], 0);
       const tag = getCell(row, headers, ["tag", "category", "분류"], 1);
       const title = getCell(row, headers, ["title", "subject", "제목"], 2);
-      const link = getCell(row, headers, ["link", "url", "링크"], 3);
-      const content = getCell(row, headers, ["content", "body", "본문", "내용"], 5);
+      const content = getCell(row, headers, ["content", "body", "본문", "내용"], 4);
+      const imageUrl = getCell(
+        row,
+        headers,
+        ["imageurl", "image", "photo", "picture", "이미지", "사진", "이미지주소", "사진주소"],
+        5,
+      );
       const id = getCell(row, headers, ["id", "idx", "번호"], -1) || String(index + 1);
 
-      return { id, date, tag, title, link, content, visible };
+      return { id, date, tag, title, content, imageUrl, visible };
     })
     .filter((notice) => notice.title && notice.visible !== "false" && notice.visible !== "no")
     .map(({ visible: _visible, ...notice }) => notice);

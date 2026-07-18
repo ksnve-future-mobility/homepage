@@ -53,7 +53,7 @@ export default async function Home() {
               {notices.map((notice) => (
                 <li key={notice.id}>
                   <span className="notice-tag">{notice.tag}</span>
-                  <a href={notice.link || `/notices/${notice.id}`}>{notice.title}</a>
+                  <a href={`/notices/${notice.id}`}>{notice.title}</a>
                   <time>{notice.date}</time>
                 </li>
               ))}
