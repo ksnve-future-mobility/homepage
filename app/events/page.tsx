@@ -51,7 +51,7 @@ export default async function EventsPage() {
 
       <section className="board-hero events-hero">
         <p>ANNUAL KSNVE CONFERENCE AND INTERNATIONAL CONFERENCE</p>
-        <h1> 학술대회</h1>
+        <h1>학술대회</h1>
         <span>한국소음진동공학회 학술대회와 국제 학술대회 참여 현황입니다.</span>
       </section>
 
