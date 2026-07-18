@@ -54,7 +54,7 @@ export default async function EventsPage() {
       <section className="board-hero events-hero">
         <p>ANNUAL SPRING AND FALL CONFERENCE</p>
         <h1>소음진동 학술대회</h1>
-        <span>한국소음진동공학회 학술대회 기획세션과 국제학술대회 참여 현황입니다.</span>
+        <span>한국소음진동공학회 학술대회 참여 현황입니다.</span>
       </section>
 
       <nav className="event-tabs" aria-label="학술대회 구분">
