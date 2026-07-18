@@ -91,7 +91,6 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
             ) : null}
             {images.length > 0 ? (
               <section className="event-gallery-section" aria-label="행사 사진">
-                <h3>사진</h3>
                 <HomeHeroCarousel
                   slides={images.map((image) => ({
                     src: image.imageUrl,
