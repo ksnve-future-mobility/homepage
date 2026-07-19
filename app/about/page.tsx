@@ -1,3 +1,5 @@
+import SubHeader from "@/components/SubHeader";
+
 const introParagraphs = [
   "전동화, 자율주행, SDV, PBV, UAM 등 미래 모빌리티 기술이 빠르게 확산되면서, 소음·진동·음향 분야의 연구 범위도 전통적인 차량 중심 NVH를 넘어 다양한 모빌리티 환경으로 점차 확대되고 있습니다.",
   "차량 소음·진동·음향 분야에서는 소음과 진동을 저감하는 전통적인 NVH 기술을 넘어, AI 활용 기술, 자율주행 환경에서의 탑승자 경험, SDV 기반 소음·진동·음향 기술, 감성 품질, 사용자 경험(UX), HMI/HCI 등 관련 연구 분야의 중요성이 더욱 증대되고 있습니다.",
@@ -36,13 +38,7 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <main className="sub-shell">
-      <header className="sub-header">
-        <a className="sub-logo" href="/" aria-label="홈으로 이동">
-          <img className="sub-society-logo" src="/images/ksnve_logo_wide.png" alt="한국소음진동공학회" />
-          <img className="sub-division-logo" src="/images/division-logo.png" alt="미래모빌리티 부문회" />
-        </a>
-        <a className="home-button" href="/">Home</a>
-      </header>
+      <SubHeader />
 
       <section className="board-hero about-hero">
         <p>DIVISION & COMMITTEE</p>

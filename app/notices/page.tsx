@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { getNotices } from "@/lib/notices";
+import SubHeader from "@/components/SubHeader";
 
 export const metadata = {
   title: "공지사항 | 미래모빌리티 부문회",
@@ -9,13 +11,7 @@ export default async function NoticesPage() {
 
   return (
     <main className="sub-shell">
-      <header className="sub-header">
-        <a className="sub-logo" href="/" aria-label="홈으로 이동">
-          <img className="sub-society-logo" src="/images/ksnve_logo_wide.png" alt="한국소음진동공학회" />
-          <img className="sub-division-logo" src="/images/division-logo.png" alt="미래모빌리티 부문회" />
-        </a>
-        <a className="home-button" href="/">Home</a>
-      </header>
+      <SubHeader />
 
       <section className="board-hero notices-hero">
         <p>NOTICE</p>
@@ -35,11 +31,11 @@ export default async function NoticesPage() {
             <span>등록일</span>
           </div>
           {notices.map((notice, index) => (
-            <a className="board-row" href={`/notices/${notice.id}`} key={notice.id}>
+            <Link className="board-row" href={`/notices/${notice.id}`} key={notice.id}>
               <span className="board-number">{notices.length - index}</span>
               <strong>{notice.title}</strong>
               <time>{notice.date}</time>
-            </a>
+            </Link>
           ))}
         </div>
       </section>

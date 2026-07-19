@@ -1,3 +1,5 @@
+import Link from "next/link";
+import Image from "next/image";
 import { getNotices } from "@/lib/notices";
 import HomeHeroCarousel from "@/components/HomeHeroCarousel";
 
@@ -25,20 +27,20 @@ export default async function Home() {
       <header className="top-header">
         <div className="brand">
           <a className="society-logo-link" href="https://www.ksnve.or.kr" target="_blank" rel="noreferrer" aria-label="한국소음진동공학회 홈페이지 열기">
-            <img src="/images/ksnve_logo_wide.png" alt="한국소음진동공학회" />
+            <Image src="/images/ksnve_logo_wide.png" alt="한국소음진동공학회" width={2918} height={571} />
           </a>
           <span className="brand-divider" aria-hidden="true" />
-          <img className="division-title" src="/images/division-logo.png" alt="미래모빌리티 부문회" />
+          <Image className="division-title" src="/images/division-logo.png" alt="미래모빌리티 부문회" width={1644} height={524} />
         </div>
       </header>
 
       <section className="main-grid">
         <nav className="menu-grid" aria-label="주요 메뉴">
           {menus.map((menu) => (
-            <a className="menu-card" href={menu.href || "#"} key={menu.title}>
+            <Link className="menu-card" href={menu.href || "#"} key={menu.title}>
               <span className="menu-number">{menu.number}</span>
               <span className="menu-title"><b>{menu.title}</b><small>{menu.english}</small></span>
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -48,12 +50,12 @@ export default async function Home() {
           <section className="notice-panel" aria-labelledby="notice-title">
             <div className="notice-heading">
               <div><span>NOTICE</span><h2 id="notice-title">공지사항</h2></div>
-              <a href="/notices" aria-label="공지사항 전체 보기">전체보기 <b>＋</b></a>
+              <Link href="/notices" aria-label="공지사항 전체 보기">전체보기 <b>＋</b></Link>
             </div>
             <ul>
               {notices.map((notice) => (
                 <li key={notice.id}>
-                  <a href={`/notices/${notice.id}`}>{notice.title}</a>
+                  <Link href={`/notices/${notice.id}`}>{notice.title}</Link>
                   <time>{notice.date}</time>
                 </li>
               ))}

@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { AcademicEvent, getAcademicEventBadge, getBefore2026AcademicEvents } from "@/lib/events";
+import SubHeader from "@/components/SubHeader";
 
 export const metadata = {
   title: "2026 이전 활동 | 미래모빌리티 부문회",
@@ -26,7 +28,7 @@ function EventArchive({ events }: { events: AcademicEvent[] }) {
                     <div><dt>참여현황</dt><dd>{event.session || "추후 안내"}</dd></div>
                   </dl>
                 </div>
-                <a className="event-view-link" href={`/events/${event.slug}`}>페이지 보기</a>
+                <Link className="event-view-link" href={`/events/${event.slug}`}>페이지 보기</Link>
               </article>
             );
           })}
@@ -43,19 +45,13 @@ export default async function Before2026EventsPage() {
 
   return (
     <main className="sub-shell">
-      <header className="sub-header">
-        <a className="sub-logo" href="/" aria-label="홈으로 이동">
-          <img className="sub-society-logo" src="/images/ksnve_logo_wide.png" alt="한국소음진동공학회" />
-          <img className="sub-division-logo" src="/images/division-logo.png" alt="미래모빌리티 부문회" />
-        </a>
-        <a className="home-button" href="/">Home</a>
-      </header>
+      <SubHeader />
 
       <section className="board-hero events-hero">
         <p>BEFORE 2026 ARCHIVE</p>
         <div className="hero-title-row">
           <h1>2026 이전 활동</h1>
-          <a className="hero-archive-link" href="/events">학술대회 목록</a>
+          <Link className="hero-archive-link" href="/events">학술대회 목록</Link>
         </div>
         <span>미래모빌리티 부문회 설립 전 학술대회 참여 기록입니다.</span>
       </section>

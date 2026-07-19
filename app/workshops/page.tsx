@@ -1,4 +1,5 @@
 import HomeHeroCarousel from "@/components/HomeHeroCarousel";
+import SubHeader from "@/components/SubHeader";
 import { getWorkshopActivitiesWithImages, WorkshopActivityWithImages } from "@/lib/events";
 
 export const metadata = {
@@ -56,13 +57,7 @@ export default async function WorkshopsPage() {
 
   return (
     <main className="sub-shell">
-      <header className="sub-header">
-        <a className="sub-logo" href="/" aria-label="홈으로 이동">
-          <img className="sub-society-logo" src="/images/ksnve_logo_wide.png" alt="한국소음진동공학회" />
-          <img className="sub-division-logo" src="/images/division-logo.png" alt="미래모빌리티 부문회" />
-        </a>
-        <a className="home-button" href="/">Home</a>
-      </header>
+      <SubHeader />
 
       <section className="board-hero workshops-hero">
         <p>WORKSHOP & MEETING</p>

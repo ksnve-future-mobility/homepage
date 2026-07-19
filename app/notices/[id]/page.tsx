@@ -1,5 +1,7 @@
 import { getNotice, getNotices } from "@/lib/notices";
 import { notFound } from "next/navigation";
+import Link from "next/link";
+import SubHeader from "@/components/SubHeader";
 
 type NoticeDetailPageProps = {
   params: Promise<{ id: string }>;
@@ -31,13 +33,7 @@ export default async function NoticeDetailPage({ params }: NoticeDetailPageProps
 
   return (
     <main className="sub-shell">
-      <header className="sub-header">
-        <a className="sub-logo" href="/" aria-label="홈으로 이동">
-          <img className="sub-society-logo" src="/images/ksnve_logo_wide.png" alt="한국소음진동공학회" />
-          <img className="sub-division-logo" src="/images/division-logo.png" alt="미래모빌리티 부문회" />
-        </a>
-        <a className="home-button" href="/">Home</a>
-      </header>
+      <SubHeader />
 
       <section className="board-hero compact">
         <p>NOTICE</p>
@@ -62,7 +58,7 @@ export default async function NoticeDetailPage({ params }: NoticeDetailPageProps
         </div>
 
         <footer>
-          <a href="/notices">목록</a>
+          <Link href="/notices">목록</Link>
         </footer>
       </article>
     </main>
