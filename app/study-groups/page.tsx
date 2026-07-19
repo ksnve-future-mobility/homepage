@@ -2,14 +2,14 @@ import Image from "next/image";
 import SubHeader from "@/components/SubHeader";
 
 const studyGroups = [
-  {
-    title: "(검토 중) 멀미 연구회 (2026.08 ~ 2027.12)",
-    topic: "전기차, 자율주행차 탑승객의 멀미 완화 기술 연구",
-    secretary: "미정",
-    affiliation: "",
-    members: "",
-    imageUrl: "/images/motion-sickness-study-group.png",
-  },
+  // {
+  //   title: "(검토 중) 멀미 연구회 (2026.08 ~ 2027.12)",
+  //   topic: "전기차, 자율주행차 탑승객의 멀미 완화 기술 연구",
+  //   secretary: "미정",
+  //   affiliation: "",
+  //   members: "",
+  //   imageUrl: "/images/motion-sickness-study-group.png",
+  // },
   {
     title: "(검토 중) 버추얼개발 연구회 (2026.08~)",
     topic: "시뮬레이션과 AI기반 버추얼 개발 기술 연구",
