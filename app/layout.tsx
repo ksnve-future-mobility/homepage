@@ -8,13 +8,13 @@ export const metadata: Metadata = {
   icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
   openGraph: {
     title: "미래모빌리티 부문위원회",
-    description: "Connecting Technology, People and Mobility",
+    description: "Technology+People+Mobility",
     images: [{ url: "/images/FutureMobility_Picture_wihtext.png", width: 1683, height: 935 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "미래모빌리티 부문위원회",
-    description: "Connecting Technology, People and Mobility",
+    description: "Technology+People+Mobility",
     images: ["/images/FutureMobility_Picture_wihtext.png"],
   },
 };
