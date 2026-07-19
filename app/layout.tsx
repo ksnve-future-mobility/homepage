@@ -9,13 +9,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: "미래모빌리티 부문위원회",
     description: "Connecting Technology, People and Mobility",
-    images: [{ url: "/images/FutureMobility_Picture.png", width: 1732, height: 910 }],
+    images: [{ url: "/images/FutureMobility_Picture_wihtext.png", width: 1683, height: 935 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "미래모빌리티 부문위원회",
-    description: "이동의 미래를 더 조용하고, 더 편안하게.",
-    images: ["/og.png"],
+    description: "Connecting Technology, People and Mobility",
+    images: ["/images/FutureMobility_Picture_wihtext.png"],
   },
 };
 
