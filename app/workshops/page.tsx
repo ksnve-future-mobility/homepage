@@ -67,7 +67,7 @@ export default async function WorkshopsPage() {
       <section className="board-hero workshops-hero">
         <p>WORKSHOP & MEETING</p>
         <h1>워크숍 및 친선교류/간담회</h1>
-        <span>미래모빌리티 부문회의 교류, 네트워킹, 운영 논의 활동을 전합니다.</span>
+        <span>미래모빌리티 부문회의 교류, 친선모임, 운영논의 활동을 전합니다.</span>
       </section>
 
       <section className="workshop-section" aria-label="워크숍 및 간담회 목록">
