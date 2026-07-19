@@ -12,6 +12,7 @@ export type AcademicEvent = {
   linkText: string;
   linkUrl: string;
   imageUrl: string;
+  before2026: boolean;
 };
 
 export type EventDetailBlock = {
@@ -96,6 +97,7 @@ const fallbackAcademicEvents: AcademicEvent[] = [
     linkText: "",
     linkUrl: "",
     imageUrl: "",
+    before2026: false,
   },
   {
     slug: "2026-춘계-소음진동-학술대회",
@@ -111,6 +113,7 @@ const fallbackAcademicEvents: AcademicEvent[] = [
     linkText: "",
     linkUrl: "",
     imageUrl: "",
+    before2026: false,
   },
 ];
 
@@ -325,6 +328,7 @@ function parseAcademicEventsCsv(csv: string): AcademicEvent[] {
       const linkText = getCell(row, headers, ["linktext", "linklabel", "buttontext", "링크텍스트", "버튼명", "링크명"], 8 + offset);
       const linkUrl = getCell(row, headers, ["linkurl", "url", "link", "href", "링크", "주소", "링크주소"], 9 + offset);
       const imageUrl = getCell(row, headers, ["imageurl", "image", "photo", "picture", "이미지", "사진", "이미지주소", "사진주소"], 10 + offset);
+      const before2026Cell = getCell(row, headers, ["before2026", "before", "pre2026", "archivebefore2026", "이전활동", "2026이전"], 15 + offset);
 
       return {
         slug: createEventSlug(year || String(new Date().getFullYear() - index), title),
@@ -340,6 +344,7 @@ function parseAcademicEventsCsv(csv: string): AcademicEvent[] {
         linkText,
         linkUrl,
         imageUrl,
+        before2026: isTrue(before2026Cell),
         visible,
       };
     })
@@ -498,6 +503,16 @@ export async function getAcademicEvents() {
   } catch {
     return sortAcademicEvents(fallbackAcademicEvents);
   }
+}
+
+export async function getCurrentAcademicEvents() {
+  const events = await getAcademicEvents();
+  return events.filter((event) => !event.before2026);
+}
+
+export async function getBefore2026AcademicEvents() {
+  const events = await getAcademicEvents();
+  return events.filter((event) => event.before2026);
 }
 
 export async function getEventDetails() {

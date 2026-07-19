@@ -1,4 +1,4 @@
-import { AcademicEvent, getAcademicEventBadge, getAcademicEvents } from "@/lib/events";
+import { AcademicEvent, getAcademicEventBadge, getCurrentAcademicEvents } from "@/lib/events";
 
 export const metadata = {
   title: "소음진동 학술대회 | 미래모빌리티 부문회",
@@ -41,7 +41,7 @@ function EventArchive({
 }
 
 export default async function EventsPage() {
-  const academicEvents = await getAcademicEvents();
+  const academicEvents = await getCurrentAcademicEvents();
 
   return (
     <main className="sub-shell">
@@ -55,7 +55,10 @@ export default async function EventsPage() {
 
       <section className="board-hero events-hero">
         <p>ANNUAL KSNVE CONFERENCE AND INTERNATIONAL CONFERENCE</p>
-        <h1>학술대회</h1>
+        <div className="hero-title-row">
+          <h1>학술대회</h1>
+          <a className="hero-archive-link" href="/events/before-2026">2026 이전 활동</a>
+        </div>
         <span>한국소음진동공학회 학술대회와 국제 학술대회 참여 현황입니다.</span>
       </section>
 
