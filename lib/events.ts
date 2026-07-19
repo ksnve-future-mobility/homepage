@@ -328,10 +328,11 @@ function parseAcademicEventsCsv(csv: string): AcademicEvent[] {
       const linkText = getCell(row, headers, ["linktext", "linklabel", "buttontext", "링크텍스트", "버튼명", "링크명"], 8 + offset);
       const linkUrl = getCell(row, headers, ["linkurl", "url", "link", "href", "링크", "주소", "링크주소"], 9 + offset);
       const imageUrl = getCell(row, headers, ["imageurl", "image", "photo", "picture", "이미지", "사진", "이미지주소", "사진주소"], 10 + offset);
+      const explicitSlug = getCell(row, headers, ["eventslug", "slug", "id", "행사slug", "행사id"], 11 + offset);
       const before2026Cell = getCell(row, headers, ["before2026", "before", "pre2026", "archivebefore2026", "이전활동", "2026이전"], 15 + offset);
 
       return {
-        slug: createEventSlug(year || String(new Date().getFullYear() - index), title),
+        slug: normalizeSlug(explicitSlug) || createEventSlug(year || String(new Date().getFullYear() - index), title),
         category,
         year: year || String(new Date().getFullYear() - index),
         title,
