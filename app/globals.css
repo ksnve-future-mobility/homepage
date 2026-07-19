@@ -1030,7 +1030,7 @@ a {
   align-items: start;
   gap: 24px;
   border-bottom: 1px solid #dfe4e7;
-  padding: 28px 0;
+  padding: 16px 0;
 }
 
 .notice-detail>header>span {
@@ -1046,7 +1046,7 @@ a {
 .notice-detail h2 {
   margin: 0;
   font-size: 17px;
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1.45;
   letter-spacing: -.035em;
 }
@@ -1077,16 +1077,15 @@ a {
 }
 
 .notice-body {
-  min-height: 240px;
-  padding: 42px 0;
+  padding: 22px 0;
   border-bottom: 1px solid #dfe4e7;
   color: #202d34;
   font-size: 17px;
-  line-height: 1.85;
+  line-height: 1.5;
 }
 
 .notice-body p {
-  margin: 0 0 18px;
+  margin: 0 0 14px;
 }
 
 .notice-image {
@@ -2101,11 +2100,11 @@ a {
     grid-template-columns: 1fr;
     align-items: start;
     gap: 12px;
-    padding: 22px 0;
+    padding: 14px 0;
   }
   .notice-detail h2 {
     font-size: 17px;
-    font-weight: 500;
+    font-weight: 700;
   }
   .notice-detail dl {
     justify-content: flex-start;
