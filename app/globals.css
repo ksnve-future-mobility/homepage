@@ -1020,6 +1020,21 @@ a {
   text-align: left;
 }
 
+.notice-board-section .board-head,
+.notice-board-section .board-number,
+.notice-board-section .board-row strong,
+.notice-board-section .board-row time {
+  font-size: 15px;
+}
+
+.notice-board-section .board-row {
+  min-height: 50px;
+}
+
+.notice-board-section .board-head {
+  min-height: 40px;
+}
+
 .notice-detail {
   padding: 0 0 80px;
 }
@@ -1080,7 +1095,7 @@ a {
   padding: 22px 0;
   border-bottom: 1px solid #dfe4e7;
   color: #202d34;
-  font-size: 17px;
+  font-size: 15px;
   line-height: 1.5;
 }
 
@@ -2498,11 +2513,12 @@ a {
     grid-template-columns: 30px minmax(0,1fr) 72px;
     gap: 6px;
     padding: 0 4px;
+    min-height: 44px;
   }
   .notice-board-section .board-head {
     font-size: 15px;
     font-weight: 400;
-    min-height: 46px;
+    min-height: 38px;
   }
   .notice-board-section .board-number {
     font-size: 15px;
