@@ -57,7 +57,7 @@ export default async function EventsPage() {
         <p>ANNUAL KSNVE CONFERENCE AND INTERNATIONAL CONFERENCE</p>
         <div className="hero-title-row">
           <h1>학술대회</h1>
-          <a className="hero-archive-link" href="/events/before-2026">2026 이전 활동</a>
+          <a className="hero-archive-link" href="/events/before-2026">Before 2026</a>
         </div>
         <span>한국소음진동공학회 학술대회와 국제 학술대회 참여 현황입니다.</span>
       </section>

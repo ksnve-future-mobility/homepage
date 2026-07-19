@@ -140,7 +140,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
               </a>
             ) : null}
           </div>
-          <a className="event-back-link" href="/events">목록으로</a>
+          <a className="event-back-link" href={event.before2026 ? "/events/before-2026" : "/events"}>목록으로</a>
         </div>
       </section>
     </main>
