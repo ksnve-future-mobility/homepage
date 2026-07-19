@@ -1,6 +1,6 @@
 const studyGroups = [
   {
-    title: "(예정) 멀미 연구회 (2026.07 ~ 2027.12)",
+    title: "(검토 중) 멀미 연구회 (2026.08 ~ 2027.12)",
     topic: "전기차, 자율주행차 탑승객의 멀미 완화 기술 연구",
     secretary: "미정",
     affiliation: "",
@@ -8,7 +8,7 @@ const studyGroups = [
     imageUrl: "/images/motion-sickness-study-group.png",
   },
   {
-    title: "(예정) 버추얼개발 연구회 (2026.07~)",
+    title: "(검토 중) 버추얼개발 연구회 (2026.08~)",
     topic: "시뮬레이션과 AI기반 버추얼 개발 기술 연구",
     secretary: "미정",
     affiliation: "",
@@ -16,7 +16,7 @@ const studyGroups = [
     imageUrl: "/images/virtual-development-study-group.png",
   },
   {
-    title: "(예정) 차량 오디오 연구회 (2026.07~)",
+    title: "(검토 중) 차량 오디오 연구회 (2026.08~)",
     topic: "차량 오디오 시스템의 설계, 튜닝 및 음향 기술을 연구",
     secretary: "미정",
     affiliation: "",
