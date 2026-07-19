@@ -3,7 +3,7 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://homepage-amber-tau-48.vercel.app"),
+  metadataBase: new URL("https://ksnve-mobility.vercel.app"),
   title: "미래모빌리티 부문위원회 | 한국소음진동공학회",
   description: "한국소음진동공학회 미래모빌리티 부문위원회입니다.",
   icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
