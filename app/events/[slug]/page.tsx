@@ -58,44 +58,54 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
           <span className={`event-badge event-badge-${eventBadge.toLowerCase()}`}>{eventBadge}</span>
         </aside>
         <div className="event-detail-card">
-          <h2>행사 개요</h2>
-          <dl>
-            <div><dt>기간</dt><dd>{event.period || "추후 안내"}</dd></div>
-            <div><dt>장소</dt><dd>{event.venue || "추후 안내"}</dd></div>
-            <div><dt>참여현황</dt><dd>{event.session || "추후 안내"}</dd></div>
-          </dl>
-          <div className="event-detail-note">
-            {details.length > 0 ? (
-              <div className="event-detail-body">
-                {details.map((detail) => (
-                  <section className={`event-detail-copy event-detail-copy-${detail.type || "paragraph"}`} key={`${detail.type}-${detail.order}-${detail.title}`}>
-                    {detail.title ? <h4>{detail.title}</h4> : null}
-                    <p>{detail.content}</p>
+          <div className="event-detail-top">
+            <div className="event-detail-info">
+              <h2>행사 개요</h2>
+              <dl>
+                <div><dt>기간</dt><dd>{event.period || "추후 안내"}</dd></div>
+                <div><dt>장소</dt><dd>{event.venue || "추후 안내"}</dd></div>
+                <div><dt>참여현황</dt><dd>{event.session || "추후 안내"}</dd></div>
+              </dl>
+              <div className="event-detail-note">
+                {details.length > 0 ? (
+                  <div className="event-detail-body">
+                    {details.map((detail) => (
+                      <section className={`event-detail-copy event-detail-copy-${detail.type || "paragraph"}`} key={`${detail.type}-${detail.order}-${detail.title}`}>
+                        {detail.title ? <h4>{detail.title}</h4> : null}
+                        <p>{detail.content}</p>
+                      </section>
+                    ))}
+                  </div>
+                ) : detailParagraphs.length > 0 ? (
+                  <div className="event-detail-body">
+                    {detailParagraphs.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
+                  </div>
+                ) : (
+                  <p>세부 프로그램 준비 중입니다.</p>
+                )}
+              </div>
+            </div>
+            {event.imageUrl || images.length > 0 ? (
+              <div className="event-detail-media">
+                {event.imageUrl ? (
+                  <img className="event-detail-image" src={event.imageUrl} alt={`${event.title} 관련 이미지`} />
+                ) : null}
+                {images.length > 0 ? (
+                  <section className="event-gallery-section" aria-label="행사 사진">
+                    <HomeHeroCarousel
+                      slides={images.map((image) => ({
+                        src: image.imageUrl,
+                        alt: image.caption || `${event.title} 사진`,
+                      }))}
+                    />
                   </section>
-                ))}
+                ) : null}
               </div>
-            ) : detailParagraphs.length > 0 ? (
-              <div className="event-detail-body">
-                {detailParagraphs.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
-                ))}
-              </div>
-            ) : (
-              <p>세부 프로그램 준비 중입니다.</p>
-            )}
-            {event.imageUrl ? (
-              <img className="event-detail-image" src={event.imageUrl} alt={`${event.title} 관련 이미지`} />
             ) : null}
-            {images.length > 0 ? (
-              <section className="event-gallery-section" aria-label="행사 사진">
-                <HomeHeroCarousel
-                  slides={images.map((image) => ({
-                    src: image.imageUrl,
-                    alt: image.caption || `${event.title} 사진`,
-                  }))}
-                />
-              </section>
-            ) : null}
+          </div>
+          <div className="event-detail-extra">
             {programs.length > 0 ? (
               <section className="event-program-section" aria-label="세부 프로그램">
                 <h3>세부 프로그램</h3>
