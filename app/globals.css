@@ -1185,7 +1185,7 @@ a {
   display: grid;
   grid-template-columns: 1fr 1.2fr 1.8fr;
   align-items: center;
-  min-height: 58px;
+  min-height: 44px;
 }
 
 .committee-row:nth-child(odd) {
@@ -1197,7 +1197,7 @@ a {
 }
 
 .committee-head {
-  min-height: 52px;
+  min-height: 40px;
   background: #f3f4f5;
   font-size: 15px;
   font-weight: 800;
@@ -2214,7 +2214,7 @@ a {
     grid-template-columns: 24% 22% 54%;
     width: 100%;
     min-width: 0;
-    min-height: 54px;
+    min-height: 44px;
   }
   .committee-row span,.committee-row strong {
     min-width: 0;
@@ -2276,7 +2276,7 @@ a {
   }
   .committee-row {
     grid-template-columns: 22% 23% 55%;
-    min-height: 52px;
+    min-height: 44px;
   }
   .committee-row span,.committee-row strong {
     padding: 0 4px;

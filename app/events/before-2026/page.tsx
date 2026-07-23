@@ -53,7 +53,7 @@ export default async function Before2026EventsPage() {
           <h1>2026 이전 활동</h1>
           <Link className="hero-archive-link" href="/events">학술대회 목록</Link>
         </div>
-        <span>미래모빌리티 부문회 설립 전 학술대회 참여 기록입니다.</span>
+        <span>미래모빌리티 부문회 설립 전 학술대회 참여 현황입니다.</span>
       </section>
 
       <EventArchive events={academicEvents} />
