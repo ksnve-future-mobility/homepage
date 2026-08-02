@@ -17,7 +17,7 @@ const studyGroups = [
     topic: "능동소음제어 기술연구 및 성능 평가방법 국제표준개발 연구",
     secretary: "미정",
     affiliation: "",
-    members: "",
+    members: "정정호, 김성현",
     imageUrl: "/images/ANC-study-group.png",
     imageWidth: 1672,
     imageHeight: 941,
