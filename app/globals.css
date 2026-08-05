@@ -1824,7 +1824,7 @@ a {
 
 .event-detail-top {
   display: grid;
-  grid-template-columns: minmax(0,1fr) 480px;
+  grid-template-columns: minmax(0,1fr) 600px;
   gap: 40px;
   align-items: start;
 }
