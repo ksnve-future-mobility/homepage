@@ -1103,6 +1103,16 @@ a {
   margin: 0 0 14px;
 }
 
+.notice-body a {
+  color: var(--blue);
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+.notice-body a:hover {
+  text-decoration: none;
+}
+
 .notice-image {
   display: block;
   width: 100%;

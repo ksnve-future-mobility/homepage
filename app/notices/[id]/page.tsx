@@ -7,6 +7,27 @@ type NoticeDetailPageProps = {
   params: Promise<{ id: string }>;
 };
 
+const urlPattern = /(https?:\/\/[^\s]+)/g;
+
+function linkifyParagraph(text: string, keyPrefix: string) {
+  return text.split(urlPattern).map((segment, index) => {
+    if (!/^https?:\/\//.test(segment)) {
+      return segment || null;
+    }
+
+    const trailingMatch = segment.match(/[).,!?;:'"]+$/);
+    const trailing = trailingMatch ? trailingMatch[0] : "";
+    const href = trailing ? segment.slice(0, segment.length - trailing.length) : segment;
+
+    return (
+      <span key={`${keyPrefix}-${index}`}>
+        <a href={href} target="_blank" rel="noreferrer">{href}</a>
+        {trailing}
+      </span>
+    );
+  });
+}
+
 export async function generateMetadata({ params }: NoticeDetailPageProps) {
   const { id } = await params;
   const notice = await getNotice(id);
@@ -50,7 +71,7 @@ export default async function NoticeDetailPage({ params }: NoticeDetailPageProps
 
         <div className="notice-body">
           {body.split(/\n+/).map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
+            <p key={paragraph}>{linkifyParagraph(paragraph, paragraph)}</p>
           ))}
           {notice.imageUrl ? (
             <img className="notice-image" src={notice.imageUrl} alt={`${notice.title} 관련 이미지`} />
