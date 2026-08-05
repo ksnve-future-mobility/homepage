@@ -7,7 +7,6 @@ const studyGroups = [
   //   period: "2026.08 ~ 2027.12",
   //   topic: "전기차, 자율주행차 탑승객의 멀미 완화 기술 연구",
   //   secretary: "미정",
-  //   affiliation: "",
   //   members: "",
   //   imageUrl: "/images/motion-sickness-study-group.png",
   // },
@@ -16,7 +15,6 @@ const studyGroups = [
     period: "2026.07 ~ ",
     topic: "능동소음제어 기술연구 및 성능 평가방법 국제표준개발 연구",
     secretary: "미정",
-    affiliation: "",
     members: "이효진, 정정호, 김성현",
     imageUrl: "/images/ANC-study-group.png",
     imageWidth: 1672,
@@ -25,20 +23,18 @@ const studyGroups = [
   },
   {
     title: "(검토 중) 버추얼개발 연구회",
-    period: "2026.08 ~",
+    period: "2026.09 ~",
     topic: "시뮬레이션과 AI기반 버추얼 개발 기술 연구",
     secretary: "미정",
-    affiliation: "",
     members: "",
     imageUrl: "/images/virtual-development-study-group.png",
     activity: "",
   },
   {
     title: "(검토 중) 차량 오디오 연구회",
-    period: "2026.08~",
+    period: "2026.09~",
     topic: "차량 오디오 시스템의 설계, 튜닝 및 음향 기술을 연구",
     secretary: "미정",
-    affiliation: "",
     members: "",
     imageUrl: "/images/vehicle-audio-study-group.png",
     activity: "",
@@ -130,10 +126,7 @@ export default function StudyGroupsPage() {
                       </div>
                       <div>
                         <dt>간사</dt>
-                        <dd>
-                          {group.secretary}
-                          <small>{group.affiliation}</small>
-                        </dd>
+                        <dd>{group.secretary}</dd>
                       </div>
                       {group.members ? (
                         <div>

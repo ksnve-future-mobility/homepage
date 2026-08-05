@@ -1357,15 +1357,6 @@ a {
   margin: 0;
 }
 
-.study-card small {
-  display: inline-block;
-  margin-left: 8px;
-  color: #718089;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: -.02em;
-}
-
 .workshops-hero {
   border-bottom: 0;
 }
@@ -2646,11 +2637,6 @@ a {
     grid-template-columns: 58px 1fr;
     gap: 12px;
     font-size: 15px;
-  }
-  .study-card small {
-    display: block;
-    margin: 2px 0 0;
-    font-size: 13px;
   }
   .study-card-activity {
     margin-top: 20px;
