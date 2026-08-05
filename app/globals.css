@@ -2630,6 +2630,11 @@ a {
     overflow: hidden;
     text-overflow: clip;
   }
+  .notice-board-section .board-row strong .notice-title-text {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
 }
 
 /* Home header alignment lock */
