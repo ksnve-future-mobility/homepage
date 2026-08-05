@@ -2076,7 +2076,7 @@ a {
 
 .event-gallery-section .hero-carousel {
   min-height: 0;
-  aspect-ratio: 16/9;
+  aspect-ratio: 3/2;
   border-radius: 0;
   background: #f3f6f8;
 }
@@ -2525,7 +2525,7 @@ a {
 
 @media (max-width:760px) {
   .event-gallery-section .hero-carousel {
-    aspect-ratio: 16/9;
+    aspect-ratio: 3/2;
     min-height: 0;
   }
   .event-gallery-section .hero-carousel .hero-slides img {
