@@ -21,6 +21,7 @@ const studyGroups = [
     imageUrl: "/images/ANC-study-group.png",
     imageWidth: 1672,
     imageHeight: 941,
+    activity: "- 2026년 국가표준기술력향상사업 참여: (과제명) 차세대 미래모빌리티 능동소음 제어 성능 측정방법 국제표준 개발",
   },
   {
     title: "(검토 중) 버추얼개발 연구회",
@@ -30,6 +31,7 @@ const studyGroups = [
     affiliation: "",
     members: "",
     imageUrl: "/images/virtual-development-study-group.png",
+    activity: "",
   },
   {
     title: "(검토 중) 차량 오디오 연구회",
@@ -39,6 +41,7 @@ const studyGroups = [
     affiliation: "",
     members: "",
     imageUrl: "/images/vehicle-audio-study-group.png",
+    activity: "",
   },
 ];
 
@@ -93,46 +96,61 @@ export default function StudyGroupsPage() {
           {studyGroups.map((group) => {
             const status = getStudyGroupStatus(group.period);
 
+            const activityParagraphs = (group.activity || "")
+              .split(/\n+/)
+              .map((paragraph) => paragraph.trim())
+              .filter(Boolean);
+
             return (
               <article className="study-card" key={group.title}>
-                {group.imageUrl ? (
-                  <div className="study-card-image">
-                    <Image
-                      src={group.imageUrl}
-                      alt={`${group.title} 소개 이미지`}
-                      width={group.imageWidth || 1536}
-                      height={group.imageHeight || 1024}
-                    />
-                  </div>
-                ) : null}
-                <div className="study-card-main">
-                  <div className="study-card-heading">
-                    <h2>{group.title}</h2>
-                    <span className={`study-badge ${statusBadgeClass[status]}`}>{status}</span>
-                  </div>
-                  <dl>
-                    <div>
-                      <dt>연구주제</dt>
-                      <dd>{group.topic}</dd>
+                <div className="study-card-top">
+                  {group.imageUrl ? (
+                    <div className="study-card-image">
+                      <Image
+                        src={group.imageUrl}
+                        alt={`${group.title} 소개 이미지`}
+                        width={group.imageWidth || 1536}
+                        height={group.imageHeight || 1024}
+                      />
                     </div>
-                    <div>
-                      <dt>운영기간</dt>
-                      <dd>{group.period}</dd>
+                  ) : null}
+                  <div className="study-card-main">
+                    <div className="study-card-heading">
+                      <h2>{group.title}</h2>
+                      <span className={`study-badge ${statusBadgeClass[status]}`}>{status}</span>
                     </div>
-                    <div>
-                      <dt>간사</dt>
-                      <dd>
-                        {group.secretary}
-                        <small>{group.affiliation}</small>
-                      </dd>
-                    </div>
-                    {group.members ? (
+                    <dl>
                       <div>
-                        <dt>회원</dt>
-                        <dd>{group.members}</dd>
+                        <dt>연구주제</dt>
+                        <dd>{group.topic}</dd>
                       </div>
-                    ) : null}
-                  </dl>
+                      <div>
+                        <dt>운영기간</dt>
+                        <dd>{group.period}</dd>
+                      </div>
+                      <div>
+                        <dt>간사</dt>
+                        <dd>
+                          {group.secretary}
+                          <small>{group.affiliation}</small>
+                        </dd>
+                      </div>
+                      {group.members ? (
+                        <div>
+                          <dt>회원</dt>
+                          <dd>{group.members}</dd>
+                        </div>
+                      ) : null}
+                    </dl>
+                  </div>
+                </div>
+                <div className="study-card-activity">
+                  <h3>활동내용</h3>
+                  {activityParagraphs.length > 0 ? (
+                    activityParagraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)
+                  ) : (
+                    <p>활동 내용을 준비 중입니다.</p>
+                  )}
                 </div>
               </article>
             );
