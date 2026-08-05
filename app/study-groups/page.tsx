@@ -26,7 +26,7 @@ const studyGroups = [
     period: "2026.09 ~",
     topic: "시뮬레이션과 AI기반 버추얼 개발 기술 연구",
     secretary: "미정",
-    members: "",
+    members: "모집 중",
     imageUrl: "/images/virtual-development-study-group.png",
     activity: "",
   },
@@ -35,7 +35,7 @@ const studyGroups = [
     period: "2026.09~",
     topic: "차량 오디오 시스템의 설계, 튜닝 및 음향 기술을 연구",
     secretary: "미정",
-    members: "",
+    members: "모집 중",
     imageUrl: "/images/vehicle-audio-study-group.png",
     activity: "",
   },
@@ -142,7 +142,7 @@ export default function StudyGroupsPage() {
                   {activityParagraphs.length > 0 ? (
                     activityParagraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)
                   ) : (
-                    <p>활동 내용을 준비 중입니다.</p>
+                    <p>준비 중입니다.</p>
                   )}
                 </div>
               </article>
