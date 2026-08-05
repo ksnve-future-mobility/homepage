@@ -131,6 +131,19 @@ function sortByNewest(notices: Notice[]) {
   return [...notices].sort((a, b) => getDateValue(b.date) - getDateValue(a.date));
 }
 
+export function isRecentNotice(date: string, days = 7) {
+  const noticeTime = getDateValue(date);
+  if (!Number.isFinite(noticeTime)) {
+    return false;
+  }
+
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  const diffDays = (today - noticeTime) / (1000 * 60 * 60 * 24);
+
+  return diffDays >= 0 && diffDays < days;
+}
+
 export async function getNotices(limit?: number) {
   const csvUrl = process.env.NOTICES_CSV_URL || defaultNoticesCsvUrl;
 

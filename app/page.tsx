@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getNotices } from "@/lib/notices";
+import { getNotices, isRecentNotice } from "@/lib/notices";
 import HomeHeroCarousel from "@/components/HomeHeroCarousel";
 
 const menus = [
@@ -55,7 +55,10 @@ export default async function Home() {
             <ul>
               {notices.map((notice) => (
                 <li key={notice.id}>
-                  <Link href={`/notices/${notice.id}`}>{notice.title}</Link>
+                  <Link href={`/notices/${notice.id}`}>
+                    <span className="notice-title-text">{notice.title}</span>
+                    {isRecentNotice(notice.date) ? <span className="notice-new-badge">NEW</span> : null}
+                  </Link>
                   <time>{notice.date}</time>
                 </li>
               ))}

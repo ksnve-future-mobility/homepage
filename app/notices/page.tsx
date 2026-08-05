@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getNotices } from "@/lib/notices";
+import { getNotices, isRecentNotice } from "@/lib/notices";
 import SubHeader from "@/components/SubHeader";
 
 export const metadata = {
@@ -33,7 +33,10 @@ export default async function NoticesPage() {
           {notices.map((notice, index) => (
             <Link className="board-row" href={`/notices/${notice.id}`} key={notice.id}>
               <span className="board-number">{notices.length - index}</span>
-              <strong>{notice.title}</strong>
+              <strong>
+                <span className="notice-title-text">{notice.title}</span>
+                {isRecentNotice(notice.date) ? <span className="notice-new-badge">NEW</span> : null}
+              </strong>
               <time>{notice.date}</time>
             </Link>
           ))}
