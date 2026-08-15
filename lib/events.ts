@@ -227,17 +227,17 @@ function normalizeCategory(value: string): AcademicEvent["category"] {
   return "domestic";
 }
 
-function getEventTimestamps(event: AcademicEvent) {
-  const year = Number(event.year.replace(/\D/g, ""));
+function parseTimestampsFromText(yearField: string, text: string) {
+  const year = Number(yearField.replace(/\D/g, ""));
   const fallbackYear = Number.isFinite(year) && year > 0 ? year : new Date().getFullYear();
   const timestamps: number[] = [];
 
-  for (const match of event.period.matchAll(/(\d{4})[.\-/년\s]+(\d{1,2})[.\-/월\s]+(\d{1,2})/g)) {
+  for (const match of text.matchAll(/(\d{4})[.\-/년\s]+(\d{1,2})[.\-/월\s]+(\d{1,2})/g)) {
     const [, dateYear, month, day] = match;
     timestamps.push(Date.UTC(Number(dateYear), Number(month) - 1, Number(day)));
   }
 
-  for (const match of event.period.matchAll(/(?:^|[\s~-])(\d{1,2})[.\-/월\s]+(\d{1,2})/g)) {
+  for (const match of text.matchAll(/(?:^|[\s~-])(\d{1,2})[.\-/월\s]+(\d{1,2})/g)) {
     const [, month, day] = match;
     timestamps.push(Date.UTC(fallbackYear, Number(month) - 1, Number(day)));
   }
@@ -245,8 +245,16 @@ function getEventTimestamps(event: AcademicEvent) {
   return timestamps.length > 0 ? timestamps : [Date.UTC(fallbackYear, 0, 1)];
 }
 
+function getEventTimestamps(event: AcademicEvent) {
+  return parseTimestampsFromText(event.year, event.period);
+}
+
 function getEventDateTime(event: AcademicEvent) {
   return Math.max(...getEventTimestamps(event));
+}
+
+function getWorkshopDateTime(activity: WorkshopActivity) {
+  return Math.max(...parseTimestampsFromText(activity.year, activity.date));
 }
 
 function getEventStartDateTime(event: AcademicEvent) {
@@ -451,7 +459,7 @@ function parseWorkshopActivitiesCsv(csv: string): WorkshopActivity[] {
     })
     .filter((activity) => activity.title && activity.visible !== "false" && activity.visible !== "no" && activity.visible !== "비공개")
     .map(({ visible: _visible, ...activity }) => activity)
-    .sort((a, b) => a.order - b.order);
+    .sort((a, b) => getWorkshopDateTime(b) - getWorkshopDateTime(a) || a.order - b.order);
 }
 
 function parseWorkshopImagesCsv(csv: string): WorkshopImage[] {
