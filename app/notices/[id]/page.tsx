@@ -2,6 +2,7 @@ import { getNotice, getNotices } from "@/lib/notices";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import SubHeader from "@/components/SubHeader";
+import { toProxiedImageSrc } from "@/lib/imageProxy";
 
 type NoticeDetailPageProps = {
   params: Promise<{ id: string }>;
@@ -74,7 +75,7 @@ export default async function NoticeDetailPage({ params }: NoticeDetailPageProps
             <p key={paragraph}>{linkifyParagraph(paragraph, paragraph)}</p>
           ))}
           {notice.imageUrl ? (
-            <img className="notice-image" src={notice.imageUrl} alt={`${notice.title} 관련 이미지`} />
+            <img className="notice-image" src={toProxiedImageSrc(notice.imageUrl)} alt={`${notice.title} 관련 이미지`} />
           ) : null}
         </div>
 

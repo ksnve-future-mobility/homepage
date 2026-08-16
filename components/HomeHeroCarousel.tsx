@@ -57,6 +57,7 @@ export default function HomeHeroCarousel({ slides }: HomeHeroCarouselProps) {
             src={slide.src}
             alt={slide.alt || ""}
             key={slide.src}
+            referrerPolicy="no-referrer"
           />
         ))}
       </div>

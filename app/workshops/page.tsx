@@ -1,6 +1,7 @@
 import HomeHeroCarousel from "@/components/HomeHeroCarousel";
 import SubHeader from "@/components/SubHeader";
 import { getWorkshopActivitiesWithImages, WorkshopActivityWithImages } from "@/lib/events";
+import { toProxiedImageSrc } from "@/lib/imageProxy";
 
 export const metadata = {
   title: "워크숍 및 친선교류/간담회 | 미래모빌리티 부문회",
@@ -8,7 +9,7 @@ export const metadata = {
 
 function WorkshopActivityCard({ activity }: { activity: WorkshopActivityWithImages }) {
   const slides = activity.images.map((image) => ({
-    src: image.imageUrl,
+    src: toProxiedImageSrc(image.imageUrl),
     alt: image.alt || image.caption || `${activity.title} 사진`,
   }));
 

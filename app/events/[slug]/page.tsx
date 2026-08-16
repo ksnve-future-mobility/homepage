@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getAcademicEvent, getAcademicEventBadge, getAcademicEventDetail, getAcademicEvents } from "@/lib/events";
 import HomeHeroCarousel from "@/components/HomeHeroCarousel";
 import SubHeader from "@/components/SubHeader";
+import { toProxiedImageSrc } from "@/lib/imageProxy";
 
 type EventDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -90,13 +91,13 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
             {event.imageUrl || images.length > 0 ? (
               <div className="event-detail-media">
                 {event.imageUrl ? (
-                  <img className="event-detail-image" src={event.imageUrl} alt={`${event.title} 관련 이미지`} />
+                  <img className="event-detail-image" src={toProxiedImageSrc(event.imageUrl)} alt={`${event.title} 관련 이미지`} />
                 ) : null}
                 {images.length > 0 ? (
                   <section className="event-gallery-section" aria-label="행사 사진">
                     <HomeHeroCarousel
                       slides={images.map((image) => ({
-                        src: image.imageUrl,
+                        src: toProxiedImageSrc(image.imageUrl),
                         alt: image.caption || `${event.title} 사진`,
                       }))}
                     />
