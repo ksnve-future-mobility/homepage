@@ -70,7 +70,7 @@ export default async function Home() {
       <footer className="mini-footer">
         <p>
           © 2026 KSNVE FUTURE MOBILITY DIVISION
-          <a className="mini-footer-contact" href="mailto:shyeone.kim@gmail.com">Contact: shyeone.kim@gmail.com</a>
+          <a className="mini-footer-contact" href="mailto:seonghyeon.kim@outlook.com">Contact: Seonghyeon Kim | seonghyeon.kim@outlook.com</a>
         </p>
         <span>한국소음진동공학회 미래모빌리티 부문위원회</span>
       </footer>
