@@ -606,12 +606,23 @@ a {
   align-items: center;
   justify-content: space-between;
   color: #7f8b91;
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: .04em;
 }
 
 .mini-footer p {
   margin: 0;
+}
+
+.mini-footer-contact {
+  margin-left: 10px;
+  padding-left: 10px;
+  border-left: 1px solid var(--line);
+  color: #7f8b91;
+}
+
+.mini-footer-contact:hover {
+  color: var(--blue);
 }
 
 @media (max-width:1180px) {
@@ -847,6 +858,13 @@ a {
   }
   .mini-footer span {
     display: block;
+  }
+  .mini-footer-contact {
+    display: block;
+    margin-left: 0;
+    padding-left: 0;
+    border-left: 0;
+    margin-top: 4px;
   }
 }
 
