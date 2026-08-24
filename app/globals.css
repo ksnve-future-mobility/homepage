@@ -2015,6 +2015,7 @@ a {
   margin: 0;
   color: #64727a;
   line-height: 1.7;
+  white-space: pre-line;
 }
 
 .event-detail-body {
