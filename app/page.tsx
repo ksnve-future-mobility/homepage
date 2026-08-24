@@ -57,7 +57,6 @@ export default async function Home() {
               {notices.map((notice) => (
                 <li key={notice.id}>
                   <Link href={`/notices/${notice.id}`}>
-                    {notice.tag ? <span className="notice-tag-badge">{notice.tag}</span> : null}
                     <span className="notice-title-text">{notice.title}</span>
                     {isRecentNotice(notice.date) ? <span className="notice-new-badge">NEW</span> : null}
                   </Link>

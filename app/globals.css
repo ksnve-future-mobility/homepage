@@ -574,23 +574,6 @@ a {
   text-overflow: ellipsis;
 }
 
-.notice-tag-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  height: 20px;
-  margin-right: 8px;
-  padding: 0 9px;
-  border-radius: 99px;
-  background: #eaf2ff;
-  color: var(--blue);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: -.01em;
-  line-height: 1;
-}
-
 .notice-new-badge {
   display: inline-flex;
   align-items: center;

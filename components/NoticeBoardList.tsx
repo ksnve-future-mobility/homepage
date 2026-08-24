@@ -71,7 +71,6 @@ export default function NoticeBoardList({ notices }: NoticeBoardListProps) {
             <Link className="board-row" href={`/notices/${notice.id}`} key={notice.id}>
               <span className="board-number">{filteredNotices.length - index}</span>
               <strong>
-                {notice.tag ? <span className="notice-tag-badge">{notice.tag}</span> : null}
                 <span className="notice-title-text">{notice.title}</span>
                 {isRecentNotice(notice.date) ? <span className="notice-new-badge">NEW</span> : null}
               </strong>

@@ -90,10 +90,7 @@ export default async function NoticeDetailPage({ params }: NoticeDetailPageProps
 
       <article className="notice-detail">
         <header>
-          <h2>
-            {notice.tag ? <span className="notice-tag-badge">{notice.tag}</span> : null}
-            {notice.title}
-          </h2>
+          <h2>{notice.title}</h2>
           <dl>
             <div><dt>등록일</dt><dd>{notice.date}</dd></div>
           </dl>
