@@ -165,14 +165,15 @@ const fallbackWorkshopActivities: WorkshopActivity[] = [
   },
 ];
 
-function parseCsvLine(line: string) {
-  const values: string[] = [];
+function parseCsvRows(csv: string): string[][] {
+  const rows: string[][] = [];
+  let row: string[] = [];
   let current = "";
   let quoted = false;
 
-  for (let index = 0; index < line.length; index += 1) {
-    const char = line[index];
-    const next = line[index + 1];
+  for (let index = 0; index < csv.length; index += 1) {
+    const char = csv[index];
+    const next = csv[index + 1];
 
     if (char === '"' && quoted && next === '"') {
       current += '"';
@@ -186,7 +187,21 @@ function parseCsvLine(line: string) {
     }
 
     if (char === "," && !quoted) {
-      values.push(current.trim());
+      row.push(current.trim());
+      current = "";
+      continue;
+    }
+
+    if ((char === "\n" || char === "\r") && !quoted) {
+      if (char === "\r" && next === "\n") {
+        index += 1;
+      }
+
+      row.push(current.trim());
+      if (row.some(Boolean)) {
+        rows.push(row);
+      }
+      row = [];
       current = "";
       continue;
     }
@@ -194,8 +209,12 @@ function parseCsvLine(line: string) {
     current += char;
   }
 
-  values.push(current.trim());
-  return values;
+  row.push(current.trim());
+  if (row.some(Boolean)) {
+    rows.push(row);
+  }
+
+  return rows;
 }
 
 function normalizeHeader(value: string) {
@@ -307,10 +326,7 @@ function normalizeSlug(value: string) {
 }
 
 function parseAcademicEventsCsv(csv: string): AcademicEvent[] {
-  const rows = csv
-    .split(/\r?\n/)
-    .map((line) => parseCsvLine(line))
-    .filter((row) => row.some(Boolean));
+  const rows = parseCsvRows(csv);
 
   const [rawHeaders = [], ...items] = rows;
   const headers = rawHeaders.map(normalizeHeader);
@@ -362,10 +378,7 @@ function parseAcademicEventsCsv(csv: string): AcademicEvent[] {
 }
 
 function getCsvRows(csv: string) {
-  const rows = csv
-    .split(/\r?\n/)
-    .map((line) => parseCsvLine(line))
-    .filter((row) => row.some(Boolean));
+  const rows = parseCsvRows(csv);
   const [rawHeaders = [], ...items] = rows;
   return { headers: rawHeaders.map(normalizeHeader), items };
 }

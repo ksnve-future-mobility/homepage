@@ -1537,6 +1537,7 @@ a {
 
 .workshop-card dd {
   margin: 0;
+  white-space: pre-line;
 }
 
 .workshop-card-visual {
