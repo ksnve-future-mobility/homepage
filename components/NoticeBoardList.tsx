@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import type { Notice } from "@/lib/notices";
 import { isRecentNotice } from "@/lib/notices";
@@ -11,41 +11,14 @@ type NoticeBoardListProps = {
 
 export default function NoticeBoardList({ notices }: NoticeBoardListProps) {
   const [query, setQuery] = useState("");
-  const [activeTag, setActiveTag] = useState<string | null>(null);
-
-  const tags = useMemo(() => {
-    const unique = new Set(notices.map((notice) => notice.tag).filter(Boolean));
-    return Array.from(unique);
-  }, [notices]);
 
   const filteredNotices = notices.filter((notice) => {
-    const matchesTag = !activeTag || notice.tag === activeTag;
-    const matchesQuery = !query.trim() || notice.title.toLowerCase().includes(query.trim().toLowerCase());
-    return matchesTag && matchesQuery;
+    return !query.trim() || notice.title.toLowerCase().includes(query.trim().toLowerCase());
   });
 
   return (
     <>
       <div className="board-filter">
-        <div className="board-filter-tags">
-          <button
-            type="button"
-            className={activeTag === null ? "active" : ""}
-            onClick={() => setActiveTag(null)}
-          >
-            전체
-          </button>
-          {tags.map((tag) => (
-            <button
-              type="button"
-              key={tag}
-              className={activeTag === tag ? "active" : ""}
-              onClick={() => setActiveTag(tag)}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
         <input
           type="search"
           className="board-filter-search"

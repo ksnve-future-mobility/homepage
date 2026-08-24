@@ -958,41 +958,10 @@ a {
 .board-filter {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 16px;
   flex-wrap: wrap;
   margin-bottom: 8px;
-}
-
-.board-filter-tags {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.board-filter-tags button {
-  appearance: none;
-  border: 1px solid var(--line);
-  border-radius: 99px;
-  background: white;
-  color: #66747b;
-  padding: 7px 16px;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background .2s, color .2s, border-color .2s;
-}
-
-.board-filter-tags button:hover {
-  border-color: var(--blue);
-  color: var(--blue);
-}
-
-.board-filter-tags button.active {
-  background: var(--blue);
-  border-color: var(--blue);
-  color: white;
 }
 
 .board-filter-search {
