@@ -6,7 +6,11 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://ksnve-mobility.vercel.app"),
   title: "미래모빌리티 부문위원회 | 한국소음진동공학회",
   description: "한국소음진동공학회 미래모빌리티 부문위원회입니다.",
-  icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
+  icons: {
+    icon: [{ url: "/icon.png", sizes: "512x512", type: "image/png" }],
+    shortcut: "/icon.png",
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
     title: "미래모빌리티 부문위원회",
     description: "Technology+People+Mobility",
