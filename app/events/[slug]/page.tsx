@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getAcademicEvent, getAcademicEventBadge, getAcademicEventDetail, getAcademicEvents } from "@/lib/events";
+import { getAcademicEventBadge, getAcademicEventDetail, getAcademicEvents } from "@/lib/events";
 import HomeHeroCarousel from "@/components/HomeHeroCarousel";
 import SubHeader from "@/components/SubHeader";
 import { toProxiedImageSrc } from "@/lib/imageProxy";
@@ -16,10 +16,33 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: EventDetailPageProps) {
   const { slug } = await params;
-  const event = await getAcademicEvent(slug);
+  const eventDetail = await getAcademicEventDetail(slug);
+
+  if (!eventDetail) {
+    return { title: "학술대회 | 미래모빌리티 부문회" };
+  }
+
+  const { event, images } = eventDetail;
+  const description = event.detailText.split(/\n+/)[0]?.slice(0, 100) || event.session || "미래모빌리티 부문회 학술대회 정보";
+  const coverImageUrl = event.imageUrl || images[0]?.imageUrl;
+  const image = coverImageUrl
+    ? { url: toProxiedImageSrc(coverImageUrl) }
+    : { url: "/images/FutureMobility_Picture_wihtext.png", width: 1683, height: 935 };
 
   return {
-    title: event ? `${event.title} | 미래모빌리티 부문회` : "학술대회 | 미래모빌리티 부문회",
+    title: `${event.title} | 미래모빌리티 부문회`,
+    description,
+    openGraph: {
+      title: event.title,
+      description,
+      images: [image],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: event.title,
+      description,
+      images: [image.url],
+    },
   };
 }
 
@@ -32,6 +55,11 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
   }
 
   const { event, details, programs, images } = eventDetail;
+  const allEvents = await getAcademicEvents();
+  const siblingEvents = allEvents.filter((item) => item.before2026 === event.before2026);
+  const currentIndex = siblingEvents.findIndex((item) => item.slug === event.slug);
+  const newerEvent = currentIndex > 0 ? siblingEvents[currentIndex - 1] : null;
+  const olderEvent = currentIndex >= 0 && currentIndex < siblingEvents.length - 1 ? siblingEvents[currentIndex + 1] : null;
   const isInternational = event.category === "international";
   const eventBadge = getAcademicEventBadge(event);
   const detailParagraphs = event.detailText
@@ -147,6 +175,24 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
               </a>
             ) : null}
           </div>
+
+          {newerEvent || olderEvent ? (
+            <nav className="adjacent-nav" aria-label="다른 학술대회">
+              {newerEvent ? (
+                <Link className="adjacent-link" href={`/events/${newerEvent.slug}`}>
+                  <span className="adjacent-label">다음글</span>
+                  <span className="adjacent-title">{newerEvent.title}</span>
+                </Link>
+              ) : null}
+              {olderEvent ? (
+                <Link className="adjacent-link" href={`/events/${olderEvent.slug}`}>
+                  <span className="adjacent-label">이전글</span>
+                  <span className="adjacent-title">{olderEvent.title}</span>
+                </Link>
+              ) : null}
+            </nav>
+          ) : null}
+
           <Link className="event-back-link" href={event.before2026 ? "/events/before-2026" : "/events"}>목록으로</Link>
         </div>
       </section>

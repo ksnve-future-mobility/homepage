@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { getNotices, isRecentNotice } from "@/lib/notices";
+import { getNotices } from "@/lib/notices";
 import SubHeader from "@/components/SubHeader";
+import NoticeBoardList from "@/components/NoticeBoardList";
 
 export const metadata = {
   title: "공지사항 | 미래모빌리티 부문회",
@@ -20,27 +20,7 @@ export default async function NoticesPage() {
       </section>
 
       <section className="board-section notice-board-section" aria-label="공지사항 목록">
-        <div className="board-toolbar board-toolbar-count-only">
-          <p>총 <b>{notices.length}</b>건</p>
-        </div>
-
-        <div className="board-list">
-          <div className="board-row board-head" aria-hidden="true">
-            <span>번호</span>
-            <span>제목</span>
-            <span>등록일</span>
-          </div>
-          {notices.map((notice, index) => (
-            <Link className="board-row" href={`/notices/${notice.id}`} key={notice.id}>
-              <span className="board-number">{notices.length - index}</span>
-              <strong>
-                <span className="notice-title-text">{notice.title}</span>
-                {isRecentNotice(notice.date) ? <span className="notice-new-badge">NEW</span> : null}
-              </strong>
-              <time>{notice.date}</time>
-            </Link>
-          ))}
-        </div>
+        <NoticeBoardList notices={notices} />
       </section>
     </main>
   );

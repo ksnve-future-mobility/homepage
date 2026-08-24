@@ -501,11 +501,13 @@ async function fetchCsv<T>(url: string, parser: (csv: string) => T): Promise<T |
     const response = await fetch(url, { next: { revalidate: 300 } });
 
     if (!response.ok) {
+      console.error(`[events] CSV fetch failed with status ${response.status} for ${url}`);
       return null;
     }
 
     return parser(await response.text());
-  } catch {
+  } catch (error) {
+    console.error(`[events] Failed to load or parse CSV from ${url}`, error);
     return null;
   }
 }
@@ -517,12 +519,17 @@ export async function getAcademicEvents() {
     const response = await fetch(csvUrl, { next: { revalidate: 300 } });
 
     if (!response.ok) {
+      console.error(`[events] Academic events CSV fetch failed with status ${response.status}; showing fallback events.`);
       return sortAcademicEvents(fallbackAcademicEvents);
     }
 
     const events = parseAcademicEventsCsv(await response.text());
+    if (events.length === 0) {
+      console.error("[events] Academic events CSV returned no visible rows; showing fallback events. Check the sheet's column headers and 'visible' values.");
+    }
     return sortAcademicEvents(events.length > 0 ? events : fallbackAcademicEvents);
-  } catch {
+  } catch (error) {
+    console.error("[events] Failed to load or parse academic events CSV; showing fallback events.", error);
     return sortAcademicEvents(fallbackAcademicEvents);
   }
 }

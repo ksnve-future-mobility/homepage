@@ -151,14 +151,19 @@ export async function getNotices(limit?: number) {
     const response = await fetch(csvUrl, { next: { revalidate: 300 } });
 
     if (!response.ok) {
+      console.error(`[notices] CSV fetch failed with status ${response.status}; showing fallback notices.`);
       const sortedFallbackNotices = sortByNewest(fallbackNotices);
       return limit ? sortedFallbackNotices.slice(0, limit) : sortedFallbackNotices;
     }
 
     const notices = parseNoticesCsv(await response.text());
+    if (notices.length === 0) {
+      console.error("[notices] CSV returned no visible rows; showing fallback notices. Check the sheet's column headers and 'visible' values.");
+    }
     const resolvedNotices = sortByNewest(notices.length > 0 ? notices : fallbackNotices);
     return limit ? resolvedNotices.slice(0, limit) : resolvedNotices;
-  } catch {
+  } catch (error) {
+    console.error("[notices] Failed to load or parse notices CSV; showing fallback notices.", error);
     const sortedFallbackNotices = sortByNewest(fallbackNotices);
     return limit ? sortedFallbackNotices.slice(0, limit) : sortedFallbackNotices;
   }
