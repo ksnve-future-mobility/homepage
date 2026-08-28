@@ -71,7 +71,7 @@ const statusBadgeClass: Record<StudyGroupStatus, string> = {
 };
 
 export const metadata = {
-  title: "연구회 | 미래모빌리티 부문회",
+  title: "연구회 및 소위원회 | 미래모빌리티 부문회",
 };
 
 export default function StudyGroupsPage() {
@@ -81,9 +81,9 @@ export default function StudyGroupsPage() {
 
       <section className="board-hero study-hero">
         <p>STUDY GROUP</p>
-        <h1>연구회</h1>
+        <h1>연구회 및 소위원회</h1>
         <span>
-          관심 주제를 함께 연구하고 교류하기 위한 연구회입니다. 미래모빌리티 부문회 회원은 누구나 자유롭게 연구회에 참여할 수 있습니다.
+          관심 주제를 함께 연구하고 교류하기 위한 연구회 및 소위원회 입니다. 미래모빌리티 부문회 회원은 누구나 자유롭게 참여할 수 있습니다.
         </span>
       </section>
 
