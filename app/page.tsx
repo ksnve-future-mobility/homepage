@@ -5,7 +5,7 @@ import HomeHeroCarousel from "@/components/HomeHeroCarousel";
 
 const menus = [
   { title: "부문회 및 임원진 소개", english: "DIVISION & COMMITTEE", number: "01", href: "/about" },
-  { title: "연구회", english: "STUDY GROUP", number: "02", href: "/study-groups" },
+  { title: "연구회 및 소위원회", english: "STUDY GROUP", number: "02", href: "/study-groups" },
   { title: "학술대회", english: "ACADEMIC EVENTS", number: "03", href: "/events" },
   { title: "학술교류회 및 세미나", english: "NETWORKING & SEMINAR", number: "04", href: "/networking-seminars" },
   { title: "워크숍 및 친선교류/간담회", english: "WORKSHOP & MEETING", number: "05", href: "/workshops" },
