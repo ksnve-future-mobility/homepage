@@ -11,7 +11,7 @@ const introParagraphs = [
 const committeeMembers = [
   { role: "부문회장", name: "김성현", affiliation: "현대자동차" },
   { role: "부회장", name: "김용대", affiliation: "현대자동차" },
-  { role: "부회장", name: "김주형, affiliation: "인하대학교" },
+  { role: "부회장", name: "김주형", affiliation: "인하대학교" },
   { role: "부회장", name: "문소연", affiliation: "하만인터내셔널" },
   { role: "부회장", name: "정은주", affiliation: "이화여자대학교" },
   { role: "이사", name: "곽기욱", affiliation: "비햅틱스" },
