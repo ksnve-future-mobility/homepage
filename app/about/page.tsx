@@ -11,16 +11,21 @@ const introParagraphs = [
 const committeeMembers = [
   { role: "부문회장", name: "김성현", affiliation: "현대자동차" },
   { role: "부회장", name: "김용대", affiliation: "현대자동차" },
+  { role: "부회장", name: "김주형, affiliation: "인하대학교" },
   { role: "부회장", name: "문소연", affiliation: "하만인터내셔널" },
   { role: "부회장", name: "정은주", affiliation: "이화여자대학교" },
   { role: "이사", name: "곽기욱", affiliation: "비햅틱스" },
-  { role: "이사", name: "곽규열", affiliation: "현대로템(주)" },
+  { role: "이사", name: "곽규열", affiliation: "현대로템" },
   { role: "이사", name: "김성영", affiliation: "KAIST" },
   { role: "이사", name: "김용훈", affiliation: "한국타이어" },
+  { role: "이사", name: "김용희", affiliation: "영산대학교" },
   { role: "이사", name: "김진균", affiliation: "경희대학교" },
   { role: "이사", name: "김중관", affiliation: "한서대학교" },
   { role: "이사", name: "박당희", affiliation: "현대자동차" },
+  { role: "이사", name: "박상희", affiliation: "한국건설기술연구원" },
   { role: "이사", name: "안지훈", affiliation: "라온엑스솔루션즈" },
+  { role: "이사", name: "안창욱", affiliation: "아이디엑스" },
+  { role: "이사", name: "양재식", affiliation: "현대자동차" },
   { role: "이사", name: "이동주", affiliation: "QNX" },
   { role: "이사", name: "이정환", affiliation: "뮐러비비엠코리아" },
   { role: "이사", name: "이정환", affiliation: "하만인터내셔널" },
@@ -29,6 +34,7 @@ const committeeMembers = [
   { role: "이사", name: "조정현", affiliation: "현대자동차" },
   { role: "(대외협력)이사", name: "M. Ercan Altinsoy", affiliation: "(독일)Technische Universität Dresden" },
   { role: "(대외협력)이사", name: "Katsuya Yamauchi", affiliation: "(일본)Kyushu University" },
+  { role: "(대외협력)이사", name: "Tongyang Shi", affiliation: "(중국)Chinese Academy of Sciences" },
 ];
 
 export const metadata = {
