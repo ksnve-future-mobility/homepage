@@ -1294,6 +1294,18 @@ a {
   padding-bottom: 90px;
 }
 
+.committee-content {
+  display: grid;
+  gap: 36px;
+}
+
+.committee-minutes h3 {
+  margin: 0 0 14px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+
 .committee-table {
   font-size: 15px;
 }
@@ -1338,10 +1350,6 @@ a {
   text-align: center;
 }
 
-.minutes-section {
-  padding-bottom: 90px;
-}
-
 .minutes-list {
   display: grid;
   gap: 1px;
@@ -1351,7 +1359,7 @@ a {
 
 .minutes-row {
   display: grid;
-  grid-template-columns: minmax(0,1fr) 120px 100px;
+  grid-template-columns: minmax(0,1fr) 120px minmax(100px,auto);
   align-items: center;
   gap: 16px;
   min-height: 52px;
@@ -1375,14 +1383,18 @@ a {
 }
 
 .minutes-download {
+  appearance: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   height: 34px;
   border: 1px solid var(--ink);
   border-radius: 99px;
+  background: #fff;
+  color: var(--ink);
   font-size: 12px;
   font-weight: 800;
+  cursor: pointer;
 }
 
 .minutes-download:hover {
@@ -1395,6 +1407,55 @@ a {
   margin: 0;
   color: #66747b;
   font-size: 14px;
+}
+
+.minutes-password-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-self: end;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.minutes-password-form input {
+  width: 120px;
+  height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  padding: 0 14px;
+  font-size: 13px;
+}
+
+.minutes-password-form input:focus {
+  outline: none;
+  border-color: var(--blue);
+}
+
+.minutes-password-form button {
+  appearance: none;
+  height: 34px;
+  border: 1px solid var(--ink);
+  border-radius: 99px;
+  background: var(--ink);
+  color: #fff;
+  padding: 0 14px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.minutes-password-form button:disabled {
+  opacity: .6;
+  cursor: default;
+}
+
+.minutes-password-error {
+  width: 100%;
+  text-align: right;
+  color: #d64545;
+  font-size: 12px;
 }
 
 .study-hero {
@@ -2436,9 +2497,6 @@ a {
   .committee-row span:last-child {
     text-align: left;
     padding-left: 10px;
-  }
-  .minutes-section {
-    display: block;
   }
   .minutes-row {
     grid-template-columns: 1fr;

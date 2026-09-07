@@ -1,4 +1,6 @@
 import SubHeader from "@/components/SubHeader";
+import MinutesDownloadButton from "@/components/MinutesDownloadButton";
+import { getMeetingMinutesList } from "./minutes-data";
 
 const introParagraphs = [
   "전동화, 자율주행, SDV, PBV, UAM 등 미래 모빌리티 기술이 빠르게 확산되면서, 소음·진동·음향 분야의 연구 범위도 전통적인 차량 중심 NVH를 넘어 다양한 모빌리티 환경으로 점차 확대되고 있습니다.",
@@ -37,19 +39,13 @@ const committeeMembers = [
   { role: "(대외협력)이사", name: "Tongyang Shi", affiliation: "(중국)Chinese Academy of Sciences" },
 ];
 
-// 회의록이 등록되면 아래 형식으로 항목을 추가하세요. (연 2~3건 정도라 시트 연동 없이 직접 관리)
-// url은 구글드라이브 공유 링크를 넣으면 됩니다. 다운로드 시 비밀번호가 필요하도록 하려면
-// 파일을 드라이브에 올리기 전에 PDF 자체에 암호를 걸어두세요 (예: 맥 미리보기 앱에서
-// 파일 > 내보내기 > 암호화 옵션으로 PDF를 저장).
-const meetingMinutes: { title: string; date: string; url: string }[] = [
-  // { title: "2026년 1차 임원진 회의록", date: "2026.03.15", url: "https://drive.google.com/file/d/FILE_ID/view" },
-];
-
 export const metadata = {
   title: "부문회 및 임원진 소개 | 미래모빌리티 부문회",
 };
 
 export default function AboutPage() {
+  const meetingMinutes = getMeetingMinutesList();
+
   return (
     <main className="sub-shell">
       <SubHeader />
@@ -77,42 +73,38 @@ export default function AboutPage() {
           <span>02</span>
           <h2 id="committee-title">2026년 임원진</h2>
         </div>
-        <div className="committee-table" role="table" aria-label="2026년 임원진">
-          <div className="committee-row committee-head" role="row">
-            <span role="columnheader">구분</span>
-            <span role="columnheader">성명</span>
-            <span role="columnheader">소속</span>
+        <div className="committee-content">
+          <div className="committee-minutes">
+            <h3>회의록</h3>
+            {meetingMinutes.length > 0 ? (
+              <ul className="minutes-list">
+                {meetingMinutes.map((minute) => (
+                  <li className="minutes-row" key={minute.id}>
+                    <span className="minutes-title-text">{minute.title}</span>
+                    <time className="minutes-date">{minute.date}</time>
+                    <MinutesDownloadButton id={minute.id} />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="minutes-empty">등록된 회의록이 없습니다.</p>
+            )}
           </div>
-          {committeeMembers.map((member) => (
-            <div className="committee-row" role="row" key={`${member.role}-${member.name}-${member.affiliation}`}>
-              <span role="cell">{member.role}</span>
-              <strong role="cell">{member.name}</strong>
-              <span role="cell">{member.affiliation}</span>
+          <div className="committee-table" role="table" aria-label="2026년 임원진">
+            <div className="committee-row committee-head" role="row">
+              <span role="columnheader">구분</span>
+              <span role="columnheader">성명</span>
+              <span role="columnheader">소속</span>
             </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="about-section minutes-section" aria-labelledby="minutes-title">
-        <div className="section-title">
-          <span>03</span>
-          <h2 id="minutes-title">2026년 임원진 회의록</h2>
-        </div>
-        {meetingMinutes.length > 0 ? (
-          <ul className="minutes-list">
-            {meetingMinutes.map((minute) => (
-              <li className="minutes-row" key={minute.title}>
-                <span className="minutes-title-text">{minute.title}</span>
-                <time className="minutes-date">{minute.date}</time>
-                <a className="minutes-download" href={minute.url} target="_blank" rel="noreferrer">
-                  다운로드
-                </a>
-              </li>
+            {committeeMembers.map((member) => (
+              <div className="committee-row" role="row" key={`${member.role}-${member.name}-${member.affiliation}`}>
+                <span role="cell">{member.role}</span>
+                <strong role="cell">{member.name}</strong>
+                <span role="cell">{member.affiliation}</span>
+              </div>
             ))}
-          </ul>
-        ) : (
-          <p className="minutes-empty">등록된 회의록이 없습니다.</p>
-        )}
+          </div>
+        </div>
       </section>
     </main>
   );
