@@ -1,6 +1,7 @@
 import SubHeader from "@/components/SubHeader";
-import MinutesDownloadButton from "@/components/MinutesDownloadButton";
+import SecureDownloadButton from "@/components/SecureDownloadButton";
 import { getMeetingMinutesList } from "./minutes-data";
+import { unlockMeetingMinute } from "./actions";
 
 const introParagraphs = [
   "전동화, 자율주행, SDV, PBV, UAM 등 미래 모빌리티 기술이 빠르게 확산되면서, 소음·진동·음향 분야의 연구 범위도 전통적인 차량 중심 NVH를 넘어 다양한 모빌리티 환경으로 점차 확대되고 있습니다.",
@@ -82,7 +83,7 @@ export default function AboutPage() {
                   <li className="minutes-row" key={minute.id}>
                     <time className="minutes-date">{minute.date}</time>
                     <span className="minutes-title-text">{minute.title}</span>
-                    <MinutesDownloadButton id={minute.id} />
+                    <SecureDownloadButton id={minute.id} unlock={unlockMeetingMinute} />
                   </li>
                 ))}
               </ul>

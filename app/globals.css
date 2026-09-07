@@ -1383,7 +1383,7 @@ a {
   font-weight: 700;
 }
 
-.minutes-download {
+.secure-download {
   appearance: none;
   display: inline-flex;
   align-items: center;
@@ -1398,7 +1398,7 @@ a {
   cursor: pointer;
 }
 
-.minutes-download:hover {
+.secure-download:hover {
   border-color: var(--blue);
   background: var(--blue);
   color: #fff;
@@ -1410,7 +1410,7 @@ a {
   font-size: 14px;
 }
 
-.minutes-password-form {
+.secure-password-form {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -1419,7 +1419,7 @@ a {
   justify-content: flex-end;
 }
 
-.minutes-password-form input {
+.secure-password-form input {
   width: 120px;
   height: 34px;
   border: 1px solid var(--line);
@@ -1428,12 +1428,12 @@ a {
   font-size: 13px;
 }
 
-.minutes-password-form input:focus {
+.secure-password-form input:focus {
   outline: none;
   border-color: var(--blue);
 }
 
-.minutes-password-form button {
+.secure-password-form button {
   appearance: none;
   height: 34px;
   border: 1px solid var(--ink);
@@ -1447,12 +1447,12 @@ a {
   white-space: nowrap;
 }
 
-.minutes-password-form button:disabled {
+.secure-password-form button:disabled {
   opacity: .6;
   cursor: default;
 }
 
-.minutes-password-error {
+.secure-password-error {
   width: 100%;
   text-align: right;
   color: #d64545;

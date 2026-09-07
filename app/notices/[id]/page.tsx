@@ -2,7 +2,9 @@ import { getNotice, getNotices } from "@/lib/notices";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import SubHeader from "@/components/SubHeader";
+import SecureDownloadButton from "@/components/SecureDownloadButton";
 import { toProxiedImageSrc } from "@/lib/imageProxy";
+import { unlockNoticeAttachment } from "../actions";
 
 type NoticeDetailPageProps = {
   params: Promise<{ id: string }>;
@@ -93,6 +95,9 @@ export default async function NoticeDetailPage({ params }: NoticeDetailPageProps
           <h2>{notice.title}</h2>
           <dl>
             <div><dt>등록일</dt><dd>{notice.date}</dd></div>
+            {notice.hasAttachment ? (
+              <div><dt>첨부파일</dt><dd><SecureDownloadButton id={notice.id} unlock={unlockNoticeAttachment} label="첨부파일 다운로드" /></dd></div>
+            ) : null}
           </dl>
         </header>
 

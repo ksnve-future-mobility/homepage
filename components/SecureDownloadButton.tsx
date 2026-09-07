@@ -1,9 +1,16 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { unlockMeetingMinute } from "@/app/about/actions";
 
-export default function MinutesDownloadButton({ id }: { id: string }) {
+type UnlockResult = { ok: true; url: string } | { ok: false; error: string };
+
+type SecureDownloadButtonProps = {
+  id: string;
+  unlock: (id: string, password: string) => Promise<UnlockResult>;
+  label?: string;
+};
+
+export default function SecureDownloadButton({ id, unlock, label = "다운로드" }: SecureDownloadButtonProps) {
   const [open, setOpen] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -14,7 +21,7 @@ export default function MinutesDownloadButton({ id }: { id: string }) {
     setLoading(true);
     setError(null);
 
-    const result = await unlockMeetingMinute(id, password);
+    const result = await unlock(id, password);
 
     setLoading(false);
 
@@ -29,26 +36,26 @@ export default function MinutesDownloadButton({ id }: { id: string }) {
 
   if (!open) {
     return (
-      <button type="button" className="minutes-download" onClick={() => setOpen(true)}>
-        다운로드
+      <button type="button" className="secure-download" onClick={() => setOpen(true)}>
+        {label}
       </button>
     );
   }
 
   return (
-    <form className="minutes-password-form" onSubmit={handleSubmit}>
+    <form className="secure-password-form" onSubmit={handleSubmit}>
       <input
         type="password"
         value={password}
         onChange={(event) => setPassword(event.target.value)}
         placeholder="비밀번호"
-        aria-label="회의록 다운로드 비밀번호"
+        aria-label="다운로드 비밀번호"
         autoFocus
       />
       <button type="submit" disabled={loading}>
         {loading ? "확인 중" : "확인"}
       </button>
-      {error ? <span className="minutes-password-error">{error}</span> : null}
+      {error ? <span className="secure-password-error">{error}</span> : null}
     </form>
   );
 }

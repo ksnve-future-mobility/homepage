@@ -1,13 +1,25 @@
-export type Notice = {
+// NoticeRecord는 구글시트에서 파싱한 전체 데이터(첨부파일 실제 주소 포함)이고,
+// 그중 공개해도 되는 필드만 골라 Notice로 노출합니다. attachmentUrl은 클라이언트로
+// 전달되지 않고, 비밀번호 확인 후 서버 액션(actions.ts)을 통해서만 내려줍니다.
+type NoticeRecord = {
   id: string;
   title: string;
   date: string;
   tag: string;
   content?: string;
   imageUrl?: string;
+  attachmentUrl?: string;
 };
 
-const fallbackNotices: Notice[] = [
+export type Notice = Omit<NoticeRecord, "attachmentUrl"> & {
+  hasAttachment: boolean;
+};
+
+function toPublicNotice({ attachmentUrl, ...record }: NoticeRecord): Notice {
+  return { ...record, hasAttachment: Boolean(attachmentUrl) };
+}
+
+const fallbackNotices: NoticeRecord[] = [
   {
     id: "1",
     title: "미래모빌리티 부문위원회 홈페이지를 준비 중입니다.",
@@ -95,7 +107,7 @@ function getCell(row: string[], headers: string[], names: string[], fallbackInde
   return row[index >= 0 ? index : fallbackIndex]?.trim() || "";
 }
 
-function parseNoticesCsv(csv: string): Notice[] {
+function parseNoticesCsv(csv: string): NoticeRecord[] {
   const rows = parseCsv(csv);
 
   const [rawHeaders = [], ...items] = rows;
@@ -114,9 +126,15 @@ function parseNoticesCsv(csv: string): Notice[] {
         ["imageurl", "image", "photo", "picture", "이미지", "사진", "이미지주소", "사진주소"],
         5,
       );
+      const attachmentUrl = getCell(
+        row,
+        headers,
+        ["attachmenturl", "attachment", "file", "fileurl", "첨부파일", "첨부", "첨부파일주소", "파일첨부", "파일주소"],
+        6,
+      );
       const id = getCell(row, headers, ["id", "idx", "번호"], -1) || String(index + 1);
 
-      return { id, date, tag, title, content, imageUrl, visible };
+      return { id, date, tag, title, content, imageUrl, attachmentUrl, visible };
     })
     .filter((notice) => notice.title && notice.visible !== "false" && notice.visible !== "no")
     .map(({ visible: _visible, ...notice }) => notice);
@@ -127,7 +145,7 @@ function getDateValue(date: string) {
   return new Date(year, (month || 1) - 1, day || 1).getTime();
 }
 
-function sortByNewest(notices: Notice[]) {
+function sortByNewest<T extends { date: string }>(notices: T[]): T[] {
   return [...notices].sort((a, b) => getDateValue(b.date) - getDateValue(a.date));
 }
 
@@ -144,7 +162,7 @@ export function isRecentNotice(date: string, days = 7) {
   return diffDays >= 0 && diffDays < days;
 }
 
-export async function getNotices(limit?: number) {
+async function fetchNoticeRecords(limit?: number): Promise<NoticeRecord[]> {
   const csvUrl = process.env.NOTICES_CSV_URL || defaultNoticesCsvUrl;
 
   try {
@@ -169,7 +187,18 @@ export async function getNotices(limit?: number) {
   }
 }
 
+export async function getNotices(limit?: number): Promise<Notice[]> {
+  const records = await fetchNoticeRecords(limit);
+  return records.map(toPublicNotice);
+}
+
 export async function getNotice(id: string) {
   const notices = await getNotices();
   return notices.find((notice) => notice.id === id);
+}
+
+// 첨부파일의 실제 다운로드 주소. 서버 액션에서 비밀번호 확인 후에만 호출하세요.
+export async function getNoticeAttachmentUrl(id: string): Promise<string | null> {
+  const records = await fetchNoticeRecords();
+  return records.find((record) => record.id === id)?.attachmentUrl || null;
 }
