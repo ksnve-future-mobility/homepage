@@ -96,7 +96,7 @@ export default async function NoticeDetailPage({ params }: NoticeDetailPageProps
           <dl>
             <div><dt>등록일</dt><dd>{notice.date}</dd></div>
             {notice.hasAttachment ? (
-              <div><dt>첨부파일</dt><dd><SecureDownloadButton id={notice.id} unlock={unlockNoticeAttachment} label="첨부파일 다운로드" /></dd></div>
+              <div><dt>첨부파일</dt><dd><SecureDownloadButton id={notice.id} unlock={unlockNoticeAttachment} label="다운로드" /></dd></div>
             ) : null}
           </dl>
         </header>
