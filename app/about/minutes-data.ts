@@ -11,7 +11,12 @@ type MeetingMinute = {
 };
 
 const meetingMinutes: MeetingMinute[] = [
-  // { id: "2026-1", title: "2026년 1차 임원진 회의록", date: "2026.03.15", url: "https://drive.google.com/file/d/FILE_ID/view" },
+  {
+    id: "2026-1",
+    title: "2026년 1차 운영회의",
+    date: "2026.09.03",
+    url: "https://drive.google.com/file/d/16ImvPfeLQyl43Z6YJ-BVowewYD2YaSkA/view?usp=sharing",
+  },
 ];
 
 export type MeetingMinuteSummary = Omit<MeetingMinute, "url">;
