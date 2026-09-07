@@ -37,6 +37,14 @@ const committeeMembers = [
   { role: "(대외협력)이사", name: "Tongyang Shi", affiliation: "(중국)Chinese Academy of Sciences" },
 ];
 
+// 회의록이 등록되면 아래 형식으로 항목을 추가하세요. (연 2~3건 정도라 시트 연동 없이 직접 관리)
+// url은 구글드라이브 공유 링크를 넣으면 됩니다. 다운로드 시 비밀번호가 필요하도록 하려면
+// 파일을 드라이브에 올리기 전에 PDF 자체에 암호를 걸어두세요 (예: 맥 미리보기 앱에서
+// 파일 > 내보내기 > 암호화 옵션으로 PDF를 저장).
+const meetingMinutes: { title: string; date: string; url: string }[] = [
+  // { title: "2026년 1차 임원진 회의록", date: "2026.03.15", url: "https://drive.google.com/file/d/FILE_ID/view" },
+];
+
 export const metadata = {
   title: "부문회 및 임원진 소개 | 미래모빌리티 부문회",
 };
@@ -83,6 +91,28 @@ export default function AboutPage() {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="about-section minutes-section" aria-labelledby="minutes-title">
+        <div className="section-title">
+          <span>03</span>
+          <h2 id="minutes-title">2026년 임원진 회의록</h2>
+        </div>
+        {meetingMinutes.length > 0 ? (
+          <ul className="minutes-list">
+            {meetingMinutes.map((minute) => (
+              <li className="minutes-row" key={minute.title}>
+                <span className="minutes-title-text">{minute.title}</span>
+                <time className="minutes-date">{minute.date}</time>
+                <a className="minutes-download" href={minute.url} target="_blank" rel="noreferrer">
+                  다운로드
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="minutes-empty">등록된 회의록이 없습니다.</p>
+        )}
       </section>
     </main>
   );
