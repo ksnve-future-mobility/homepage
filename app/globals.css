@@ -1393,8 +1393,10 @@ a {
   border-radius: 99px;
   background: #fff;
   color: var(--ink);
+  padding: 0 18px;
   font-size: 12px;
   font-weight: 800;
+  white-space: nowrap;
   cursor: pointer;
 }
 
