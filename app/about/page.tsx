@@ -80,8 +80,8 @@ export default function AboutPage() {
               <ul className="minutes-list">
                 {meetingMinutes.map((minute) => (
                   <li className="minutes-row" key={minute.id}>
-                    <span className="minutes-title-text">{minute.title}</span>
                     <time className="minutes-date">{minute.date}</time>
+                    <span className="minutes-title-text">{minute.title}</span>
                     <MinutesDownloadButton id={minute.id} />
                   </li>
                 ))}

@@ -1359,7 +1359,7 @@ a {
 
 .minutes-row {
   display: grid;
-  grid-template-columns: minmax(0,1fr) 120px minmax(100px,auto);
+  grid-template-columns: 120px minmax(0,1fr) minmax(100px,auto);
   align-items: center;
   gap: 16px;
   min-height: 52px;
@@ -1379,7 +1379,8 @@ a {
 
 .minutes-date {
   color: #66747b;
-  font-size: 13px;
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .minutes-download {
