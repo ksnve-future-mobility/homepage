@@ -182,11 +182,14 @@ const defaultEventProgramItemsCsvUrl =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4QtJ1hDncUji8a8pr0sUfLmPYZGjeqDGGPutOM7WTfPkuiQlKg_ta6NGVzzBuRRG3Fl-ccrY3AayR/pub?gid=595857556&single=true&output=csv";
 const defaultWorkshopsCsvUrl =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4QtJ1hDncUji8a8pr0sUfLmPYZGjeqDGGPutOM7WTfPkuiQlKg_ta6NGVzzBuRRG3Fl-ccrY3AayR/pub?gid=748783295&single=true&output=csv";
-// 세미나 탭을 웹에 게시한 뒤 아래 주소를 채우거나 환경변수로 설정하세요.
-const defaultSeminarsCsvUrl = "";
-const defaultSeminarProgramsCsvUrl = "";
-const defaultSeminarDetailsCsvUrl = "";
-const defaultSeminarImagesCsvUrl = "";
+const defaultSeminarsCsvUrl =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4QtJ1hDncUji8a8pr0sUfLmPYZGjeqDGGPutOM7WTfPkuiQlKg_ta6NGVzzBuRRG3Fl-ccrY3AayR/pub?gid=865581960&single=true&output=csv";
+const defaultSeminarProgramsCsvUrl =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4QtJ1hDncUji8a8pr0sUfLmPYZGjeqDGGPutOM7WTfPkuiQlKg_ta6NGVzzBuRRG3Fl-ccrY3AayR/pub?gid=1739183449&single=true&output=csv";
+const defaultSeminarDetailsCsvUrl =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4QtJ1hDncUji8a8pr0sUfLmPYZGjeqDGGPutOM7WTfPkuiQlKg_ta6NGVzzBuRRG3Fl-ccrY3AayR/pub?gid=1324306027&single=true&output=csv";
+const defaultSeminarImagesCsvUrl =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4QtJ1hDncUji8a8pr0sUfLmPYZGjeqDGGPutOM7WTfPkuiQlKg_ta6NGVzzBuRRG3Fl-ccrY3AayR/pub?gid=1176608296&single=true&output=csv";
 const defaultWorkshopImagesCsvUrl =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4QtJ1hDncUji8a8pr0sUfLmPYZGjeqDGGPutOM7WTfPkuiQlKg_ta6NGVzzBuRRG3Fl-ccrY3AayR/pub?gid=36732069&single=true&output=csv";
 
@@ -719,8 +722,6 @@ export async function getWorkshopImages() {
   return (await fetchCsv(csvUrl, parseWorkshopImagesCsv)) || [];
 }
 
-// 세미나 시트는 아직 연결 전이라 환경변수가 없으면 빈 목록을 돌려줍니다.
-// 구글시트 탭을 웹에 게시한 뒤 SEMINARS_CSV_URL / SEMINAR_IMAGES_CSV_URL을 설정하세요.
 export async function getSeminars() {
   const csvUrl = process.env.SEMINARS_CSV_URL || defaultSeminarsCsvUrl;
   if (!csvUrl) {
