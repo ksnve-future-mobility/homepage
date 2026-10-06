@@ -1,7 +1,7 @@
 import Link from "next/link";
 import SubHeader from "@/components/SubHeader";
 import { getSeminars, Seminar } from "@/lib/events";
-import { toDriveViewUrl, toProxiedImageSrc } from "@/lib/imageProxy";
+import { toProxiedImageSrc } from "@/lib/imageProxy";
 
 export const metadata = {
   title: "학술교류회 및 세미나 | 미래모빌리티 부문회",
@@ -32,16 +32,15 @@ function SeminarCard({ seminar }: { seminar: Seminar }) {
       {/* 목록에는 리플렛만 싣고, 행사 사진은 상세 페이지에서 보여준다. */}
       <div className="workshop-card-visual">
         {seminar.leafletUrl ? (
-          <a
+          <Link
             className="workshop-card-leaflet"
-            href={toDriveViewUrl(seminar.leafletUrl)}
+            href={`/networking-seminars/${seminar.slug}/leaflet`}
             target="_blank"
-            rel="noreferrer"
             aria-label={`${seminar.title} 리플렛 전체 보기`}
           >
             <img src={toProxiedImageSrc(seminar.leafletUrl)} alt={`${seminar.title} 리플렛`} />
             <span>리플렛 보기</span>
-          </a>
+          </Link>
         ) : (
           <div className="workshop-image-placeholder">
             <span>리플렛 준비 중입니다.</span>
