@@ -1188,12 +1188,13 @@ a {
   text-decoration: none;
 }
 
+/* 세로로 긴 리플렛도 가로를 본문 폭에 맞추고 세로로 늘어나게 둔다.
+   (높이를 제한하면 포스터가 가운데 작게 축소되어 글씨를 읽을 수 없다.) */
 .notice-image {
   display: block;
   width: 100%;
-  max-height: 520px;
+  height: auto;
   margin: 28px 0 0;
-  object-fit: contain;
   background: #fff;
 }
 
