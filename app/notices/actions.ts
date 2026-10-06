@@ -1,6 +1,7 @@
 "use server";
 
 import { getNoticeAttachmentUrl } from "@/lib/notices";
+import { toDriveViewUrl } from "@/lib/imageProxy";
 import { SECURE_DOWNLOAD_PASSWORD } from "@/lib/securePassword";
 
 type UnlockResult = { ok: true; url: string } | { ok: false; error: string };
@@ -15,5 +16,5 @@ export async function unlockNoticeAttachment(id: string, password: string): Prom
     return { ok: false, error: "파일을 찾을 수 없습니다." };
   }
 
-  return { ok: true, url };
+  return { ok: true, url: toDriveViewUrl(url) };
 }
