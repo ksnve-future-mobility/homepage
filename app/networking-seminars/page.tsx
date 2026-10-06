@@ -36,6 +36,17 @@ function SeminarCard({ seminar }: { seminar: SeminarWithImages }) {
       <div className="workshop-card-visual">
         {slides.length > 0 ? (
           <HomeHeroCarousel slides={slides} />
+        ) : seminar.leafletUrl ? (
+          <a
+            className="workshop-card-leaflet"
+            href={seminar.leafletUrl}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`${seminar.title} 리플렛 전체 보기`}
+          >
+            <img src={toProxiedImageSrc(seminar.leafletUrl)} alt={`${seminar.title} 리플렛`} />
+            <span>리플렛 보기</span>
+          </a>
         ) : (
           <div className="workshop-image-placeholder">
             <span>사진 준비 중입니다.</span>
