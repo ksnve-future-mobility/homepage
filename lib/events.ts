@@ -96,6 +96,7 @@ export type Seminar = {
   organizer: string;
   registerText: string;
   registerUrl: string;
+  leafletUrl: string;
   order: number;
 };
 
@@ -537,7 +538,7 @@ function parseSeminarsCsv(csv: string): Seminar[] {
 
   return items
     .map((row, index) => {
-      const visible = getCell(row, headers, ["visible", "show", "display", "노출", "공개"], 13).toLowerCase();
+      const visible = getCell(row, headers, ["visible", "show", "display", "노출", "공개"], 14).toLowerCase();
       const year = getCell(row, headers, ["year", "연도", "년도"], 2);
       const title = getCell(row, headers, ["title", "name", "행사명", "제목"], 3);
       const slug = getCell(row, headers, ["slug", "id", "seminarslug"], 0) || createEventSlug(year || String(new Date().getFullYear()), title);
@@ -556,7 +557,8 @@ function parseSeminarsCsv(csv: string): Seminar[] {
         organizer: getCell(row, headers, ["organizer", "주관"], 10),
         registerText: getCell(row, headers, ["registertext", "linktext", "버튼명", "신청버튼"], 11),
         registerUrl: getCell(row, headers, ["registerurl", "linkurl", "url", "link", "신청링크", "등록링크"], 12),
-        order: getNumberCell(row, headers, ["order", "sort", "순서"], 15) || index + 1,
+        leafletUrl: getCell(row, headers, ["leafleturl", "leaflet", "poster", "리플렛", "포스터", "안내문"], 13),
+        order: getNumberCell(row, headers, ["order", "sort", "순서"], 16) || index + 1,
         visible,
       };
     })

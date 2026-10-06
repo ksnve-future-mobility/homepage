@@ -59,6 +59,7 @@ export default async function SeminarDetailPage({ params }: SeminarDetailPagePro
 
   const { seminar, details, programs, images } = seminarDetail;
   const speaker = [seminar.speaker, seminar.affiliation].filter(Boolean).join(" · ");
+  const hasMedia = Boolean(seminar.leafletUrl) || images.length > 0;
 
   return (
     <main className="sub-shell">
@@ -76,7 +77,7 @@ export default async function SeminarDetailPage({ params }: SeminarDetailPagePro
           <span className="event-badge event-badge-archive">{seminar.category}</span>
         </aside>
         <div className="event-detail-card">
-          <div className={`event-detail-top${images.length > 0 ? "" : " event-detail-top-single"}`}>
+          <div className={`event-detail-top${hasMedia ? "" : " event-detail-top-single"}`}>
             <div className="event-detail-info">
               <h2>행사 개요</h2>
               <dl>
@@ -106,16 +107,30 @@ export default async function SeminarDetailPage({ params }: SeminarDetailPagePro
                 </div>
               ) : null}
             </div>
-            {images.length > 0 ? (
+            {hasMedia ? (
               <div className="event-detail-media">
-                <section className="event-gallery-section" aria-label="행사 사진">
-                  <HomeHeroCarousel
-                    slides={images.map((image) => ({
-                      src: toProxiedImageSrc(image.imageUrl),
-                      alt: image.alt || image.caption || `${seminar.title} 사진`,
-                    }))}
-                  />
-                </section>
+                {seminar.leafletUrl ? (
+                  <a
+                    className="seminar-leaflet"
+                    href={seminar.leafletUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`${seminar.title} 리플렛 전체 보기`}
+                  >
+                    <img src={toProxiedImageSrc(seminar.leafletUrl)} alt={`${seminar.title} 리플렛`} />
+                    <span>리플렛 전체 보기</span>
+                  </a>
+                ) : null}
+                {images.length > 0 ? (
+                  <section className="event-gallery-section" aria-label="행사 사진">
+                    <HomeHeroCarousel
+                      slides={images.map((image) => ({
+                        src: toProxiedImageSrc(image.imageUrl),
+                        alt: image.alt || image.caption || `${seminar.title} 사진`,
+                      }))}
+                    />
+                  </section>
+                ) : null}
               </div>
             ) : null}
           </div>

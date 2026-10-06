@@ -2106,6 +2106,39 @@ a {
   grid-template-columns: minmax(0,1fr);
 }
 
+/* 리플렛은 세로로 긴 포스터라, 상단이 보이도록 잘라 두고 누르면 원본이 열린다. */
+.seminar-leaflet {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border: 1px solid #e1e7ea;
+}
+
+.seminar-leaflet img {
+  display: block;
+  width: 100%;
+  max-height: 520px;
+  object-fit: cover;
+  object-position: top;
+}
+
+.seminar-leaflet span {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 36px 16px 12px;
+  background: linear-gradient(transparent, rgba(12,24,32,.78));
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.seminar-leaflet:hover span {
+  background: linear-gradient(transparent, rgba(0,101,204,.9));
+}
+
 .event-detail-media {
   display: grid;
   gap: 16px;
