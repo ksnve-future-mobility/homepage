@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getNotices } from "@/lib/notices";
-import { getAcademicEvents } from "@/lib/events";
+import { getAcademicEvents, getSeminars } from "@/lib/events";
 
 const baseUrl = "https://ksnve-mobility.vercel.app";
 
@@ -17,7 +17,7 @@ const staticPaths = [
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [notices, events] = await Promise.all([getNotices(), getAcademicEvents()]);
+  const [notices, events, seminars] = await Promise.all([getNotices(), getAcademicEvents(), getSeminars()]);
 
   const staticRoutes = staticPaths.map((path) => ({
     url: `${baseUrl}${path}`,
@@ -34,5 +34,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(),
   }));
 
-  return [...staticRoutes, ...noticeRoutes, ...eventRoutes];
+  const seminarRoutes = seminars.map((seminar) => ({
+    url: `${baseUrl}/networking-seminars/${seminar.slug}`,
+    lastModified: new Date(),
+  }));
+
+  return [...staticRoutes, ...noticeRoutes, ...eventRoutes, ...seminarRoutes];
 }

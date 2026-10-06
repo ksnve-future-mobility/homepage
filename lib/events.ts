@@ -82,6 +82,58 @@ export type WorkshopActivityWithImages = WorkshopActivity & {
   images: WorkshopImage[];
 };
 
+export type Seminar = {
+  slug: string;
+  category: string;
+  year: string;
+  title: string;
+  date: string;
+  venue: string;
+  speaker: string;
+  affiliation: string;
+  description: string;
+  host: string;
+  organizer: string;
+  registerText: string;
+  registerUrl: string;
+  order: number;
+};
+
+export type SeminarProgramItem = {
+  seminarSlug: string;
+  time: string;
+  title: string;
+  speakers: string;
+  order: number;
+};
+
+export type SeminarDetailBlock = {
+  seminarSlug: string;
+  type: string;
+  title: string;
+  content: string;
+  order: number;
+};
+
+export type SeminarImage = {
+  seminarSlug: string;
+  order: number;
+  imageUrl: string;
+  caption: string;
+  alt: string;
+};
+
+export type SeminarWithImages = Seminar & {
+  images: SeminarImage[];
+};
+
+export type SeminarDetail = {
+  seminar: Seminar;
+  details: SeminarDetailBlock[];
+  programs: SeminarProgramItem[];
+  images: SeminarImage[];
+};
+
 const fallbackAcademicEvents: AcademicEvent[] = [
   {
     slug: "2026-추계-소음진동-학술대회",
@@ -129,6 +181,11 @@ const defaultEventProgramItemsCsvUrl =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4QtJ1hDncUji8a8pr0sUfLmPYZGjeqDGGPutOM7WTfPkuiQlKg_ta6NGVzzBuRRG3Fl-ccrY3AayR/pub?gid=595857556&single=true&output=csv";
 const defaultWorkshopsCsvUrl =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4QtJ1hDncUji8a8pr0sUfLmPYZGjeqDGGPutOM7WTfPkuiQlKg_ta6NGVzzBuRRG3Fl-ccrY3AayR/pub?gid=748783295&single=true&output=csv";
+// 세미나 탭을 웹에 게시한 뒤 아래 주소를 채우거나 환경변수로 설정하세요.
+const defaultSeminarsCsvUrl = "";
+const defaultSeminarProgramsCsvUrl = "";
+const defaultSeminarDetailsCsvUrl = "";
+const defaultSeminarImagesCsvUrl = "";
 const defaultWorkshopImagesCsvUrl =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4QtJ1hDncUji8a8pr0sUfLmPYZGjeqDGGPutOM7WTfPkuiQlKg_ta6NGVzzBuRRG3Fl-ccrY3AayR/pub?gid=36732069&single=true&output=csv";
 
@@ -272,7 +329,7 @@ function getEventDateTime(event: AcademicEvent) {
   return Math.max(...getEventTimestamps(event));
 }
 
-function getWorkshopDateTime(activity: WorkshopActivity) {
+function getActivityDateTime(activity: { year: string; date: string }) {
   return Math.max(...parseTimestampsFromText(activity.year, activity.date));
 }
 
@@ -472,7 +529,91 @@ function parseWorkshopActivitiesCsv(csv: string): WorkshopActivity[] {
     })
     .filter((activity) => activity.title && activity.visible !== "false" && activity.visible !== "no" && activity.visible !== "비공개")
     .map(({ visible: _visible, ...activity }) => activity)
-    .sort((a, b) => getWorkshopDateTime(b) - getWorkshopDateTime(a) || a.order - b.order);
+    .sort((a, b) => getActivityDateTime(b) - getActivityDateTime(a) || a.order - b.order);
+}
+
+function parseSeminarsCsv(csv: string): Seminar[] {
+  const { headers, items } = getCsvRows(csv);
+
+  return items
+    .map((row, index) => {
+      const visible = getCell(row, headers, ["visible", "show", "display", "노출", "공개"], 13).toLowerCase();
+      const year = getCell(row, headers, ["year", "연도", "년도"], 2);
+      const title = getCell(row, headers, ["title", "name", "행사명", "제목"], 3);
+      const slug = getCell(row, headers, ["slug", "id", "seminarslug"], 0) || createEventSlug(year || String(new Date().getFullYear()), title);
+
+      return {
+        slug,
+        category: getCell(row, headers, ["category", "type", "구분", "카테고리"], 1) || "세미나",
+        year: year || String(new Date().getFullYear()),
+        title,
+        date: getCell(row, headers, ["date", "period", "일자", "날짜", "기간"], 4),
+        venue: getCell(row, headers, ["venue", "place", "location", "장소"], 5),
+        speaker: getCell(row, headers, ["speaker", "presenter", "연사", "발표자"], 6),
+        affiliation: getCell(row, headers, ["affiliation", "organization", "소속", "기관"], 7),
+        description: getCell(row, headers, ["description", "content", "body", "내용", "설명", "주제"], 8),
+        host: getCell(row, headers, ["host", "주최"], 9),
+        organizer: getCell(row, headers, ["organizer", "주관"], 10),
+        registerText: getCell(row, headers, ["registertext", "linktext", "버튼명", "신청버튼"], 11),
+        registerUrl: getCell(row, headers, ["registerurl", "linkurl", "url", "link", "신청링크", "등록링크"], 12),
+        order: getNumberCell(row, headers, ["order", "sort", "순서"], 15) || index + 1,
+        visible,
+      };
+    })
+    .filter((seminar) => seminar.title && seminar.visible !== "false" && seminar.visible !== "no" && seminar.visible !== "비공개")
+    .map(({ visible: _visible, ...seminar }) => seminar)
+    .sort((a, b) => getActivityDateTime(b) - getActivityDateTime(a) || a.order - b.order);
+}
+
+function parseSeminarProgramsCsv(csv: string): SeminarProgramItem[] {
+  const { headers, items } = getCsvRows(csv);
+
+  return items
+    .map((row, index) => ({
+      seminarSlug: getCell(row, headers, ["seminarslug", "slug", "id"], 0),
+      time: getCell(row, headers, ["time", "시간"], 1),
+      title: getCell(row, headers, ["title", "subject", "제목", "내용", "발표제목"], 2),
+      speakers: getCell(row, headers, ["speakers", "speaker", "발표자", "연사", "소속"], 3),
+      order: getNumberCell(row, headers, ["order", "sort", "순서"], 4) || index + 1,
+    }))
+    .filter((item) => item.seminarSlug && item.title)
+    .sort((a, b) => a.order - b.order);
+}
+
+function parseSeminarDetailsCsv(csv: string): SeminarDetailBlock[] {
+  const { headers, items } = getCsvRows(csv);
+
+  return items
+    .map((row, index) => ({
+      seminarSlug: getCell(row, headers, ["seminarslug", "slug", "id"], 0),
+      type: getCell(row, headers, ["type", "종류", "유형"], 1),
+      title: getCell(row, headers, ["title", "제목"], 2),
+      content: getCell(row, headers, ["content", "body", "본문", "내용"], 3),
+      order: getNumberCell(row, headers, ["order", "sort", "순서"], 4) || index + 1,
+    }))
+    .filter((detail) => detail.seminarSlug && detail.content)
+    .sort((a, b) => a.order - b.order);
+}
+
+function parseSeminarImagesCsv(csv: string): SeminarImage[] {
+  const { headers, items } = getCsvRows(csv);
+
+  return items
+    .map((row) => {
+      const visible = getCell(row, headers, ["visible", "show", "display", "노출", "공개"], 5).toLowerCase();
+
+      return {
+        seminarSlug: getCell(row, headers, ["seminarslug", "slug", "id"], 0),
+        order: getNumberCell(row, headers, ["order", "sort", "순서"], 1),
+        imageUrl: getCell(row, headers, ["imageurl", "image", "photo", "picture", "이미지", "사진", "이미지주소", "사진주소"], 2),
+        caption: getCell(row, headers, ["caption", "description", "설명", "캡션"], 3),
+        alt: getCell(row, headers, ["alt", "alternativetext", "대체텍스트"], 4),
+        visible,
+      };
+    })
+    .filter((image) => image.seminarSlug && image.imageUrl && image.visible !== "false" && image.visible !== "no" && image.visible !== "비공개")
+    .map(({ visible: _visible, ...image }) => image)
+    .sort((a, b) => a.order - b.order);
 }
 
 function parseWorkshopImagesCsv(csv: string): WorkshopImage[] {
@@ -574,6 +715,76 @@ export async function getWorkshopImages() {
   const csvUrl = process.env.WORKSHOP_IMAGES_CSV_URL || defaultWorkshopImagesCsvUrl;
 
   return (await fetchCsv(csvUrl, parseWorkshopImagesCsv)) || [];
+}
+
+// 세미나 시트는 아직 연결 전이라 환경변수가 없으면 빈 목록을 돌려줍니다.
+// 구글시트 탭을 웹에 게시한 뒤 SEMINARS_CSV_URL / SEMINAR_IMAGES_CSV_URL을 설정하세요.
+export async function getSeminars() {
+  const csvUrl = process.env.SEMINARS_CSV_URL || defaultSeminarsCsvUrl;
+  if (!csvUrl) {
+    return [];
+  }
+
+  return (await fetchCsv(csvUrl, parseSeminarsCsv)) || [];
+}
+
+export async function getSeminarImages() {
+  const csvUrl = process.env.SEMINAR_IMAGES_CSV_URL || defaultSeminarImagesCsvUrl;
+  if (!csvUrl) {
+    return [];
+  }
+
+  return (await fetchCsv(csvUrl, parseSeminarImagesCsv)) || [];
+}
+
+export async function getSeminarPrograms() {
+  const csvUrl = process.env.SEMINAR_PROGRAMS_CSV_URL || defaultSeminarProgramsCsvUrl;
+  if (!csvUrl) {
+    return [];
+  }
+
+  return (await fetchCsv(csvUrl, parseSeminarProgramsCsv)) || [];
+}
+
+export async function getSeminarDetails() {
+  const csvUrl = process.env.SEMINAR_DETAILS_CSV_URL || defaultSeminarDetailsCsvUrl;
+  if (!csvUrl) {
+    return [];
+  }
+
+  return (await fetchCsv(csvUrl, parseSeminarDetailsCsv)) || [];
+}
+
+export async function getSeminarsWithImages(): Promise<SeminarWithImages[]> {
+  const [seminars, images] = await Promise.all([getSeminars(), getSeminarImages()]);
+
+  return seminars.map((seminar) => ({
+    ...seminar,
+    images: images.filter((image) => image.seminarSlug === seminar.slug),
+  }));
+}
+
+export async function getSeminarDetail(slug: string): Promise<SeminarDetail | null> {
+  const normalizedSlug = normalizeSlug(slug);
+  const seminars = await getSeminars();
+  const seminar = seminars.find((item) => item.slug === normalizedSlug || item.slug === slug);
+
+  if (!seminar) {
+    return null;
+  }
+
+  const [details, programs, images] = await Promise.all([
+    getSeminarDetails(),
+    getSeminarPrograms(),
+    getSeminarImages(),
+  ]);
+
+  return {
+    seminar,
+    details: details.filter((detail) => detail.seminarSlug === seminar.slug),
+    programs: programs.filter((item) => item.seminarSlug === seminar.slug),
+    images: images.filter((image) => image.seminarSlug === seminar.slug),
+  };
 }
 
 export async function getWorkshopActivitiesWithImages(): Promise<WorkshopActivityWithImages[]> {

@@ -1726,6 +1726,37 @@ a {
   white-space: pre-line;
 }
 
+/* 목록 카드에서는 본문을 세 줄까지만 보여주고 나머지는 상세 페이지로 넘긴다. */
+.workshop-card-summary {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+
+.workshop-card-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  min-width: 110px;
+  height: 36px;
+  margin-top: 18px;
+  border: 1px solid var(--ink);
+  border-radius: 99px;
+  padding: 0 18px;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.workshop-card-link:hover {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #fff;
+}
+
 .workshop-card-visual {
   min-width: 0;
 }
@@ -2068,6 +2099,11 @@ a {
   grid-template-columns: minmax(0,1fr) 600px;
   gap: 40px;
   align-items: start;
+}
+
+/* 사진이 없는 행사는 본문이 전체 폭을 쓰도록 한 칸짜리로 둔다. */
+.event-detail-top-single {
+  grid-template-columns: minmax(0,1fr);
 }
 
 .event-detail-media {
