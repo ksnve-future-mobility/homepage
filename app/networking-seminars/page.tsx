@@ -11,7 +11,7 @@ function SeminarCard({ seminar }: { seminar: Seminar }) {
   const speaker = [seminar.speaker, seminar.affiliation].filter(Boolean).join(" · ");
 
   return (
-    <article className="workshop-card">
+    <article className="workshop-card seminar-card">
       <div className="workshop-card-info">
         <div className="workshop-year">
           <strong>{seminar.year}</strong>
