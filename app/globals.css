@@ -1726,15 +1726,6 @@ a {
   white-space: pre-line;
 }
 
-/* 목록 카드에서는 본문을 세 줄까지만 보여주고 나머지는 상세 페이지로 넘긴다. */
-.workshop-card-summary {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  overflow: hidden;
-}
-
 .workshop-card-link {
   display: inline-flex;
   align-items: center;

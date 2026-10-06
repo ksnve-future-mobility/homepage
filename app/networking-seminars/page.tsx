@@ -1,18 +1,13 @@
 import Link from "next/link";
-import HomeHeroCarousel from "@/components/HomeHeroCarousel";
 import SubHeader from "@/components/SubHeader";
-import { getSeminarsWithImages, SeminarWithImages } from "@/lib/events";
+import { getSeminars, Seminar } from "@/lib/events";
 import { toProxiedImageSrc } from "@/lib/imageProxy";
 
 export const metadata = {
   title: "학술교류회 및 세미나 | 미래모빌리티 부문회",
 };
 
-function SeminarCard({ seminar }: { seminar: SeminarWithImages }) {
-  const slides = seminar.images.map((image) => ({
-    src: toProxiedImageSrc(image.imageUrl),
-    alt: image.alt || image.caption || `${seminar.title} 사진`,
-  }));
+function SeminarCard({ seminar }: { seminar: Seminar }) {
   const speaker = [seminar.speaker, seminar.affiliation].filter(Boolean).join(" · ");
 
   return (
@@ -27,16 +22,16 @@ function SeminarCard({ seminar }: { seminar: SeminarWithImages }) {
           {seminar.date ? <div><dt>날짜</dt><dd>{seminar.date}</dd></div> : null}
           {seminar.venue ? <div><dt>장소</dt><dd>{seminar.venue}</dd></div> : null}
           {speaker ? <div><dt>연사</dt><dd>{speaker}</dd></div> : null}
-          {seminar.description ? <div><dt>내용</dt><dd className="workshop-card-summary">{seminar.description}</dd></div> : null}
+          {seminar.host ? <div><dt>주최</dt><dd>{seminar.host}</dd></div> : null}
+          {seminar.organizer ? <div><dt>주관</dt><dd>{seminar.organizer}</dd></div> : null}
         </dl>
         <Link className="workshop-card-link" href={`/networking-seminars/${seminar.slug}`}>
           자세히 보기
         </Link>
       </div>
+      {/* 목록에는 리플렛만 싣고, 행사 사진은 상세 페이지에서 보여준다. */}
       <div className="workshop-card-visual">
-        {slides.length > 0 ? (
-          <HomeHeroCarousel slides={slides} />
-        ) : seminar.leafletUrl ? (
+        {seminar.leafletUrl ? (
           <a
             className="workshop-card-leaflet"
             href={seminar.leafletUrl}
@@ -49,7 +44,7 @@ function SeminarCard({ seminar }: { seminar: SeminarWithImages }) {
           </a>
         ) : (
           <div className="workshop-image-placeholder">
-            <span>사진 준비 중입니다.</span>
+            <span>리플렛 준비 중입니다.</span>
           </div>
         )}
       </div>
@@ -57,8 +52,8 @@ function SeminarCard({ seminar }: { seminar: SeminarWithImages }) {
   );
 }
 
-function groupByCategory(seminars: SeminarWithImages[]) {
-  const grouped = new Map<string, SeminarWithImages[]>();
+function groupByCategory(seminars: Seminar[]) {
+  const grouped = new Map<string, Seminar[]>();
 
   seminars.forEach((seminar) => {
     const group = grouped.get(seminar.category) || [];
@@ -70,7 +65,7 @@ function groupByCategory(seminars: SeminarWithImages[]) {
 }
 
 export default async function NetworkingSeminarsPage() {
-  const seminars = await getSeminarsWithImages();
+  const seminars = await getSeminars();
   const groupedSeminars = groupByCategory(seminars);
 
   return (
