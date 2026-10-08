@@ -67,7 +67,6 @@ export default async function SeminarDetailPage({ params }: SeminarDetailPagePro
       <section className="board-hero networking-hero">
         <p>NETWORKING &amp; SEMINAR</p>
         <h1>{seminar.title}</h1>
-        <span>{[seminar.date, seminar.venue].filter(Boolean).join(" · ")}</span>
       </section>
 
       <section className="event-detail-section" aria-label="세미나 상세 정보">
