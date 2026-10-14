@@ -149,15 +149,33 @@ function sortByNewest<T extends { date: string }>(notices: T[]): T[] {
   return [...notices].sort((a, b) => getDateValue(b.date) - getDateValue(a.date));
 }
 
+const DAY_MS = 1000 * 60 * 60 * 24;
+
+// 시트의 날짜는 한국 날짜다. 서버(Vercel)는 UTC로 돌기 때문에 서버의 "오늘"을 그대로 쓰면,
+// 한국 시간 오전 9시 전에는 그날 올린 글이 내일 날짜로 보여 NEW가 빠진다.
+// 그래서 어디서 실행되든 한국 기준 오늘과 공지 날짜를 달력 날짜끼리 비교한다.
+function getKoreaToday() {
+  const [year, month, day] = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Seoul",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  })
+    .format(new Date())
+    .split("-")
+    .map(Number);
+
+  return Date.UTC(year, month - 1, day);
+}
+
 export function isRecentNotice(date: string, days = 7) {
-  const noticeTime = getDateValue(date);
-  if (!Number.isFinite(noticeTime)) {
+  const [year, month, day] = date.split(".").map(Number);
+  const noticeDay = Date.UTC(year, (month || 1) - 1, day || 1);
+  if (!Number.isFinite(noticeDay)) {
     return false;
   }
 
-  const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-  const diffDays = (today - noticeTime) / (1000 * 60 * 60 * 24);
+  const diffDays = (getKoreaToday() - noticeDay) / DAY_MS;
 
   return diffDays >= 0 && diffDays < days;
 }
