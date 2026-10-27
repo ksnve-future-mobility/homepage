@@ -85,25 +85,6 @@ export default async function SeminarDetailPage({ params }: SeminarDetailPagePro
                 {seminar.host ? <div><dt>주최</dt><dd>{seminar.host}</dd></div> : null}
                 {seminar.organizer ? <div><dt>주관</dt><dd>{seminar.organizer}</dd></div> : null}
               </dl>
-              {seminar.description || details.length > 0 ? (
-                <div className="event-detail-note">
-                  <div className="event-detail-body">
-                    {seminar.description
-                      ? seminar.description
-                          .split(/\n+/)
-                          .map((paragraph) => paragraph.trim())
-                          .filter(Boolean)
-                          .map((paragraph) => <p key={paragraph}>{paragraph}</p>)
-                      : null}
-                    {details.map((detail) => (
-                      <section className="event-detail-copy" key={`${detail.order}-${detail.title}`}>
-                        {detail.title ? <h4>{detail.title}</h4> : null}
-                        <p>{detail.content}</p>
-                      </section>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
             </div>
             {images.length > 0 ? (
               <div className="event-detail-media">
@@ -118,6 +99,27 @@ export default async function SeminarDetailPage({ params }: SeminarDetailPagePro
               </div>
             ) : null}
           </div>
+
+          {/* 초대 글·참가 안내 등 긴 본문은 사진 옆이 아니라 아래에 전체 폭으로 둔다. */}
+          {seminar.description || details.length > 0 ? (
+            <div className="event-detail-note">
+              <div className="event-detail-body">
+                {seminar.description
+                  ? seminar.description
+                      .split(/\n+/)
+                      .map((paragraph) => paragraph.trim())
+                      .filter(Boolean)
+                      .map((paragraph) => <p key={paragraph}>{paragraph}</p>)
+                  : null}
+                {details.map((detail) => (
+                  <section className="event-detail-copy" key={`${detail.order}-${detail.title}`}>
+                    {detail.title ? <h4>{detail.title}</h4> : null}
+                    <p>{detail.content}</p>
+                  </section>
+                ))}
+              </div>
+            </div>
+          ) : null}
 
           <div className="event-detail-extra">
             {programs.length > 0 ? (
