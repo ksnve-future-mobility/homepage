@@ -18,7 +18,7 @@ const heroSlides = [
   { src: "/images/slide-3.jpg", alt: "2025 추계 소음진동학술대회 자동차-가전 교류 특별세션"},
   { src: "/images/slide-4.jpeg", alt: "ICSV32"},
   { src: "/images/slide-5.jpg", alt: "Internoise2026"},
-  { src: "/images/slide-6.jpg", alt: "모빌리티 음환경 제어 및 표준화},
+  { src: "/images/slide-6.jpg", alt: "모빌리티 음환경 제어 및 표준화" },
 ];
 
 export default async function Home() {
